@@ -18,6 +18,7 @@ public class Home extends AppCompatActivity {
         setContentView((int) R.layout.activity_home);
         ((Button) findViewById(R.id.loginbutton)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                startActivity(new Intent(Home.this,LoginActivity.class));
             }
         });
         ((Button) findViewById(R.id.map)).setOnClickListener(new View.OnClickListener() {
