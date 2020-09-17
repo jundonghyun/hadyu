@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     double start_Latitude;
     double start_Longitude;
     private TMapView tMapView = null;
+    int item;
 
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
