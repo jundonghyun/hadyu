@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView finishmsg = (TextView) findViewById(R.id.finish);
         ((Button) findViewById(R.id.find_route)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent start = new Intent(MainActivity.this.getApplicationContext(), Route.class);
+                Intent start = new Intent(MainActivity.this.getApplicationContext(), RouteActivity.class);
                 start.putExtra("start_Latitude", MainActivity.this.start_Latitude);
                 start.putExtra("start_Longitude", MainActivity.this.start_Longitude);
                 start.putExtra("finish_Latitude", MainActivity.this.finish_Latitude);
