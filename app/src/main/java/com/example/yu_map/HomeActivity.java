@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button shutdown, Login, Map;
+    private Button shutdown, Login, Map, FriendLocation;
 
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,15 @@ public class HomeActivity extends AppCompatActivity {
         shutdown = findViewById(R.id.finishbutton);
         Login = findViewById(R.id.loginbutton);
         Map = findViewById(R.id.map);
+        FriendLocation = findViewById(R.id.FriendLocationButton);
+
+        FriendLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,FriendLocationActivity.class));
+
+            }
+        });
 
         Login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
