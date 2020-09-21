@@ -1,4 +1,4 @@
-package com.example.yu_map;
+package com.example.yu_map.Activity;
 
 
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 //import com.example.yumap_tmap.R;
+import com.example.yu_map.R;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;

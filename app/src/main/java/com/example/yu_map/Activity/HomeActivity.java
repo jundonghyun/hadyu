@@ -1,7 +1,6 @@
-package com.example.yu_map;
+package com.example.yu_map.Activity;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,11 +14,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.yu_map.Recycler.AddFriendActivity;
+import com.example.yu_map.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +32,6 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
-import java.util.Map;
 //import com.example.yumap_tmap.R;
 
 public class HomeActivity extends AppCompatActivity {
@@ -209,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
 
             case R.id.Friend:
-                startActivity(new Intent(HomeActivity.this,AddFriendActivity.class));
+                startActivity(new Intent(HomeActivity.this, AddFriendActivity.class));
 
                 break;
         }

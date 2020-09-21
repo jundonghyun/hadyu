@@ -1,4 +1,4 @@
-package com.example.yu_map;
+package com.example.yu_map.Activity;
 
 
 import androidx.annotation.NonNull;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.yu_map.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

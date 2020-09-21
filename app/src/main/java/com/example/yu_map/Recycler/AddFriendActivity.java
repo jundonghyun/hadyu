@@ -1,11 +1,12 @@
-package com.example.yu_map;
+package com.example.yu_map.Recycler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
+
+import com.example.yu_map.R;
 
 import java.util.Arrays;
 import java.util.List;

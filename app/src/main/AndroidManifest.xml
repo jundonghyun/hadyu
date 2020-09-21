@@ -14,13 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddFriendActivity"></activity>
-        <activity android:name=".FriendLocationActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".RouteActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Recycler.AddFriendActivity"></activity>
+        <activity android:name=".Activity.FriendLocationActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
+        <activity android:name=".Activity.HomeActivity" />
+        <activity android:name=".Activity.RouteActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
