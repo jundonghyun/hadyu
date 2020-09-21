@@ -6,5 +6,6 @@
     <color name="linkBlue">#4d94ff</color>
     <color name="Black">#000 </color>
     <color name="White">#FFFFFF</color>
+    <color name="Gray">#FF535353</color>
 
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Logout"
+        android:title="Logout"/>
+
+    <item
+        android:id="@+id/Location"
+        android:title="위치업데이트"/>
+
+    <item
+        android:id="@+id/Friend"
+        android:title="친구추가"/>
+
+
+</menu>

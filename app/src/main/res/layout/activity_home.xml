@@ -27,19 +27,13 @@
             android:layout_marginLeft="12dp"
             android:text="지도" />
 
-        <Button
-            android:id="@+id/finishbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="종료"
-            android:layout_centerHorizontal="true"/>
 
         <Button
             android:id="@+id/FriendLocationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="친구찾기"
-            android:layout_below="@+id/finishbutton"/>
+            android:layout_below="@+id/loginbutton"/>
 
 
     </RelativeLayout>
