@@ -17,22 +17,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmail, mPassword;
     private Button mLoginButton, mRegisterButton;
     FirebaseAuth mAuth;
+
     private static final String TAG = "LoginActivity";
 
     public static Context context;
-
     String GlobalEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
 
         mEmail = findViewById(R.id.Login_email);
@@ -46,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Login (mEmail.getText().toString(), mPassword.getText().toString());
+                ManageConnection();
             }
         });
 
@@ -76,5 +83,37 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void ManageConnection(){
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        String TempName = GlobalEmail;
+        int idx = TempName.indexOf("@");
+
+        final String NickName = GlobalEmail.substring(0, idx);
+
+
+        final DatabaseReference connectRegerence = db.getReference().child("connection");
+        final DatabaseReference lastConnected = db.getReference().child("lastConndected");
+        final DatabaseReference infoConnected = db.getReference().child(".info/connected");
+
+        infoConnected.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean connected = dataSnapshot.getValue(boolean.class);
+
+                if(connected){
+                    DatabaseReference connect = connectRegerence.child(NickName);
+                    connect.setValue(true);
+                    connect.onDisconnect().setValue(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
