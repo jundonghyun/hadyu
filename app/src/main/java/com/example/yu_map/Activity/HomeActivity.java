@@ -18,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.yu_map.Recycler.AddFriendActivity;
+import com.example.yu_map.AddFriendActivity;
+import com.example.yu_map.Recycler.FriendActivity;
 import com.example.yu_map.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -42,8 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
 
-
-    /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_home);
@@ -72,7 +71,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -207,7 +205,7 @@ public class HomeActivity extends AppCompatActivity {
                         });
                 break;
 
-            case R.id.Friend:
+            case R.id.FriendBtn:
                 startActivity(new Intent(HomeActivity.this, AddFriendActivity.class));
 
                 break;

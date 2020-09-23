@@ -4,26 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.example.yu_map.Activity.AddFriendPopUpActivity;
 import com.example.yu_map.R;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class AddFriendActivity extends AppCompatActivity {
+public class FriendActivity extends AppCompatActivity {
 
     private RecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.activity_friend);
 
         init();
 
         getData();
     }
+
 
     private void init(){
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

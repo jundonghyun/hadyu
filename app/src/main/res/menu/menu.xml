@@ -10,7 +10,7 @@
         android:title="위치업데이트"/>
 
     <item
-        android:id="@+id/Friend"
+        android:id="@+id/FriendBtn"
         android:title="친구추가"/>
 
 
