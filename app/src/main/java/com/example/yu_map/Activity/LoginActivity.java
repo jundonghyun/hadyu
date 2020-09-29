@@ -78,11 +78,11 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "SignWithEmail:onComplete" + task.isSuccessful());
                         if(task.isSuccessful()){
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                            Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
                         }
                         else{
                             Log.d(TAG, "SignInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
