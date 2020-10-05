@@ -1,6 +1,7 @@
 package com.example.yu_map.Activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,8 +31,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
@@ -38,10 +45,11 @@ import java.util.HashMap;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button Login, Map, FriendLocation;
+    private Button Login, Map, FriendLocation, FriendRequestCheck;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
+    private String request;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +58,14 @@ public class HomeActivity extends AppCompatActivity {
         Login = findViewById(R.id.loginbutton);
         Map = findViewById(R.id.map);
         FriendLocation = findViewById(R.id.FriendLocationButton);
+        FriendRequestCheck = findViewById(R.id.CheckFriendRequest);
+
+        FriendRequestCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConfirmRequest();
+            }
+        });
 
         FriendLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +87,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        ConfirmRequest();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -213,6 +231,84 @@ public class HomeActivity extends AppCompatActivity {
         toast.show();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void ConfirmRequest() {
+
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("User").document(Email);
+
+        ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot docsnap = task.getResult();
+                    if (docsnap != null) {
+                        request = docsnap.getString("FriendRequest");
+
+                        if(request.equals("false")){
+                            Log.d(TAG, "친구요청이 없습니다");
+
+                        }
+                        else{
+                            Log.d(TAG, "친구요청이 있습니다");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+                            builder.setTitle("친구요청이 있습니다");
+                            builder.setPositiveButton("수락하기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(HomeActivity.this, "친구요청이 수락되었습니다",Toast.LENGTH_LONG).show();
+
+                                    ref.update("FriendRequest", "false")
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "FriendRequest update true to false");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d(TAG, "Error Update Document");
+                                                }
+                                            });
+
+                                    startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+
+                                }
+                            });
+
+
+                            builder.setNegativeButton("거부하기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(HomeActivity.this, "친구요청이 거부되었습니다.",Toast.LENGTH_LONG).show();
+
+                                    ref.update("FriendRequest", "false")
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "FriendRequest update true to false");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d(TAG, "Error Update Document");
+                                                }
+                                            });
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 }

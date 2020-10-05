@@ -74,11 +74,13 @@ public class RegisterActivity extends Activity {
 
         User.put("Email", email);
         User.put("Password", password);
+        User.put("FriendRequest", "false");
 
 
         DocumentReference newUserRef = db
                 .collection("User")
                 .document(email);
+
 
         newUserRef.set(User).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

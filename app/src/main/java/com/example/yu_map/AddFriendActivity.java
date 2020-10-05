@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ActionMenuView;
+import android.widget.TextView;
 
 import com.example.yu_map.Activity.AddFriendPopUpActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,9 +24,8 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 public class AddFriendActivity extends AppCompatActivity {
 
     private final String TAG = "AddFriendActivity";
-
-
-    String FriendEmail = "123";
+    TextView textView;
+    int mCartItemCount = 10;
 
 
     @Override
@@ -38,6 +40,7 @@ public class AddFriendActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.friend, menu);
 
+
         return true;
     }
 
@@ -48,11 +51,9 @@ public class AddFriendActivity extends AppCompatActivity {
                 startActivity(new Intent(AddFriendActivity.this, AddFriendPopUpActivity.class));
 
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
