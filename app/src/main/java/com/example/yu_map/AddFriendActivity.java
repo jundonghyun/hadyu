@@ -15,17 +15,24 @@ import android.widget.ActionMenuView;
 import android.widget.TextView;
 
 import com.example.yu_map.Activity.AddFriendPopUpActivity;
+import com.example.yu_map.Activity.LoginActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddFriendActivity extends AppCompatActivity {
 
     private final String TAG = "AddFriendActivity";
-    TextView textView;
-    int mCartItemCount = 10;
+
 
 
     @Override
@@ -48,6 +55,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.AddFriend:
+
                 startActivity(new Intent(AddFriendActivity.this, AddFriendPopUpActivity.class));
 
                 break;

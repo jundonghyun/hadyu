@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 //import com.example.yumap_tmap.R;
@@ -236,6 +243,8 @@ public class HomeActivity extends AppCompatActivity {
     public void ConfirmRequest() {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
+
         DocumentReference ref = db.collection("User").document(Email);
 
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -260,6 +269,18 @@ public class HomeActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(HomeActivity.this, "친구요청이 수락되었습니다",Toast.LENGTH_LONG).show();
+
+                                    final DatabaseReference addFriend = Fdb.getReference().child("FriendList");
+
+                                    int idx = Email.indexOf("@");
+                                    int idx1 = request.indexOf("@");
+
+                                    final String NickName = Email.substring(0, idx);
+                                    final String NickName1 = request.substring(0, idx1);
+
+                                    addFriend.child(NickName).push().setValue(NickName1);
+
+
 
                                     ref.update("FriendRequest", "false")
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -32,7 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AddFriendPopUpActivity extends AppCompatActivity {
@@ -41,8 +44,9 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
     public static Context context;
     EditText id;
     Button btn;
-    String idTemp;
+    public String idTemp;
     public String Use_FriendActivity_Email;
+
 
 
     @Override
@@ -59,7 +63,7 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
                 AddFriend();
 
 
-                startActivity(new Intent(AddFriendPopUpActivity.this,AddFriendActivity.class));
+                //startActivity(new Intent(AddFriendPopUpActivity.this,AddFriendActivity.class));
             }
         });
     }
@@ -81,10 +85,13 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
                         if(e != null || queryDocumentSnapshots.size() == 0){
                             Log.d(TAG, "친구추가 오류");
                             Toast.makeText(AddFriendPopUpActivity.this, "친구를 찾을 수 없습니다", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(AddFriendPopUpActivity.this, AddFriendActivity.class));
+
                         }
                         /* DB에 이메일이 있을 경우 */
                         else if(queryDocumentSnapshots != null && db.collection("User").whereEqualTo("Email", idTemp) != null){
                             Log.d(TAG, "친구추가 완료");
+
                             startActivity(new Intent(AddFriendPopUpActivity.this, FriendActivity.class));
                         }
                     }

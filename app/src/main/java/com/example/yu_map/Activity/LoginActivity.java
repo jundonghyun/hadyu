@@ -28,6 +28,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public String GlobalEmail;
     private EditText mEmail, mPassword;
     private Button mLoginButton, mRegisterButton;
     FirebaseAuth mAuth;
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     public static Context context;
-    String GlobalEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
