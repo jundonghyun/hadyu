@@ -71,7 +71,7 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
     private void AddFriend() {
 
         idTemp = id.getText().toString();
-        Use_FriendActivity_Email = idTemp;
+        Use_FriendActivity_Email = idTemp; //요청할 친구의 ID
         context = this;
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();

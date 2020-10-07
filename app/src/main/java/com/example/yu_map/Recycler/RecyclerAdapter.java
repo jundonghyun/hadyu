@@ -14,12 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yu_map.Activity.AddFriendPopUpActivity;
+import com.example.yu_map.Activity.HomeActivity;
 import com.example.yu_map.Activity.LoginActivity;
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -37,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
     public static Context context;
     private String TAG = "RecyclerAdapter";
     private String MyEmail = ((LoginActivity) com.example.yu_map.Activity.LoginActivity.context).GlobalEmail;
-    String Email = ((AddFriendPopUpActivity) AddFriendPopUpActivity.context).Use_FriendActivity_Email;
+    String FriendEmail = ((AddFriendPopUpActivity) AddFriendPopUpActivity.context).Use_FriendActivity_Email;
 
 
 
@@ -117,7 +121,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
 
                     DocumentReference newUserRef = db
                             .collection("User")
-                            .document(Email);
+                            .document(FriendEmail);
 
                     newUserRef.set(User, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -133,6 +137,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
                             });
 
 
+
+
+                    /* 내 Realtime DB에 친구 아이디 넣기 */
+                    FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
+                    final DatabaseReference addFriend = Fdb.getReference().child("FriendList");
+
+                    int idx = MyEmail.indexOf("@");
+                    int idx1 = FriendEmail.indexOf("@");
+
+                    final String NickName = MyEmail.substring(0, idx);
+                    final String NickName1 = FriendEmail.substring(0, idx1);
+
+                    addFriend.child(NickName).child(NickName1).setValue(NickName1);
 
                     Toast.makeText(context, "친구요청을 보냈습니다!", Toast.LENGTH_SHORT).show();
                     v.getContext().startActivity(new Intent(context, AddFriendActivity.class));

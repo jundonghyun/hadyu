@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.Recycler.FriendActivity;
 import com.example.yu_map.R;
+import com.example.yu_map.Recycler.FriendsListActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,12 +49,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
+import java.util.Map;
 //import com.example.yumap_tmap.R;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button Login, Map, FriendLocation, FriendRequestCheck;
+    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
@@ -66,6 +69,16 @@ public class HomeActivity extends AppCompatActivity {
         Map = findViewById(R.id.map);
         FriendLocation = findViewById(R.id.FriendLocationButton);
         FriendRequestCheck = findViewById(R.id.CheckFriendRequest);
+        ListFriend = findViewById(R.id.listFirend);
+
+
+        ListFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, FriendsListActivity.class));
+
+            }
+        });
 
         FriendRequestCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,6 +253,7 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /* 친구요청확인 하는 함수 */
     public void ConfirmRequest() {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -262,6 +276,8 @@ public class HomeActivity extends AppCompatActivity {
                         else{
                             Log.d(TAG, "친구요청이 있습니다");
 
+                            /* 친구요청있으면 팝업 띄우는 빌더 */
+
                             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
                             builder.setTitle("친구요청이 있습니다");
@@ -270,18 +286,19 @@ public class HomeActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(HomeActivity.this, "친구요청이 수락되었습니다",Toast.LENGTH_LONG).show();
 
+                                    /* 친구요청을 수락하면 Realtime DB에 요청한 친구 아이디가 요청받은 친구 DB에 생성됨 */
                                     final DatabaseReference addFriend = Fdb.getReference().child("FriendList");
 
-                                    int idx = Email.indexOf("@");
-                                    int idx1 = request.indexOf("@");
+                                    int idx = Email.indexOf("@"); /* 요청받은 친구 ID*/
+                                    int idx1 = request.indexOf("@"); /* 요청한 친구 ID */
 
                                     final String NickName = Email.substring(0, idx);
                                     final String NickName1 = request.substring(0, idx1);
 
-                                    addFriend.child(NickName).push().setValue(NickName1);
+                                    addFriend.child(NickName).child(NickName1).setValue(NickName1);
 
 
-
+                                    /* 친구요청을 완료하면 다시 대기모드로 전환 */
                                     ref.update("FriendRequest", "false")
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -301,12 +318,38 @@ public class HomeActivity extends AppCompatActivity {
                                 }
                             });
 
-
+                            /* 친구요청을 거부했을 경우 */
                             builder.setNegativeButton("거부하기", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(HomeActivity.this, "친구요청이 거부되었습니다.",Toast.LENGTH_LONG).show();
 
+                                    /* 친구요청을 거부하면 요청한 아이디의 DB에 요청한 친구 ID를 넣고 거부되었다고 저장*/
+                                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                                    java.util.Map<String, String> User = new HashMap<>();
+
+                                    User.put("FriendReject", request);
+
+
+                                    DocumentReference newUserRef = db
+                                            .collection("User")
+                                            .document(request);
+
+                                    newUserRef.set(User, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d(TAG, "Document successfully Written");
+                                        }
+                                    })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.d(TAG, "Document Writing Failure");
+                                                }
+                                            });
+
+                                    /* 요청을 거부한 친구의 DB에 다시 친구요청 대기모드로 전환하게함 */
                                     ref.update("FriendRequest", "false")
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -320,6 +363,31 @@ public class HomeActivity extends AppCompatActivity {
                                                     Log.d(TAG, "Error Update Document");
                                                 }
                                             });
+
+                                    /*친구를 요청한 Realtime DB에 요청했었던 친구 ID를 뺌*/
+
+                                    int idx = Email.indexOf("@"); /* 요청받은 친구 ID*/
+                                    int idx1 = request.indexOf("@"); /* 요청한 친구 ID */
+
+                                    final String NickName = Email.substring(0, idx);
+                                    final String NickName1 = request.substring(0, idx1);
+
+                                    final DatabaseReference DeleteFriend = Fdb.getReference().child("FriendList").child(NickName1).child("ID");
+
+
+
+                                    Query query = DeleteFriend.equalTo(NickName);
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            snapshot.getRef().removeValue();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
                             });
                             AlertDialog alert = builder.create();

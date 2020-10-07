@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Login (mEmail.getText().toString(), mPassword.getText().toString());
                 ManageConnection();
+
             }
         });
 

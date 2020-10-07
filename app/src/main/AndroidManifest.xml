@@ -14,9 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddFriendActivity"></activity>
-        <activity android:name=".Activity.AddFriendPopUpActivity" android:theme="@style/Theme.AppCompat" />
+
+        <activity android:name=".AddFriendActivity" />
+        <activity
+            android:name=".Activity.AddFriendPopUpActivity"
+            android:theme="@style/Theme.AppCompat" />
         <activity android:name=".Recycler.FriendActivity" />
+        <activity android:name=".Recycler.FriendsListActivity"/>
         <activity android:name=".Activity.FriendLocationActivity" />
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.HomeActivity" />
