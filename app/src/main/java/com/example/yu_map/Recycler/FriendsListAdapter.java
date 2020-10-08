@@ -45,7 +45,7 @@ public class FriendsListAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     }
 }
 
-class ItemViewHolder extends RecyclerView.ViewHolder{
+class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private TextView textView1;
     private TextView textView2;
@@ -64,4 +64,11 @@ class ItemViewHolder extends RecyclerView.ViewHolder{
         textView2.setText(data.getContent());
         imageView.setImageResource(data.getResId());
         }
+
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

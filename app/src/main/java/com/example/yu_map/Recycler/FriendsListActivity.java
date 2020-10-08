@@ -30,6 +30,7 @@ public class FriendsListActivity extends AppCompatActivity {
     private List<String> content;
     private List<Integer> resID;
 
+
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     private String TAG = "FriendsListActivity";
 
@@ -60,56 +61,77 @@ public class FriendsListActivity extends AppCompatActivity {
         int idx = Email.indexOf("@"); /* 로그인한 ID */
         final String NickName = Email.substring(0, idx);
 
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseDatabase db = FirebaseDatabase.getInstance();
         FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
         final DatabaseReference addFriend = Fdb.getReference().child("FriendList").child(NickName);
 
-        addFriend.addValueEventListener(new ValueEventListener() {
+        final DatabaseReference connectRegerence = db.getReference().child("connection");
+
+
+        addFriend.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    String id = ds.getValue(String.class);
-                    Id = Arrays.asList(id);
-                    content = Arrays.asList("친구입니다");
-                    resID = Arrays.asList(R.mipmap.ic_launcher);
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    String id = ds.getValue().toString();
 
-                    for (int i = 0; i < Id.size(); i++) {
-                        FriendData data = new FriendData();
-                        data.setTitle(Id.get(i));
-                        data.setContent(content.get(i));
-                        data.setResId(resID.get(i));
+                    connectRegerence.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot ds : snapshot.getChildren()){
+                                if(ds.getValue(Boolean.class) == true){
+                                    FriendData OnlineData = new FriendData();
 
-                        adapter.addItem(data);
-                    }
+                                    String online = ds.getKey().toString();
+
+                                    if(id.equals(online)){
+                                        Id = Arrays.asList(id);
+                                        content = Arrays.asList("온라인");
+                                        resID = Arrays.asList(R.drawable.ic_baseline_brightness_online_24);
+
+                                        for(int i = 0; i < Id.size(); i++){
+                                            OnlineData.setTitle(Id.get(i));
+                                            OnlineData.setContent(content.get(i));
+                                            OnlineData.setResId(resID.get(i));
+
+                                            adapter.addItem(OnlineData);
+                                        }
+                                    }
+                                }
+                                else{
+                                    FriendData Offlinedata = new FriendData();
+
+                                    String offline = ds.getKey().toString();
+
+                                    if(id.equals(offline)){
+                                        Id = Arrays.asList(id);
+                                        content = Arrays.asList("오프라인");
+                                        resID = Arrays.asList(R.drawable.ic_baseline_brightness_offline_24);
+
+                                        for(int i = 0; i < Id.size(); i++){
+                                            Offlinedata.setTitle(Id.get(i));
+                                            Offlinedata.setContent(content.get(i));
+                                            Offlinedata.setResId(resID.get(i));
+
+                                            adapter.addItem(Offlinedata);
+                                        }
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-                adapter.notifyDataSetChanged();
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
-        /*List<String> listTitle = Arrays.asList(Email);
-        List<String> listContent = Arrays.asList("친구입니다");
-        List<Integer> listResId = Arrays.asList( R.mipmap.ic_launcher);
-
-        for (int i = 0; i < listTitle.size(); i++) {
-            // 각 List의 값들을 data 객체에 set 해줍니다.
-            FriendData data = new FriendData();
-            data.setTitle(listTitle.get(i));
-            data.setContent(listContent.get(i));
-            data.setResId(listResId.get(i));
-
-            // 각 값이 들어간 data를 adapter에 추가합니다.
-            adapter.addItem(data);
-        }
-
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
-        adapter.notifyDataSetChanged();*/
-
 
     }
 }

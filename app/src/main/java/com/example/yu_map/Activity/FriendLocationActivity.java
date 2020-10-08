@@ -54,11 +54,11 @@ public class FriendLocationActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(FriendLocationActivity.this);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         GetLastLocation();
 
 
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

@@ -5,6 +5,15 @@ public class FriendData {
     private String title;
     private String content;
     private int resId;
+    private boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public FriendData() {
 
