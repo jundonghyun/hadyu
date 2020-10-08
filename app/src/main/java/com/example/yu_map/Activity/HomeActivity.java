@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.Recycler.FriendActivity;
 import com.example.yu_map.R;
+import com.example.yu_map.Recycler.FriendRequestQueueActivity;
 import com.example.yu_map.Recycler.FriendsListActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -83,7 +84,9 @@ public class HomeActivity extends AppCompatActivity {
         FriendRequestCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConfirmRequest();
+
+                startActivity(new Intent(HomeActivity.this, FriendRequestQueueActivity.class));
+
             }
         });
 
@@ -108,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        ConfirmRequest();
+        //ConfirmRequest();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

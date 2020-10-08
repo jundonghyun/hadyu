@@ -99,7 +99,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
             textView2.setOnClickListener(this);
             imageView.setOnClickListener(this);
         }
-        Intent intent = new Intent(context, AddFriendPopUpActivity.class);
+        //Intent intent = new Intent(context, AddFriendPopUpActivity.class);
 
         @Override
         public void onClick(View v) {
@@ -140,7 +140,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
 
 
                     /* 내 Realtime DB에 친구 아이디 넣기 */
-                    FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
+                    /*FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
                     final DatabaseReference addFriend = Fdb.getReference().child("FriendList");
 
                     int idx = MyEmail.indexOf("@");
@@ -149,7 +149,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
                     final String NickName = MyEmail.substring(0, idx);
                     final String NickName1 = FriendEmail.substring(0, idx1);
 
-                    addFriend.child(NickName).child(NickName1).setValue(NickName1);
+                    addFriend.child(NickName).child(NickName1).setValue(NickName1);*/
+
+                    FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
+                    final DatabaseReference AddFriend_Waiting_Queue = Fdb.getReference().child("Waiting Friend Request");
+
+                    int idx = MyEmail.indexOf("@");
+                    int idx1 = FriendEmail.indexOf("@");
+
+                    final String NickName = MyEmail.substring(0, idx);
+                    final String NickName1 = FriendEmail.substring(0, idx1);
+
+                    AddFriend_Waiting_Queue.child(NickName1).child(NickName).setValue(NickName);
 
                     Toast.makeText(context, "친구요청을 보냈습니다!", Toast.LENGTH_SHORT).show();
                     v.getContext().startActivity(new Intent(context, AddFriendActivity.class));

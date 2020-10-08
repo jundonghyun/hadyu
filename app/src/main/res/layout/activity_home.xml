@@ -50,6 +50,7 @@
             android:layout_below="@+id/CheckFriendRequest"/>
 
 
+
     </RelativeLayout>
 
 </LinearLayout>
