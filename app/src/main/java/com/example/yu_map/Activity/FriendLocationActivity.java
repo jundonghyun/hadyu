@@ -6,12 +6,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.yu_map.R;
+import com.example.yu_map.Recycler.FriendsListAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,11 +29,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.example.yu_map.Recycler.FriendsListAdapter;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,12 +54,51 @@ public class FriendLocationActivity extends AppCompatActivity implements
     private String TAG = "FriendLocationActivity";
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     private Double Latitude, Longitude;
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference Longi;
+    private DatabaseReference Lati;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_location);
+
+        Intent intent = getIntent();
+
+        //String id = intent.getExtras().getString("ID");
+        //Longi = db.getReference().child("Location").child(id).child("Longitude");
+        //Lati = db.getReference().child("Location").child(id).child("Latitude");
+
+        /*Longi.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Longitude = ds.getValue(Double.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        Lati.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    Latitude = ds.getValue(Double.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+
+
 
         MapFragment mapFragment = (MapFragment) this.getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -56,17 +107,16 @@ public class FriendLocationActivity extends AppCompatActivity implements
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         GetLastLocation();
-
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         map = googleMap;
 
         setUpMap();
 
-        LatLng SEOUL = new LatLng(37.555031, 126.970801);
+        LatLng SEOUL = new LatLng(0, 0);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(SEOUL);

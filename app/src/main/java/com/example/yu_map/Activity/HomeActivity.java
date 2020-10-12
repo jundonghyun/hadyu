@@ -165,8 +165,18 @@ public class HomeActivity extends AppCompatActivity {
                                     final GeoPoint geoPoint = new GeoPoint(
                                             location.getLatitude(), location.getLongitude()
                                     );
+                                    FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+                                    final DatabaseReference Location = fdb.getReference().child("Location");
 
-                                    db.collection("UserLocation")
+                                    int idx = Email.indexOf("@");
+                                    final String NickName = Email.substring(0, idx);
+
+                                    Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
+                                    Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
+
+
+
+                                    /*db.collection("UserLocation")
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -174,7 +184,7 @@ public class HomeActivity extends AppCompatActivity {
                                                     if(task.isSuccessful()){
 
                                                         /* 새로운 UserLocation생성 */
-                                                        if(task.getResult().size() > 0){
+                                                        /*if(task.getResult().size() > 0){
                                                             User.put("Latitude", geoPoint.getLatitude());
                                                             User.put("Longitude", geoPoint.getLongitude());
 
@@ -201,7 +211,7 @@ public class HomeActivity extends AppCompatActivity {
                                                     }
                                                     /* email로 시작하는 UserLocation이 있는경우 */
 
-                                                    else{
+                                                    /*else{
                                                         DocumentReference newUserLocationRef = db
                                                                 .collection("UserLocation")
                                                                 .document(Email);
@@ -240,7 +250,7 @@ public class HomeActivity extends AppCompatActivity {
                                                                 });
                                                     }
                                                 }
-                                            });
+                                            });*/
                                 }
                             }
                         });

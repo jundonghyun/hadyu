@@ -13,4 +13,20 @@
         android:layout_height="match_parent"
         tools:context = ".Activity.FriendLocationActivity"/>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/map"
+        android:id="@+id/menulist"
+        android:background="@color/White"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/FriendID" />
+    </LinearLayout>
+
 </RelativeLayout>

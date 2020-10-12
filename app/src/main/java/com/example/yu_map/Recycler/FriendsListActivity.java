@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FriendsListActivity extends AppCompatActivity {
+public class FriendsListActivity extends AppCompatActivity{
 
     private FriendsListAdapter adapter;
     private List<String> Id;
