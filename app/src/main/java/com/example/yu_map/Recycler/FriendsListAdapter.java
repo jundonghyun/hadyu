@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yu_map.Activity.FriendLocationActivity;
 import com.example.yu_map.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,24 +63,25 @@ class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     private TextView textView2;
     private ImageView imageView;
     private FriendData data;
-    public String FriendID;
+    FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
+    final DatabaseReference friend = Fdb.getReference().child("FindFriend");
 
         ItemViewHolder(View itemView) {
-        super(itemView);
+            super(itemView);
 
-        textView1 = itemView.findViewById(R.id.textView1);
-        textView2 = itemView.findViewById(R.id.textView2);
-        imageView = itemView.findViewById(R.id.imageView);
+            textView1 = itemView.findViewById(R.id.textView1);
+            textView2 = itemView.findViewById(R.id.textView2);
+            imageView = itemView.findViewById(R.id.imageView);
         }
 
         void onBind(FriendData data){
             this.data = data;
-        textView1.setText(data.getTitle());
-        textView2.setText(data.getContent());
-        imageView.setImageResource(data.getResId());
+            textView1.setText(data.getTitle());
+            textView2.setText(data.getContent());
+            imageView.setImageResource(data.getResId());
 
-        textView1.setOnClickListener(this);
-        textView2.setOnClickListener(this);
+            textView1.setOnClickListener(this);
+            textView2.setOnClickListener(this);
         }
 
 
@@ -89,14 +92,12 @@ class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         int pos = getAdapterPosition();
         if(pos != RecyclerView.NO_POSITION){
 
-            FriendID = data.getTitle();
-
             if(textView2.getText() == "오프라인"){
                 Toast.makeText(FriendsListAdapter.context, "친구가 오프라인 입니다", Toast.LENGTH_SHORT).show();
             }
             else{
-
-
+                /* 클릭한 친구에서 친구의 이름을 가져와서 Realtime DB의 FindFriend필드에 넣음 */
+                friend.setValue(textView1.getText());
                 v.getContext().startActivity(new Intent(FriendsListAdapter.context, FriendLocationActivity.class));
             }
 

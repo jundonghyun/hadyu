@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.yu_map.R;
+import com.example.yu_map.Recycler.FriendData;
 import com.example.yu_map.Recycler.FriendsListAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,12 +24,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,48 +58,13 @@ public class FriendLocationActivity extends AppCompatActivity implements
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     private Double Latitude, Longitude;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private DatabaseReference Longi;
-    private DatabaseReference Lati;
-
+    private DatabaseReference dr = db.getReference().child("FindFriend");
+    private DatabaseReference lo = db.getReference().child("Location");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_location);
-
-        Intent intent = getIntent();
-
-        //String id = intent.getExtras().getString("ID");
-        //Longi = db.getReference().child("Location").child(id).child("Longitude");
-        //Lati = db.getReference().child("Location").child(id).child("Latitude");
-
-        /*Longi.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    Longitude = ds.getValue(Double.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        Lati.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()){
-                    Latitude = ds.getValue(Double.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
 
 
@@ -112,18 +80,56 @@ public class FriendLocationActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        map = googleMap;
+        /* dr은 Realtime DB에서 FindFriend필드의 snapshot을 찍게하는 변수 */
+        dr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        setUpMap();
+                /* FindFriend필드에서 친구아이디를 가져와서 id변수에 삽입 */
+               String id = snapshot.getValue().toString();
 
-        LatLng SEOUL = new LatLng(0, 0);
+               /* lo는 Location필드에서 id변수에있는 아이디를 사용해 Location필드안에있는 id의 Latitude와 Longitude를 가져옴
+               *  Location -> "ID" -> Latitude, Longitude */
+               lo.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        map.addMarker(markerOptions);
+                       double Long = (double) snapshot.child("Longitude").getValue();
+                       double Lang = (double) snapshot.child("Latitude").getValue();
 
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 9));
+                       map = googleMap;
+
+                       setUpMap();
+
+
+                        /* 구글맵이 열리면 친구의 위치로 바로 이동되고 카메라도 자동으로 확대됨 */
+                       LatLng FriendLocation = new LatLng(0+Lang, 0+Long);
+
+                       CameraPosition cameraPosition = new CameraPosition.Builder().target(FriendLocation)
+                               .zoom(14f).build();
+
+                       MarkerOptions markerOptions = new MarkerOptions();
+                       markerOptions.position(FriendLocation);
+                       markerOptions.title(id);
+                       map.addMarker(markerOptions);
+
+                       map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
     }
 
@@ -197,6 +203,7 @@ public class FriendLocationActivity extends AppCompatActivity implements
                                                             .addOnFailureListener(new OnFailureListener() {
                                                                 @Override
                                                                 public void onFailure(@NonNull Exception e) {
+
                                                                     Log.d(TAG, "GeoPoint Writing Failure");
 
                                                                 }

@@ -1,29 +1,20 @@
 package com.example.yu_map.Recycler;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.example.yu_map.Activity.AddFriendPopUpActivity;
-import com.example.yu_map.Activity.LoginActivity;
 import com.example.yu_map.R;
 
-import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.example.yu_map.Activity.AddFriendPopUpActivity.AddFriendpopUpAC;
 
 public class FriendActivity extends AppCompatActivity{
 
@@ -39,6 +30,10 @@ public class FriendActivity extends AppCompatActivity{
         init();
 
         getData();
+
+
+        AddFriendpopUpAC = (AddFriendPopUpActivity) AddFriendpopUpAC;
+        AddFriendpopUpAC.finish();
 
     }
 

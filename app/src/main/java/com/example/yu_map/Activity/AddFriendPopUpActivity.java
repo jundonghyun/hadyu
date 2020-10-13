@@ -1,5 +1,6 @@
 package com.example.yu_map.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.yu_map.AddFriendActivity.AddFriendAC;
+
 
 public class AddFriendPopUpActivity extends AppCompatActivity {
 
@@ -46,6 +49,7 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
     Button btn;
     public String idTemp;
     public String Use_FriendActivity_Email;
+    public static Activity AddFriendpopUpAC;
 
 
 
@@ -54,6 +58,7 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend_pop_up);
 
+        AddFriendpopUpAC = AddFriendPopUpActivity.this;
         id = (EditText)findViewById(R.id.friend_id);
         btn = (Button)findViewById(R.id.OK);
 
@@ -62,10 +67,11 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AddFriend();
 
-
-                //startActivity(new Intent(AddFriendPopUpActivity.this,AddFriendActivity.class));
             }
         });
+
+        AddFriendAC = (AddFriendActivity) AddFriendAC;
+        AddFriendAC.finish();
     }
 
     private void AddFriend() {
