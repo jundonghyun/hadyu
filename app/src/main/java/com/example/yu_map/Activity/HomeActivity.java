@@ -122,7 +122,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG );
 
         switch (item.getItemId()){
             case R.id.Logout:
@@ -261,7 +260,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 break;
         }
-        toast.show();
 
         return super.onOptionsItemSelected(item);
     }

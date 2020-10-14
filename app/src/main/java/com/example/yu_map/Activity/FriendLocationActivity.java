@@ -9,12 +9,19 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendData;
 import com.example.yu_map.Recycler.FriendsListAdapter;
@@ -24,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -43,54 +51,98 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.example.yu_map.Recycler.FriendsListAdapter;
+import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapView;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FriendLocationActivity extends AppCompatActivity implements
-        OnMapReadyCallback {
+public class FriendLocationActivity extends AppCompatActivity{
 
     private GoogleMap map;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String TAG = "FriendLocationActivity";
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
-    private Double Latitude, Longitude;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference dr = db.getReference().child("FindFriend");
     private DatabaseReference lo = db.getReference().child("Location");
+    double Long, Lang;
+    public String id;
+    private TMapView tMapView = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_location);
 
+        TMapData tMapData = new TMapData();
+        tMapView = new TMapView(this);
+
+        tMapView.setSKTMapApiKey("l7xxe7ffbe0e991b4d41881ad8b70d4e1cc6");
+
+        dr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                /* FindFriend필드에서 친구아이디를 가져와서 id변수에 삽입 */
+                id = snapshot.getValue().toString();
 
 
-        MapFragment mapFragment = (MapFragment) this.getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(FriendLocationActivity.this);
+                /* lo는 Location필드에서 id변수에있는 아이디를 사용해 Location필드안에있는 id의 Latitude와 Longitude를 가져옴
+                 *  Location -> "ID" -> Latitude, Longitude */
+                lo.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        Long = (double) snapshot.child("Longitude").getValue();
+                        Lang = (double) snapshot.child("Latitude").getValue();
+
+                        tMapView.setCenterPoint(Long, Lang);
+
+
+                        addPoint();
+
+                        ((LinearLayout) findViewById(R.id.FriendLocationMapView)).addView(tMapView);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         GetLastLocation();
     }
 
-    @Override
+    /*@Override
     public void onMapReady(GoogleMap googleMap) {
 
         /* dr은 Realtime DB에서 FindFriend필드의 snapshot을 찍게하는 변수 */
-        dr.addListenerForSingleValueEvent(new ValueEventListener() {
+        /*dr.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 /* FindFriend필드에서 친구아이디를 가져와서 id변수에 삽입 */
-               String id = snapshot.getValue().toString();
+               //String id = snapshot.getValue().toString();
 
                /* lo는 Location필드에서 id변수에있는 아이디를 사용해 Location필드안에있는 id의 Latitude와 Longitude를 가져옴
                *  Location -> "ID" -> Latitude, Longitude */
-               lo.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+               /*lo.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                    @Override
                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -103,7 +155,7 @@ public class FriendLocationActivity extends AppCompatActivity implements
 
 
                         /* 구글맵이 열리면 친구의 위치로 바로 이동되고 카메라도 자동으로 확대됨 */
-                       LatLng FriendLocation = new LatLng(0+Lang, 0+Long);
+                       /*LatLng FriendLocation = new LatLng(0+Lang, 0+Long);
 
                        CameraPosition cameraPosition = new CameraPosition.Builder().target(FriendLocation)
                                .zoom(14f).build();
@@ -131,9 +183,9 @@ public class FriendLocationActivity extends AppCompatActivity implements
 
 
 
-    }
+    }*/
 
-    private void setUpMap() {
+    /*private void setUpMap() {
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -146,13 +198,46 @@ public class FriendLocationActivity extends AppCompatActivity implements
             return;
         }
         map.setMyLocationEnabled(true);
+    }*/
+
+    public boolean onCreateOptionsMenu(Menu menu1){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu1, menu1);
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.SearchFriendPath:
+                Intent intent = new Intent(this, FindFriendAndMePathActivity.class);
+                intent.putExtra("FriendId", id);
+                startActivity(intent);
+                //startActivity(new Intent(FriendLocationActivity.this, FindFriendAndMePathActivity.class));
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void addPoint(){
+        TMapPoint point = new TMapPoint(Lang, Long);
+        TMapMarkerItem item1 = new TMapMarkerItem();
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.poi_dot);
+
+
+        item1.setTMapPoint(point);
+        item1.setName(id);
+        item1.setVisible(2);
+        item1.setIcon(bitmap);
+        item1.setCalloutTitle(id);
+        item1.setCanShowCallout(true);
+
+        this.tMapView.addMarkerItem(id, item1);
     }
 
     public void GetLastLocation() {
-
-        final Map<String, Double> User = new HashMap<>();
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
         /*위치 권환 확인*/
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -176,96 +261,17 @@ public class FriendLocationActivity extends AppCompatActivity implements
                                     location.getLatitude(), location.getLongitude()
                             );
 
-                            db.collection("UserLocation")
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if(task.isSuccessful()){
+                            FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+                            final DatabaseReference Location = fdb.getReference().child("Location");
 
-                                                /* 새로운 UserLocation생성 */
-                                                if(task.getResult().size() > 0){
-                                                    User.put("Latitude", geoPoint.getLatitude());
-                                                    User.put("Longitude", geoPoint.getLongitude());
+                            int idx = Email.indexOf("@");
+                            final String NickName = Email.substring(0, idx);
 
-                                                    DocumentReference newUserRef = db
-                                                            .collection("UserLocation")
-                                                            .document(Email);
-
-                                                    newUserRef.set(User)
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Log.d(TAG, "GeoPoint successfully Written");
-
-                                                                }
-                                                            })
-                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                @Override
-                                                                public void onFailure(@NonNull Exception e) {
-
-                                                                    Log.d(TAG, "GeoPoint Writing Failure");
-
-                                                                }
-                                                            });
-                                                }
-                                            }
-                                            /* email로 시작하는 UserLocation이 있는경우 */
-
-                                            else{
-                                                DocumentReference newUserLocationRef = db
-                                                        .collection("UserLocation")
-                                                        .document(Email);
-
-                                                newUserLocationRef
-                                                        .update("Longitude", geoPoint.getLongitude())
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.d(TAG, "DocumentSnapshot added");
-
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.d(TAG, "Error adding document", e);
-
-                                                            }
-                                                        });
-
-                                                newUserLocationRef
-                                                        .update("Latitude", geoPoint.getLatitude())
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Log.d(TAG, "DocumentSnapshot added");
-
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.d(TAG, "Error adding document", e);
-                                                            }
-                                                        });
-                                            }
-                                        }
-                                    });
+                            Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
+                            Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
                         }
                     }
                 });
-
-        /*firestore에서 위도와 경도 받아옴*/
-        DocumentReference U_location = db.collection("UserLocation").document(Email);
-        U_location.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Latitude = documentSnapshot.getDouble("Latitude");
-                Longitude = documentSnapshot.getDouble("Longitude");
-                Log.d(TAG, Latitude+" "+Longitude);
-            }
-        });
     }
 
 
