@@ -36,6 +36,8 @@ import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -112,7 +114,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
                 else{
                     start = new TMapPoint(MyLatitude, MyLongitude);
                     end = new TMapPoint(FriendLatitude, FriendLongitude);
-                    try{
+                    /*try{
                         Document document = tMapData.findPathDataAll(start, end);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -122,6 +124,34 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
+                        public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                            tMapView.addTMapPath(tMapPolyLine);
+                        }
+                    });*/
+
+                    tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+                        @Override
+                        public void onFindPathDataAll(Document document) {
+                            String coordi = "";
+                            Element root = document.getDocumentElement();
+                            /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
+                            각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
+                            NodeList nodeListPlacemark = root.getElementsByTagName("LineString");
+                            for(int i = 0; i < nodeListPlacemark.getLength(); i++){
+                                NodeList nodeListPlaceMarkItem = nodeListPlacemark.item(i).getChildNodes();
+                                //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
+                                for(int j = 0; j < nodeListPlaceMarkItem.getLength(); j++){
+                                    if(nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")){
+                                        Log.d(TAG, nodeListPlaceMarkItem.item(j).getTextContent().trim());
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
+                    new TMapData.FindPathDataListenerCallback(){
+                        @Override
                         public void onFindPathData(TMapPolyLine tMapPolyLine) {
                             tMapView.addTMapPath(tMapPolyLine);
                         }
