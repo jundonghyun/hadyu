@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.FindFriendAndMePathActivity"></activity>
+        <activity android:name=".Activity.StartGuideActivity"></activity>
+        <activity android:name=".Activity.FindFriendAndMePathActivity" />
         <activity android:name=".Recycler.FriendRequestQueueActivity" />
         <activity android:name=".AddFriendActivity" />
         <activity

@@ -12,11 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.telephony.CarrierConfigManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,9 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -38,22 +36,22 @@ import com.skt.Tmap.TMapView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import javax.xml.parsers.ParserConfigurationException;
+import java.util.List;
 
 public class FindFriendAndMePathActivity extends AppCompatActivity {
 
+    Button StartGuideButton;
     double MyLatitude, MyLongitude, FriendLatitude, FriendLongitude, PolyDistance;
     private static int mMarkerID;
     private Location location;
     private TMapView tMapView = null;
     private ArrayList<MapPoint> m_mapPoint = new ArrayList<>();
+    public ArrayList<MapPoint> RoutGuide_MapPoint = new ArrayList<>();
     private ArrayList<String> mArrayMakerID = new ArrayList<>();
+    private ArrayList Coordinates = new ArrayList();
     String FriendId;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     TMapPoint start, end;
@@ -66,6 +64,8 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_friend_and_me_path);
+
+        StartGuideButton = findViewById(R.id.StartGuideButton);
 
         final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -106,7 +106,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
 
                 addPoint();
                 AddMarker();
-                Log.d(TAG, String.valueOf(PolyDistance));
+                //Log.d(TAG, String.valueOf(PolyDistance));
 
                 if(PolyDistance > 1000){
                     Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km가 넘습니다",Toast.LENGTH_SHORT).show();
@@ -132,8 +132,9 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
                     tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
                         @Override
                         public void onFindPathDataAll(Document document) {
-                            String coordi = "";
+                            String temp = "";
                             Element root = document.getDocumentElement();
+                            int count = 0;
                             /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
                             각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
                             NodeList nodeListPlacemark = root.getElementsByTagName("LineString");
@@ -142,7 +143,23 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
                                 //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
                                 for(int j = 0; j < nodeListPlaceMarkItem.getLength(); j++){
                                     if(nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")){
-                                        Log.d(TAG, nodeListPlaceMarkItem.item(j).getTextContent().trim());
+                                        /* 좌표값을 RouteGuide에 저장하는 것 */
+                                        temp = nodeListPlaceMarkItem.item(j).getTextContent().trim();
+                                        String[] temp1 = temp.split(" ");
+                                        for(int k = 0; k < temp1.length; k++){
+                                            int idx = temp1[k].indexOf(",");
+                                            int idx2 = temp1[k].length();
+                                            String TempLatitude, TempLongitude;
+                                            double finalLatitude, finalLongitude;
+
+                                            TempLatitude = temp1[k].substring(idx+1, idx2);
+                                            TempLongitude = temp1[k].substring(0, idx);
+
+                                            finalLatitude = Double.parseDouble(TempLatitude);
+                                            finalLongitude = Double.parseDouble(TempLongitude);
+                                            RoutGuide_MapPoint.add(new MapPoint("Point" +" "+ count, finalLatitude, finalLongitude));
+
+                                        }
                                     }
                                 }
                             }
@@ -150,12 +167,32 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
                     });
 
                     tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
-                    new TMapData.FindPathDataListenerCallback(){
+                            new TMapData.FindPathDataListenerCallback(){
+                                @Override
+                                public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                                    tMapView.addTMapPath(tMapPolyLine);
+                                }
+                            });
+
+                    tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+
                         @Override
-                        public void onFindPathData(TMapPolyLine tMapPolyLine) {
-                            tMapView.addTMapPath(tMapPolyLine);
+                        public void onFindPathDataAll(Document document) {
+                            Element root = document.getDocumentElement();
+                            NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+
+                            for( int i=0; i<nodeListPlacemark.getLength(); i++ ) {
+                                NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                                for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                                    if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
+                                        Log.d(TAG, nodeListPlacemarkItem.item(j).getTextContent().trim());
+                                    }
+                                }
+                            }
                         }
                     });
+
+
 
 
                     Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km 이하입니다",Toast.LENGTH_SHORT).show();
@@ -166,6 +203,13 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        StartGuideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FindFriendAndMePathActivity.this, StartGuideActivity.class));
             }
         });
 
