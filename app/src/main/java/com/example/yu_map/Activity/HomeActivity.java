@@ -1,11 +1,13 @@
 package com.example.yu_map.Activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
@@ -49,6 +51,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.WriteAbortedException;
 import java.util.HashMap;
 import java.util.Map;
 //import com.example.yumap_tmap.R;
@@ -60,7 +68,10 @@ public class HomeActivity extends AppCompatActivity {
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
+    static private Context context;
     private String request;
+
+    static String Filename = "경로정보.txt";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +123,10 @@ public class HomeActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //ConfirmRequest();
+
     }
+
+
 
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
