@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,30 +46,35 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FindFriendAndMePathActivity extends AppCompatActivity {
+import javax.security.auth.callback.Callback;
 
-    double MyLatitude, MyLongitude, FriendLatitude, FriendLongitude, PolyDistance;
+public class FindFriendAndMePathActivity extends AppCompatActivity{
+
     String FriendId;
 
     Button StartGuideButton;
     public static ArrayList<MapPoint> RoutGuide_MapPoint = new ArrayList<>();
+    public static ArrayList<String> RouteDescription = new ArrayList<>();
     public Context context;
-    public String state;
 
     private static int mMarkerID;
+
+    private double MyLatitude, MyLongitude, FriendLatitude, FriendLongitude, PolyDistance;
+    private String temp = "";
     private Location location;
     private TMapView tMapView = null;
-    private ArrayList<MapPoint> m_mapPoint = new ArrayList<>();
+    private String coordinateTeamp = "";
+    private static ArrayList<MapPoint> m_mapPoint = new ArrayList<>();
+    private ArrayList<MapPoint> FriendPoint = new ArrayList<>();
     private ArrayList<String> mArrayMakerID = new ArrayList<>();
-    private static HashMap<Double, Double> coordinates = new HashMap<>();
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference lo = db.getReference().child("Location");
     private String TAG = "FindFriendAndMePathActivity";
 
-    static String Filename = "경로정보.txt";
 
 
     TMapPolyLine tMapPolyLine = new TMapPolyLine();
@@ -107,122 +113,100 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
         MyLatitude = location.getLatitude();
         MyLongitude = location.getLongitude();
 
-
         this.tMapView.setCenterPoint(MyLongitude, MyLatitude);
 
         Intent intent = getIntent();
         FriendId = intent.getExtras().getString("FriendId");
+        FriendLatitude = intent.getExtras().getDouble("FriendLatitude");
+        FriendLongitude = intent.getExtras().getDouble("FriendLongitude");
 
-        lo.child(FriendId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                FriendLatitude = (double) snapshot.child("Latitude").getValue();
-                FriendLongitude = (double) snapshot.child("Longitude").getValue();
+        AddMyPoint();
+        AddMarker();
 
-                addPoint();
-                AddMarker();
-                //Log.d(TAG, String.valueOf(PolyDistance));
+        if(PolyDistance > 1000){
+            Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km가 넘습니다", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            start = new TMapPoint(MyLatitude, MyLongitude);
+            end = new TMapPoint(FriendLatitude, FriendLongitude);
 
-                if (PolyDistance > 1000) {
-                    Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km가 넘습니다", Toast.LENGTH_SHORT).show();
-                } else {
-                    start = new TMapPoint(MyLatitude, MyLongitude);
-                    end = new TMapPoint(FriendLatitude, FriendLongitude);
-                    /*try{
-                        Document document = tMapData.findPathDataAll(start, end);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
+            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+                @Override
+                public void onFindPathDataAll(Document document) {
+                    String temp = "";
+                    Element root = document.getDocumentElement();
+                    int count = 0;
+                    /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
+                    각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
+                    NodeList nodeListPlacemark = root.getElementsByTagName("Point");
+
+                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                        NodeList nodeListPlaceMarkItem = nodeListPlacemark.item(i).getChildNodes();
+                        //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
+                        for (int j = 0; j < nodeListPlaceMarkItem.getLength(); j++) {
+                            if (nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")) {
+                                /* 좌표값을 RouteGuide에 저장하는 것 */
+                                temp = nodeListPlaceMarkItem.item(j).getTextContent().trim();
+                                //Log.d(TAG, temp);
+                                String[] temp1 = temp.split(" ");
+                                for (int k = 0; k < temp1.length; k++) {
+                                    int idx = temp1[k].indexOf(",");
+                                    int idx2 = temp1[k].length();
+                                    String TempLatitude, TempLongitude;
+                                    double finalLatitude, finalLongitude;
+
+                                    TempLatitude = temp1[k].substring(idx + 1, idx2);
+                                    TempLongitude = temp1[k].substring(0, idx);
+
+                                    finalLatitude = Double.parseDouble(TempLatitude);
+                                    finalLongitude = Double.parseDouble(TempLongitude);
+                                    coordinateTeamp += TempLatitude + "," + TempLongitude + "\n";
+                                    count++;
+                                    //WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
+                                    RoutGuide_MapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
+
+                                }
+                            }
+
+                        }
                     }
-                    tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
+                }
+            });
+
+            tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
+                    new TMapData.FindPathDataListenerCallback() {
+                        @Override
                         public void onFindPathData(TMapPolyLine tMapPolyLine) {
                             tMapView.addTMapPath(tMapPolyLine);
                         }
-                    });*/
-
-                    tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
-                        @Override
-                        public void onFindPathDataAll(Document document) {
-                            String temp = "";
-                            Element root = document.getDocumentElement();
-                            String GuideCoordinates;
-                            int count = 0;
-                            /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
-                            각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
-                            NodeList nodeListPlacemark = root.getElementsByTagName("LineString");
-                            for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                                NodeList nodeListPlaceMarkItem = nodeListPlacemark.item(i).getChildNodes();
-                                //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
-                                for (int j = 0; j < nodeListPlaceMarkItem.getLength(); j++) {
-                                    if (nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")) {
-                                        /* 좌표값을 RouteGuide에 저장하는 것 */
-                                        temp = nodeListPlaceMarkItem.item(j).getTextContent().trim();
-                                        //Log.d(TAG, temp);
-                                        String[] temp1 = temp.split(" ");
-                                        for (int k = 0; k < temp1.length; k++) {
-                                            int idx = temp1[k].indexOf(",");
-                                            int idx2 = temp1[k].length();
-                                            String TempLatitude, TempLongitude;
-                                            double finalLatitude, finalLongitude;
-
-                                            TempLatitude = temp1[k].substring(idx + 1, idx2);
-                                            TempLongitude = temp1[k].substring(0, idx);
-
-                                            finalLatitude = Double.parseDouble(TempLatitude);
-                                            finalLongitude = Double.parseDouble(TempLongitude);
-                                            GuideCoordinates = TempLatitude + "," + TempLongitude + "\n";
-                                            count++;
-                                            WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
-                                            RoutGuide_MapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     });
 
-                    tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
-                            new TMapData.FindPathDataListenerCallback() {
-                                @Override
-                                public void onFindPathData(TMapPolyLine tMapPolyLine) {
-                                    tMapView.addTMapPath(tMapPolyLine);
-                                }
-                            });
+            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
 
-                    tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
-
-                        @Override
-                        public void onFindPathDataAll(Document document) {
-                            Element root = document.getDocumentElement();
-                            NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-
-                            for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                                NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                                for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
-                                    if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
-                                        Log.d(TAG, nodeListPlacemarkItem.item(j).getTextContent().trim());
-                                    }
-                                }
+                @Override
+                public void onFindPathDataAll(Document document) {
+                    Log.d(TAG, "Break");
+                    Element root = document.getDocumentElement();
+                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
+                                RouteDescription.add(nodeListPlacemarkItem.item(j).getTextContent().trim());
+                                Log.d(TAG, nodeListPlacemarkItem.item(j).getTextContent().trim());
                             }
                         }
-                    });
-
-
-                    Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km 이하입니다", Toast.LENGTH_SHORT).show();
-
+                    }
                 }
-            }
+            });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+            Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km 이하입니다", Toast.LENGTH_SHORT).show();
 
+        }
+
+
+        PassPoint_Description();
 
         StartGuideButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +220,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
 
     }
 
-    public void addPoint() {
+    public void AddMyPoint() {
         this.m_mapPoint.add(new MapPoint("My", MyLatitude, MyLongitude));
         this.m_mapPoint.add(new MapPoint("Friend", FriendLatitude, FriendLongitude));
     }
@@ -268,44 +252,52 @@ public class FindFriendAndMePathActivity extends AppCompatActivity {
 
     }
 
-    public void WirteTextFile(Context context, String filename, String contents) {
 
-        //checkExternalStorage();
-        FileOutputStream fos = null;
+    public void PassPoint_Description(){
+        double latitude;
+        double longitude;
+        String temp;
 
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename, true));
-            PrintWriter pw = new PrintWriter(bufferedWriter, true);
 
-            pw.write(contents);
-            pw.flush();
+        for(int i = 0; i < 1; i++){
+            latitude = RoutGuide_MapPoint.get(i).getLatitude();
+            longitude = RoutGuide_MapPoint.get(i).getLongitude();
+        }
 
-            pw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        for(int i = 0; i < RouteDescription.size(); i++){
+            //latitude = RoutGuide_MapPoint.get(i).getLatitude();
+            //longitude = RoutGuide_MapPoint.get(i).getLongitude();
+            temp = RouteDescription.get(i);
         }
     }
 
 
-    void checkExternalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                    Toast.makeText(this, "외부 저장소 사용을 위해 읽기/쓰기 필요", Toast.LENGTH_SHORT).show();
-
-
-                }
-                requestPermissions(new String[]
-                                {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                        2);  //마지막 인자는 체크해야될 권한 갯수
-
-            } else {
-                Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
-            }
+    public File getPrivateAlbumStorageDir(Context context, String routecoordinates) {
+        // Get the directory for the app's private pictures directory.
+        File file = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_DOCUMENTS), routecoordinates);
+        if (!file.mkdirs()) {
+            Log.e(TAG, "Directory not created");
         }
+        return file;
+    }
+
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 
 }

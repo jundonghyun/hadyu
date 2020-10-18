@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -70,7 +71,7 @@ public class FriendLocationActivity extends AppCompatActivity{
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference dr = db.getReference().child("FindFriend");
     private DatabaseReference lo = db.getReference().child("Location");
-    double Long, Lang;
+    public double Long, Lang;
     public String id;
     private TMapView tMapView = null;
 
@@ -79,6 +80,8 @@ public class FriendLocationActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_location);
+
+        Context context;
 
         TMapData tMapData = new TMapData();
         tMapView = new TMapView(this);
@@ -129,77 +132,6 @@ public class FriendLocationActivity extends AppCompatActivity{
         GetLastLocation();
     }
 
-    /*@Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        /* dr은 Realtime DB에서 FindFriend필드의 snapshot을 찍게하는 변수 */
-        /*dr.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                /* FindFriend필드에서 친구아이디를 가져와서 id변수에 삽입 */
-               //String id = snapshot.getValue().toString();
-
-               /* lo는 Location필드에서 id변수에있는 아이디를 사용해 Location필드안에있는 id의 Latitude와 Longitude를 가져옴
-               *  Location -> "ID" -> Latitude, Longitude */
-               /*lo.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                       double Long = (double) snapshot.child("Longitude").getValue();
-                       double Lang = (double) snapshot.child("Latitude").getValue();
-
-                       map = googleMap;
-
-                       setUpMap();
-
-
-                        /* 구글맵이 열리면 친구의 위치로 바로 이동되고 카메라도 자동으로 확대됨 */
-                       /*LatLng FriendLocation = new LatLng(0+Lang, 0+Long);
-
-                       CameraPosition cameraPosition = new CameraPosition.Builder().target(FriendLocation)
-                               .zoom(14f).build();
-
-                       MarkerOptions markerOptions = new MarkerOptions();
-                       markerOptions.position(FriendLocation);
-                       markerOptions.title(id);
-                       map.addMarker(markerOptions);
-
-                       map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                   }
-
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
-
-                   }
-               });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-    }*/
-
-    /*private void setUpMap() {
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        map.setMyLocationEnabled(true);
-    }*/
-
     public boolean onCreateOptionsMenu(Menu menu1){
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu1, menu1);
@@ -212,6 +144,8 @@ public class FriendLocationActivity extends AppCompatActivity{
             case R.id.SearchFriendPath:
                 Intent intent = new Intent(this, FindFriendAndMePathActivity.class);
                 intent.putExtra("FriendId", id);
+                intent.putExtra("FriendLatitude", Lang);
+                intent.putExtra("FriendLongitude", Long);
                 startActivity(intent);
                 //startActivity(new Intent(FriendLocationActivity.this, FindFriendAndMePathActivity.class));
 
