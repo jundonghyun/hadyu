@@ -1,7 +1,9 @@
 package com.example.yu_map;
 
 
-public class MapPoint {
+import java.io.Serializable;
+
+public class MapPoint implements Serializable {
     private String Name;
     private double latitude;
     private double longitude;

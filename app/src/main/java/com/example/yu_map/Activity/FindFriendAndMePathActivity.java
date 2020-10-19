@@ -35,9 +35,11 @@ import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
+import com.squareup.okhttp.Route;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.BufferedWriter;
@@ -57,8 +59,12 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
     String FriendId;
 
     Button StartGuideButton;
-    public static ArrayList<MapPoint> RoutGuide_MapPoint = new ArrayList<>();
+
+    public static ArrayList<MapPoint> RouteMapPoint = new ArrayList<>();
     public static ArrayList<String> RouteDescription = new ArrayList<>();
+    public static ArrayList<String> RouteIndex = new ArrayList<>();
+    public static ArrayList<String> RouteDistance = new ArrayList<>();
+    public static ArrayList<String> RouteTurn = new ArrayList<>();
     public Context context;
 
     private static int mMarkerID;
@@ -163,8 +169,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
                                     coordinateTeamp += TempLatitude + "," + TempLongitude + "\n";
                                     count++;
                                     //WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
-                                    RoutGuide_MapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
-
+                                    RouteMapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
                                 }
                             }
 
@@ -181,7 +186,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
                         }
                     });
 
-            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+            /*tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
 
                 @Override
                 public void onFindPathDataAll(Document document) {
@@ -198,20 +203,57 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
                         }
                     }
                 }
-            });
+            });*/
+
+            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+
+                @Override
+                public void onFindPathDataAll(Document document) {
+                    Element root = document.getDocumentElement();
+
+                    int length = root.getElementsByTagName("Placemark").getLength();
+                    for(int i=0; i<length; i++) {
+                        Node placemark = root.getElementsByTagName("Placemark").item(i);
+                        Node descriptionNode = ((Element) placemark).getElementsByTagName("description").item(0);
+                        Node nodeType = ((Element) placemark).getElementsByTagName("tmap:nodeType").item(0);
+
+                        String nodetype = nodeType.getTextContent();
+
+                        if (nodeType.getTextContent().equals("LINE")) {
+                            Node distance = ((Element) placemark).getElementsByTagName("tmap:distance").item(0);
+                            RouteDistance.add(distance.getTextContent().trim()); //포인트 간 거리
+                        }
+                        else if(nodeType.getTextContent().equals("POINT")){
+                            Node turn = ((Element) placemark).getElementsByTagName("tmap:turnType").item(0);
+                            RouteTurn.add(turn.getTextContent().trim()); //회전정보
+                        }
+                        RouteDescription.add(descriptionNode.getTextContent().trim()); //경로 설명
+                    }
+
+
+
+                }
+           });
 
 
             Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km 이하입니다", Toast.LENGTH_SHORT).show();
 
         }
 
+        Intent StartRoutintent = new Intent(FindFriendAndMePathActivity.this, StartGuideActivity.class);
 
-        PassPoint_Description();
+        StartRoutintent.putExtra("RouteMapPoint", RouteMapPoint);
+        StartRoutintent.putExtra("RouteDescription", RouteDescription);
+        StartRoutintent.putExtra("RouteIndex", RouteIndex);
+        StartRoutintent.putExtra("RouteDistance", RouteDistance);
+        StartRoutintent.putExtra("RouteTurn", RouteTurn);
 
         StartGuideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FindFriendAndMePathActivity.this, StartGuideActivity.class));
+
+                startActivity(StartRoutintent);
+
             }
         });
 
@@ -243,7 +285,6 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             mMarkerID = i2 + 1;
             String stdID = String.format("pMaker%d", new Object[]{Integer.valueOf(i2)});
             this.tMapView.addMarkerItem(stdID, item1);
-            //this.tMapView.addTMapPolyLine("Line1", tMapPolyLine);
             this.mArrayMakerID.add(stdID);
 
             PolyDistance = tMapPolyLine.getDistance();
@@ -251,53 +292,4 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
         }
 
     }
-
-
-    public void PassPoint_Description(){
-        double latitude;
-        double longitude;
-        String temp;
-
-
-        for(int i = 0; i < 1; i++){
-            latitude = RoutGuide_MapPoint.get(i).getLatitude();
-            longitude = RoutGuide_MapPoint.get(i).getLongitude();
-        }
-
-        for(int i = 0; i < RouteDescription.size(); i++){
-            //latitude = RoutGuide_MapPoint.get(i).getLatitude();
-            //longitude = RoutGuide_MapPoint.get(i).getLongitude();
-            temp = RouteDescription.get(i);
-        }
-    }
-
-
-    public File getPrivateAlbumStorageDir(Context context, String routecoordinates) {
-        // Get the directory for the app's private pictures directory.
-        File file = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_DOCUMENTS), routecoordinates);
-        if (!file.mkdirs()) {
-            Log.e(TAG, "Directory not created");
-        }
-        return file;
-    }
-
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
 }
