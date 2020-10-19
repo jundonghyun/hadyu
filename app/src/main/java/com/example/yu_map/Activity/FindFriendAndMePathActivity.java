@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -115,9 +116,23 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             return;
         }
         /* 내 위도,경도 불러오기 */
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         MyLatitude = location.getLatitude();
         MyLongitude = location.getLongitude();
+
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                if (location != null) {
+                    MyLatitude = location.getLatitude();
+                    MyLongitude = location.getLongitude();
+                }
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+        Log.d(TAG, String.valueOf(MyLatitude));
 
         this.tMapView.setCenterPoint(MyLongitude, MyLatitude);
 

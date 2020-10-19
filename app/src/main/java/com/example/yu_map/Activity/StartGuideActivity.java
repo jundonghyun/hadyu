@@ -90,7 +90,7 @@ public class StartGuideActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         MyLatitude = location.getLatitude();
         MyLongitude = location.getLongitude();
