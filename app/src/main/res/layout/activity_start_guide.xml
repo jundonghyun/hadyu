@@ -14,13 +14,10 @@
         android:orientation="horizontal"/>
 
 
-    <TextView
+    <ImageView
         android:id="@+id/DisplayTurn"
         android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:textColor="@color/Black"
-        android:hint="경로안내 시작"
-        android:textSize="25dp"/>
+        android:layout_height="150dp"/>
 
 
 </RelativeLayout>

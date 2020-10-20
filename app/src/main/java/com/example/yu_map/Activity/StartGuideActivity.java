@@ -15,8 +15,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.yu_map.MapPoint;
 import com.example.yu_map.R;
@@ -26,7 +26,6 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class StartGuideActivity extends AppCompatActivity {
@@ -40,9 +39,10 @@ public class StartGuideActivity extends AppCompatActivity {
     public Context context;
 
 
-    private TextView GuideConer;
+    private ImageView GuideConer;
     private TMapView tMapView = null;
     private TMapPoint tp = null;
+    private Bitmap bitmap;
 
     private Location location;
     private double MyLatitude, MyLongitude;
@@ -126,10 +126,12 @@ public class StartGuideActivity extends AppCompatActivity {
         AddMyPoint();
         AddMarker();
 
-        int count = 0;
+        int count = 1;
         for(int i = 0; i < RouteMapPoint.size(); i++){
             String temp = RouteTurn.get(count);
-            GuideConer.setText(temp);
+
+            MatchTurnImage(temp);
+
 
             if(MyLatitude == RouteMapPoint.get(count).getLatitude() && MyLongitude == RouteMapPoint.get(count).getLongitude()){
 
@@ -139,6 +141,64 @@ public class StartGuideActivity extends AppCompatActivity {
         }
 
         ((LinearLayout) findViewById(R.id.StartGuide)).addView(tMapView);
+    }
+
+    public void MatchTurnImage(String temp){
+        if(temp.equals("11")){//직진
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_straight_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("12")){//좌회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_left_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("13")){//우회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_right_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("14")){//유턴
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_uturn_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("16")){//8시방향 좌회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_eightleft_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("17")){//10시 방향 좌회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_tenleft_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("18")){//2시 방향 우회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_tworight_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("19")){//4시 방향 우회전
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_fourright_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("211")){//횡단보도
+            bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_crosswalk_black_18dp);
+            GuideConer.setImageBitmap(bitmap);
+        }
+        else if(temp.equals("212")){//좌측 횡단보도
+
+        }
+        else if(temp.equals("213")){//우측 횡단보도
+
+        }
+        else if(temp.equals("214")){//8시 방향 횡단보도
+
+        }
+        else if(temp.equals("215")){//10시 방향 횡단보도
+
+        }
+        else if(temp.equals("216")){//2시 방향 횡단보도
+
+        }
+        else if(temp.equals("217")){//4시 방향 횡단보도
+
+        }
+
     }
 
     public void AddMyPoint() {
