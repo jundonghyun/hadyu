@@ -36,6 +36,7 @@ import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
+import com.skt.Tmap.TmapAuthentication;
 import com.squareup.okhttp.Route;
 
 import org.w3c.dom.Document;
@@ -201,25 +202,6 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
                         }
                     });
 
-            /*tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
-
-                @Override
-                public void onFindPathDataAll(Document document) {
-                    Log.d(TAG, "Break");
-                    Element root = document.getDocumentElement();
-                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
-                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
-                                RouteDescription.add(nodeListPlacemarkItem.item(j).getTextContent().trim());
-                                Log.d(TAG, nodeListPlacemarkItem.item(j).getTextContent().trim());
-                            }
-                        }
-                    }
-                }
-            });*/
-
             tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
 
                 @Override
@@ -283,6 +265,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
     }
 
     public void AddMarker() {
+
         for (int i = 0; i < this.m_mapPoint.size(); i++) {
             TMapPoint point = new TMapPoint(this.m_mapPoint.get(i).getLatitude(),
                     this.m_mapPoint.get(i).getLongitude());
@@ -305,6 +288,5 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             PolyDistance = tMapPolyLine.getDistance();
 
         }
-
     }
 }
