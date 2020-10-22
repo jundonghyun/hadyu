@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.R;
@@ -61,17 +64,19 @@ import com.skt.Tmap.TMapView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FriendLocationActivity extends AppCompatActivity{
+public class FriendLocationActivity extends AppCompatActivity {
 
     private GoogleMap map;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String TAG = "FriendLocationActivity";
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
+    private Location location;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference dr = db.getReference().child("FindFriend");
     private DatabaseReference lo = db.getReference().child("Location");
     public double Long, Lang;
+    private double MyLatitude, MyLongitude, Dis;
     public String id;
     private TMapView tMapView = null;
 
@@ -82,6 +87,7 @@ public class FriendLocationActivity extends AppCompatActivity{
         setContentView(R.layout.activity_friend_location);
 
         Context context;
+
 
         TMapData tMapData = new TMapData();
         tMapView = new TMapView(this);
@@ -132,25 +138,54 @@ public class FriendLocationActivity extends AppCompatActivity{
         GetLastLocation();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu1){
+    public boolean onCreateOptionsMenu(Menu menu1) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu1, menu1);
 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case R.id.SearchFriendPath:
-                Intent intent = new Intent(this, FindFriendAndMePathActivity.class);
-                intent.putExtra("FriendId", id);
-                intent.putExtra("FriendLatitude", Lang);
-                intent.putExtra("FriendLongitude", Long);
-                startActivity(intent);
-                //startActivity(new Intent(FriendLocationActivity.this, FindFriendAndMePathActivity.class));
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                break;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return true;
         }
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        Location endPoint = new Location("end");
+        endPoint.setLatitude(Lang);
+        endPoint.setLongitude(Long);
+
+        double PointDis = location.distanceTo(endPoint);
+        Dis = Double.parseDouble(String.format("%.1f", PointDis));
+
+
+            switch(item.getItemId()){
+                case R.id.SearchFriendPath:
+
+                    Intent intent = new Intent(this, FindFriendAndMePathActivity.class);
+                    intent.putExtra("FriendId", id);
+                    intent.putExtra("FriendLatitude", Lang);
+                    intent.putExtra("FriendLongitude", Long);
+                    if(Dis > 1000){
+                        Toast.makeText(this, "직선거리가 1Km가 넘습니다",Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    else{
+                        startActivity(intent);
+
+                    }
+                    break;
+            }
+
         return super.onOptionsItemSelected(item);
     }
 

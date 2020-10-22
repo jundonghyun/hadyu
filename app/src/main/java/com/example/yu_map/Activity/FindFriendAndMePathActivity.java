@@ -1,11 +1,13 @@
 package com.example.yu_map.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -145,97 +147,8 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
         AddMyPoint();
         AddMarker();
 
-        if(PolyDistance > 1000){
-            Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km가 넘습니다", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            start = new TMapPoint(MyLatitude, MyLongitude);
-            end = new TMapPoint(FriendLatitude, FriendLongitude);
-
-            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
-                @Override
-                public void onFindPathDataAll(Document document) {
-                    String temp = "";
-                    Element root = document.getDocumentElement();
-                    int count = 0;
-                    /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
-                    각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
-                    NodeList nodeListPlacemark = root.getElementsByTagName("Point");
-
-                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                        NodeList nodeListPlaceMarkItem = nodeListPlacemark.item(i).getChildNodes();
-                        //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
-                        for (int j = 0; j < nodeListPlaceMarkItem.getLength(); j++) {
-                            if (nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")) {
-                                /* 좌표값을 RouteGuide에 저장하는 것 */
-                                temp = nodeListPlaceMarkItem.item(j).getTextContent().trim();
-                                //Log.d(TAG, temp);
-                                String[] temp1 = temp.split(" ");
-                                for (int k = 0; k < temp1.length; k++) {
-                                    int idx = temp1[k].indexOf(",");
-                                    int idx2 = temp1[k].length();
-                                    String TempLatitude, TempLongitude;
-                                    double finalLatitude, finalLongitude;
-
-                                    TempLatitude = temp1[k].substring(idx + 1, idx2);
-                                    TempLongitude = temp1[k].substring(0, idx);
-
-                                    finalLatitude = Double.parseDouble(TempLatitude);
-                                    finalLongitude = Double.parseDouble(TempLongitude);
-                                    coordinateTeamp += TempLatitude + "," + TempLongitude + "\n";
-                                    count++;
-                                    //WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
-                                    RouteMapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
-                                }
-                            }
-
-                        }
-                    }
-                }
-            });
-
-            tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
-                    new TMapData.FindPathDataListenerCallback() {
-                        @Override
-                        public void onFindPathData(TMapPolyLine tMapPolyLine) {
-                            tMapView.addTMapPath(tMapPolyLine);
-                        }
-                    });
-
-            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
-
-                @Override
-                public void onFindPathDataAll(Document document) {
-                    Element root = document.getDocumentElement();
-
-                    int length = root.getElementsByTagName("Placemark").getLength();
-                    for(int i=0; i<length; i++) {
-                        Node placemark = root.getElementsByTagName("Placemark").item(i);
-                        Node descriptionNode = ((Element) placemark).getElementsByTagName("description").item(0);
-                        Node nodeType = ((Element) placemark).getElementsByTagName("tmap:nodeType").item(0);
-
-                        String nodetype = nodeType.getTextContent();
-
-                        if (nodeType.getTextContent().equals("LINE")) {
-                            Node distance = ((Element) placemark).getElementsByTagName("tmap:distance").item(0);
-                            RouteDistance.add(distance.getTextContent().trim()); //포인트 간 거리
-                        }
-                        else if(nodeType.getTextContent().equals("POINT")){
-                            Node turn = ((Element) placemark).getElementsByTagName("tmap:turnType").item(0);
-                            RouteTurn.add(turn.getTextContent().trim()); //회전정보
-                        }
-                        RouteDescription.add(descriptionNode.getTextContent().trim()); //경로 설명
-                    }
-
-
-
-                }
-           });
-
-
-            Toast.makeText(FindFriendAndMePathActivity.this, "직선거리가 1km 이하입니다", Toast.LENGTH_SHORT).show();
-
-        }
+        start = new TMapPoint(MyLatitude, MyLongitude);
+        end = new TMapPoint(FriendLatitude, FriendLongitude);
 
         Intent StartRoutintent = new Intent(FindFriendAndMePathActivity.this, StartGuideActivity.class);
 
@@ -254,6 +167,85 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             }
         });
 
+        tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+            @Override
+            public void onFindPathDataAll(Document document) {
+                String temp = "";
+                Element root = document.getDocumentElement();
+                int count = 0;
+                    /*Placemark는 point와 LineString로 구분됩니다. point의 경우,
+                    각 좌표의 구간정보 LineString의 경우, 경로의 좌표정보가 결과값으로 나옵니다.*/
+                NodeList nodeListPlacemark = root.getElementsByTagName("Point");
+
+                for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                    NodeList nodeListPlaceMarkItem = nodeListPlacemark.item(i).getChildNodes();
+                    //Log.d(TAG, nodeListPlacemark.item(i).getTextContent().trim());
+                    for (int j = 0; j < nodeListPlaceMarkItem.getLength(); j++) {
+                        if (nodeListPlaceMarkItem.item(j).getNodeName().equals("coordinates")) {
+                            /* 좌표값을 RouteGuide에 저장하는 것 */
+                            temp = nodeListPlaceMarkItem.item(j).getTextContent().trim();
+                            //Log.d(TAG, temp);
+                            String[] temp1 = temp.split(" ");
+                            for (int k = 0; k < temp1.length; k++) {
+                                int idx = temp1[k].indexOf(",");
+                                int idx2 = temp1[k].length();
+                                String TempLatitude, TempLongitude;
+                                double finalLatitude, finalLongitude;
+
+                                TempLatitude = temp1[k].substring(idx + 1, idx2);
+                                TempLongitude = temp1[k].substring(0, idx);
+
+                                finalLatitude = Double.parseDouble(TempLatitude);
+                                finalLongitude = Double.parseDouble(TempLongitude);
+                                coordinateTeamp += TempLatitude + "," + TempLongitude + "\n";
+                                count++;
+                                //WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
+                                RouteMapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
+                            }
+                        }
+
+                    }
+                }
+            }
+        });
+
+        tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end,
+                new TMapData.FindPathDataListenerCallback() {
+                    @Override
+                    public void onFindPathData(TMapPolyLine tMapPolyLine) {
+                        tMapView.addTMapPath(tMapPolyLine);
+                    }
+                });
+
+        tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+
+            @Override
+            public void onFindPathDataAll(Document document) {
+                Element root = document.getDocumentElement();
+
+                int length = root.getElementsByTagName("Placemark").getLength();
+                for(int i=0; i<length; i++) {
+                    Node placemark = root.getElementsByTagName("Placemark").item(i);
+                    Node descriptionNode = ((Element) placemark).getElementsByTagName("description").item(0);
+                    Node nodeType = ((Element) placemark).getElementsByTagName("tmap:nodeType").item(0);
+
+                    String nodetype = nodeType.getTextContent();
+
+                    if (nodeType.getTextContent().equals("LINE")) {
+                        Node distance = ((Element) placemark).getElementsByTagName("tmap:distance").item(0);
+                        RouteDistance.add(distance.getTextContent().trim()); //포인트 간 거리
+                    }
+                    else if(nodeType.getTextContent().equals("POINT")){
+                        Node turn = ((Element) placemark).getElementsByTagName("tmap:turnType").item(0);
+                        RouteTurn.add(turn.getTextContent().trim()); //회전정보
+                    }
+                    RouteDescription.add(descriptionNode.getTextContent().trim()); //경로 설명
+                }
+
+
+
+            }
+        });
 
         ((LinearLayout) findViewById(R.id.FriendAndMePath)).addView(tMapView);
 
