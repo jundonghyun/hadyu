@@ -20,6 +20,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_straight_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -28,6 +29,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_left_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -36,6 +38,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_right_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -44,6 +47,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_uturn_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -52,6 +56,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_eightleft_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -60,6 +65,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_tenleft_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <ImageView
@@ -68,6 +74,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_tworight_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
 
@@ -77,6 +84,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_fourright_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
 
@@ -86,6 +94,7 @@
         android:layout_height="100dp"
         android:src="@drawable/navigation_crosswalk_black_18dp"
         android:background="@color/Green"
+        android:layout_marginLeft="100dp"
         android:visibility="invisible"/>
 
     <TextView
@@ -100,10 +109,19 @@
     <TextView
         android:id="@+id/distance"
         android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_below="@id/speed"
+        android:layout_height="100dp"
+        android:textSize="20dp"
         android:background="@color/Gray"
         android:textColor="@color/White"/>
+
+    <Button
+        android:id="@+id/PickMyLocation"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_baseline_person_pin_circle_24"
+        />
 
 
 

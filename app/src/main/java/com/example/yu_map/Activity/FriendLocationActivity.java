@@ -164,8 +164,14 @@ public class FriendLocationActivity extends AppCompatActivity {
         endPoint.setLatitude(Lang);
         endPoint.setLongitude(Long);
 
-        double PointDis = location.distanceTo(endPoint);
-        Dis = Double.parseDouble(String.format("%.1f", PointDis));
+        if(location == null){
+            Toast.makeText(this, "현재위치를 찾을 수 없습니다",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            double PointDis = location.distanceTo(endPoint);
+            Dis = Double.parseDouble(String.format("%.1f", PointDis));
+        }
+
 
 
             switch(item.getItemId()){
@@ -177,6 +183,10 @@ public class FriendLocationActivity extends AppCompatActivity {
                     intent.putExtra("FriendLongitude", Long);
                     if(Dis > 1000){
                         Toast.makeText(this, "직선거리가 1Km가 넘습니다",Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    else if(location == null){
+                        Toast.makeText(this, "현재위치를 찾을 수 없습니다",Toast.LENGTH_SHORT).show();
                         break;
                     }
                     else{

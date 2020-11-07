@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearItem"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/LectureName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="과목명"
+                android:textSize="10sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/LectureProfessorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="교수이름"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/LectureTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="요일/시간"/>
+
+            <TextView
+                android:id="@+id/LectureGrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="학년 "
+                android:textSize="10sp"/>
+
+            <TextView
+                android:id="@+id/LectureRequire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="필수유무"
+                android:textSize="10sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

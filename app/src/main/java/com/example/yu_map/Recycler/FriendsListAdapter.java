@@ -100,8 +100,6 @@ class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
                 friend.setValue(textView1.getText());
                 v.getContext().startActivity(new Intent(FriendsListAdapter.context, FriendLocationActivity.class));
             }
-
         }
-
     }
 }

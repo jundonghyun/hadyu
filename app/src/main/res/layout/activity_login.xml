@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Email"
+                android:hint="이메일 입력"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"/>
 
@@ -36,7 +36,7 @@
                 android:id="@+id/Login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="비밀번호 입력"
                 android:layout_marginTop="20dp"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -50,7 +50,8 @@
                 android:layout_marginTop="30dp"
                 android:text="Login"
                 android:textStyle="bold"
-                android:background="@drawable/theme_button"/>
+                android:textColor="@color/Black"
+                android:background="@drawable/coner_login_button_background"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,14 +60,15 @@
 
 
                 <Button android:id="@+id/Login_link_register"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Register"
                     android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/linkBlue"
-                    android:layout_centerHorizontal="true"/>
+                    android:textColor="@color/Black"
+                    android:textStyle="bold"
+                    android:background="@drawable/coner_register_button_background"/>
 
 
             </RelativeLayout>

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,13 +46,14 @@ public class StartGuideActivity extends AppCompatActivity {
     private ImageView GuideConer;
     private TextView speed;
     private TextView distance;
+    private Button PointMyLocation;
     private TMapView tMapView = null;
     private TMapPoint tp = null;
     private TMapPoint start, end;
     private Bitmap bitmap;
 
     private Location location;
-    private double MyLatitude, MyLongitude;
+    private double MyLatitude, MyLongitude, RemainDistance;
     private int count = 1;
     private int MapPointcount = 0;
 
@@ -84,6 +86,7 @@ public class StartGuideActivity extends AppCompatActivity {
 
         speed = findViewById(R.id.speed);
         distance = findViewById(R.id.distance);
+        PointMyLocation = findViewById(R.id.PickMyLocation);
 
         TMapData tMapData = new TMapData();
         TMapMarkerItem markerItem1 = new TMapMarkerItem();
@@ -110,6 +113,16 @@ public class StartGuideActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.end);
 
+        PointMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tMapView.setTrackingMode(true);
+                tMapView.setCompassMode(true);
+                tMapView.setZoomLevel(18);
+
+            }
+        });
+
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -125,7 +138,7 @@ public class StartGuideActivity extends AppCompatActivity {
                 double getSpeed = Double.parseDouble(String.format("%.1f", location.getSpeed()));
                 speed.setText("속도: "+getSpeed);
 
-                if(MyLatitude == RouteMapPoint.get(count).getLatitude() && MyLongitude == RouteMapPoint.get(count).getLongitude()){
+                if(MyLatitude == RouteMapPoint.get(MapPointcount).getLatitude() && MyLongitude == RouteMapPoint.get(MapPointcount).getLongitude()){
 
                     MapPointcount++;
                     GuideConer.setVisibility(View.INVISIBLE);
@@ -133,7 +146,8 @@ public class StartGuideActivity extends AppCompatActivity {
 
                 double PointDis_temp = location.distanceTo(endPoint);
                 double Point_distance = Double.parseDouble(String.format("%.1f", PointDis_temp));
-                distance.setText("남은거리: " +Point_distance + "m");
+                RemainDistance = Point_distance;
+                distance.setText(Point_distance +"m" +"앞에서");
 
                 tp = new TMapPoint(MyLatitude, MyLongitude);
                 markerItem1.setIcon(bitmap); // 마커 아이콘 지정
@@ -141,14 +155,18 @@ public class StartGuideActivity extends AppCompatActivity {
                 tMapView.addMarkerItem("markerItem1", markerItem1); // 지
             }
         };
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
 
 
 
-        this.tMapView.setCenterPoint(MyLongitude, MyLatitude);
+        this.tMapView.setCenterPoint(MyLongitude, MyLatitude, true);
         this.tMapView.setCompassMode(true);
         this.tMapView.setMapPosition(TMapView.POSITION_NAVI);
+        this.tMapView.setZoomLevel(18);
+        this.tMapView.setPOIRotate(true);
+        this.tMapView.setMarkerRotate(true);
+        this.tMapView.setPathRotate(true);
 
         AddMyPoint();
         AddMarker();
@@ -170,21 +188,31 @@ public class StartGuideActivity extends AppCompatActivity {
         OneSecond.postDelayed(new Runnable() {
             @Override
             public void run() {
+                double doubletemp = 5.0;
+                String temp;
 
-                if(true){
+                if(doubletemp > RemainDistance || doubletemp == RemainDistance){
 
-                    String temp = RouteTurn.get(count);
+                    if(RemainDistance == 0.0){
+                        return;
+                    }
+
+                    count++;
+                    GuideConer.setVisibility(View.INVISIBLE);
+
+                    temp = RouteTurn.get(count);
 
                     MatchTurnImage(temp);
 
-                    if(MyLatitude == RouteMapPoint.get(count).getLatitude() && MyLongitude == RouteMapPoint.get(count).getLongitude()){
-
-                        count++;
-                        GuideConer.setVisibility(View.INVISIBLE);
-                    }
-
                     OneSecond.postDelayed(this, 1000);
 
+                }
+                else{
+                    temp = RouteTurn.get(count);
+
+                    MatchTurnImage(temp);
+
+                    OneSecond.postDelayed(this, 1000);
                 }
             }
         }, 1000);

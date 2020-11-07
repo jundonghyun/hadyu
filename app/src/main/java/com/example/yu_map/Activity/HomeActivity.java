@@ -64,14 +64,12 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend;
+    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend, ImportLecture, TimeTable;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
     private String request;
-
-    static String Filename = "경로정보.txt";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +80,22 @@ public class HomeActivity extends AppCompatActivity {
         FriendLocation = findViewById(R.id.FriendLocationButton);
         FriendRequestCheck = findViewById(R.id.CheckFriendRequest);
         ListFriend = findViewById(R.id.listFirend);
+        ImportLecture = findViewById(R.id.importLecture);
+        TimeTable = findViewById(R.id.TimeTable);
+
+        TimeTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, TimeTableActivity.class));
+            }
+        });
+
+        ImportLecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, com.example.yu_map.Activity.ImportLecture.class));
+            }
+        });
 
 
         ListFriend.setOnClickListener(new View.OnClickListener() {

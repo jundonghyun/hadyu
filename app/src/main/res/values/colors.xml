@@ -9,6 +9,7 @@
     <color name="Gray">#FF535353</color>
     <color name="Red">#FF0000</color>
     <color name="Green">#549C00</color>
+    <color name="black">#FF000000</color>
 
 
 </resources>

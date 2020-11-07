@@ -57,7 +57,6 @@ public class RegisterActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
 
 
-
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,8 +130,6 @@ public class RegisterActivity extends Activity {
 
         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
     }
-
-
 
 
     /* 유효성 검사 */

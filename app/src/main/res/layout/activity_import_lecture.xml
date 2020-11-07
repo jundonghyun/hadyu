@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ImportLecture"
+    android:gravity="bottom"
+    app:umanoDragView="@id/dragView"
+    app:umanoScrollableView="@id/listView"
+    app:umanoPanelHeight="70dp">
+    <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
+         umanoDragView 드래그 해서 보여줄 view를 선택
+         umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
+         umanoParallaxOffset 에 값을 주면 해당 높이만큼 뒤에 화면을 올려준다.
+         umanoShadowHeight 는 슬라이딩 패널 윗부분에 그림자 효과
+         umanoOverlay 를 false로 해주면 슬라이딩 패널이 위로 보이고 뒷 부분은 반투명하게 보인다. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:text=""
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:text="월"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"/>
+
+
+                <TextView
+                    android:text="화"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:text="수"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:text="목"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:text="금"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="9"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday1"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday1"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday1"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday1"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday1"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday2"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday2"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday2"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday2"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday2"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="11"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday3"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday3"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday3"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday3"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday3"/>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="12"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday4"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday4"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday4"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday4"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday4"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday5"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday5"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday5"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday5"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday5"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="2"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday6"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday6"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday6"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday6"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday6"/>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday7"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday7"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday7"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday7"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday7"/>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="4"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday8"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday8"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday8"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday8"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday8"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="5"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday9"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday9"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday9"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday9"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday9"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="6"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday10"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday10"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday10"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday10"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday10"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="7"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday11"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday11"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday11"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday11"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday11"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="8"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/monday12"/>
+
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/tuesday12"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/wednesday12"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/thursday12"/>
+
+                <com.example.yu_map.Activity.AutoResizeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:background="@drawable/border"
+                    android:id="@+id/friday12"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </FrameLayout>
+
+
+    <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
+    <LinearLayout
+        android:id="@+id/dragView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16sp"
+                android:text="Action"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+        </ListView>
+
+    </LinearLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
