@@ -22,6 +22,10 @@ import java.util.ArrayList;
 public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.ViewHolder> {
     private static Context context;
     public static ArrayList<ShowLectureViewItem> mData = new ArrayList<ShowLectureViewItem>();
+    public static String GlobalFirstDay = null, GlobalSecondDay = null;
+    public static String GlobalLectureName = null;
+    public static int GlobalFirstTime = 0, Firsttemp = 0, GlobalSecondTime = 0, Secondemp = 0;
+
 
     @NonNull
     @Override
@@ -88,21 +92,21 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
 
             if(pos != RecyclerView.NO_POSITION){
                 FirstDay = data.getFirstDays();
-                FirstDayStart = Integer.parseInt(data.getFirstDaysStartTime().substring(0, 2)) % 12;
-                FirstDayFinish = Integer.parseInt(data.getFirstDaysFinishTime().substring(0, 2)) % 12;
+                FirstDayStart = Integer.parseInt(data.getFirstDaysStartTime().substring(0, 2)) - 8;
+                FirstDayFinish = Integer.parseInt(data.getFirstDaysFinishTime().substring(0, 2)) - 8;
                 SecondDay = data.getSecondDays();
-                SecondDayStart = Integer.parseInt(data.getSecondDaysStartTime().substring(0, 2)) % 12;
-                SecondDayFinsih = Integer.parseInt(data.getSecondDaysFinishTime().substring(0, 2)) % 12;
+                SecondDayStart = Integer.parseInt(data.getSecondDaysStartTime().substring(0, 2)) - 8;
+                SecondDayFinsih = Integer.parseInt(data.getSecondDaysFinishTime().substring(0, 2)) - 8;
 
                 if(FirstDay.equals("Monday")){
                     if(TimeTableActivity.Monday[FirstDayStart].getText().toString().equals("") && TimeTableActivity.Monday[FirstDayFinish].getText().toString().equals("")){
+                        GlobalFirstDay = "Monday";
+
                         if(FirstDayStart == FirstDayFinish){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Monday[FirstDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalFirstTime = FirstDayStart;                        }
                         else{
-                            int temp = FirstDayFinish - FirstDayStart;
-                            TimeTableActivity.Monday[FirstDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Monday[FirstDayStart+temp].setText(data.getLectureName());
+                            Firsttemp = FirstDayFinish - FirstDayStart;
                         }
                     }
                     else{
@@ -111,13 +115,14 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }
                 else if(SecondDay.equals("Monday")){
                     if(TimeTableActivity.Monday[SecondDayStart].getText().toString().equals("") && TimeTableActivity.Monday[SecondDayFinsih].getText().toString().equals("")){
+                        GlobalSecondDay = "Monday";
+
                         if(SecondDayStart == SecondDayFinsih){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Monday[SecondDayStart].setText(data.getLectureName());
+                            GlobalLectureName = data.getLectureName();
+                            GlobalSecondTime = SecondDayStart;
                         }
                         else{
-                            int temp = SecondDayFinsih - SecondDayStart;
-                            TimeTableActivity.Monday[SecondDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Monday[SecondDayFinsih].setText(data.getLectureName());
+                            Secondemp = SecondDayFinsih - SecondDayStart;
                         }
                     }
                     else{
@@ -127,13 +132,14 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 } // 월요일 끝
                 if(FirstDay.equals("Tuesday")){
                     if(TimeTableActivity.Tuesday[FirstDayStart].getText().toString().equals("") && TimeTableActivity.Tuesday[FirstDayFinish].getText().toString().equals("")){
+                        GlobalFirstDay = "Tuesday";
+
                         if(FirstDayStart == FirstDayFinish){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Tuesday[FirstDayStart].setText(data.getLectureName());
+                            GlobalLectureName = data.getLectureName();
+                            GlobalFirstTime = FirstDayStart;
                         }
                         else{
-                            int temp = FirstDayFinish - FirstDayStart;
-                            TimeTableActivity.Tuesday[FirstDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Tuesday[FirstDayStart+temp].setText(data.getLectureName());
+                            Firsttemp = FirstDayFinish - FirstDayStart;
                         }
                     }
                     else{
@@ -142,13 +148,14 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }
                 else if(SecondDay.equals("Tuesday")){
                     if(TimeTableActivity.Tuesday[SecondDayStart].getText().toString().equals("") && TimeTableActivity.Tuesday[SecondDayFinsih].getText().toString().equals("")){
+                        GlobalSecondDay = "Tuesday";
+
                         if(SecondDayStart == SecondDayFinsih){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Tuesday[SecondDayStart].setText(data.getLectureName());
+                            GlobalLectureName = data.getLectureName();
+                            GlobalSecondTime = SecondDayStart;
                         }
                         else{
-                            int temp = SecondDayFinsih - SecondDayStart;
-                            TimeTableActivity.Tuesday[SecondDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Tuesday[SecondDayFinsih].setText(data.getLectureName());
+                            Secondemp = SecondDayFinsih - SecondDayStart;
                         }
                     }
                     else{
@@ -158,13 +165,13 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 } // 화요일 끝
                 if(FirstDay.equals("Wednesday")){
                     if(TimeTableActivity.Wednesday[FirstDayStart].getText().toString().equals("") && TimeTableActivity.Wednesday[FirstDayFinish].getText().toString().equals("")){
+                        GlobalFirstDay = "Wednesday";
+
                         if(FirstDayStart == FirstDayFinish){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Wednesday[FirstDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalFirstTime = FirstDayStart;                        }
                         else{
-                            int temp = FirstDayFinish - FirstDayStart;
-                            TimeTableActivity.Wednesday[FirstDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Wednesday[FirstDayStart+temp].setText(data.getLectureName());
+                            Firsttemp = FirstDayFinish - FirstDayStart;
                         }
                     }
                     else{
@@ -173,13 +180,12 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }
                 else if(SecondDay.equals("Wednesday")){
                     if(TimeTableActivity.Wednesday[SecondDayStart].getText().toString().equals("") && TimeTableActivity.Wednesday[SecondDayFinsih].getText().toString().equals("")){
+                        GlobalSecondDay = "Wednesday";
                         if(SecondDayStart == SecondDayFinsih){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Wednesday[SecondDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalSecondTime = SecondDayStart;                        }
                         else{
-                            int temp = SecondDayFinsih - SecondDayStart;
-                            TimeTableActivity.Wednesday[SecondDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Wednesday[SecondDayFinsih].setText(data.getLectureName());
+                            Secondemp = SecondDayFinsih - SecondDayStart;
                         }
                     }
                     else{
@@ -189,13 +195,13 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }//수요일 끝
                 if(FirstDay.equals("Thursday")){
                     if(TimeTableActivity.Thursday[FirstDayStart].getText().toString().equals("") && TimeTableActivity.Thursday[FirstDayFinish].getText().toString().equals("")){
+                        GlobalFirstDay = "Thursday";
+
                         if(FirstDayStart == FirstDayFinish){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Thursday[FirstDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalFirstTime = FirstDayStart;                        }
                         else{
-                            int temp = FirstDayFinish - FirstDayStart;
-                            TimeTableActivity.Thursday[FirstDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Thursday[FirstDayStart+temp].setText(data.getLectureName());
+                            Firsttemp = FirstDayFinish - FirstDayStart;
                         }
                     }
                     else{
@@ -204,13 +210,12 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }
                 else if(SecondDay.equals("Thursday")){
                     if(TimeTableActivity.Thursday[SecondDayStart].getText().toString().equals("") && TimeTableActivity.Thursday[SecondDayFinsih].getText().toString().equals("")){
+                        GlobalSecondDay = "Thursday";
                         if(SecondDayStart == SecondDayFinsih){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Thursday[SecondDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalSecondTime = SecondDayStart;                        }
                         else{
-                            int temp = SecondDayFinsih - SecondDayStart;
-                            TimeTableActivity.Thursday[SecondDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Thursday[SecondDayFinsih].setText(data.getLectureName());
+                            Secondemp = SecondDayFinsih - SecondDayStart;
                         }
                     }
                     else{
@@ -220,13 +225,13 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }//목요일 끝
                 if(FirstDay.equals("Friday")){
                     if(TimeTableActivity.Friday[FirstDayStart].getText().toString().equals("") && TimeTableActivity.Friday[FirstDayFinish].getText().toString().equals("")){
+                        GlobalFirstDay = "Friday";
+
                         if(FirstDayStart == FirstDayFinish){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Friday[FirstDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalFirstTime = FirstDayStart;                        }
                         else{
-                            int temp = FirstDayFinish - FirstDayStart;
-                            TimeTableActivity.Friday[FirstDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Friday[FirstDayStart+temp].setText(data.getLectureName());
+                            Firsttemp = FirstDayFinish - FirstDayStart;
                         }
                     }
                     else{
@@ -235,13 +240,13 @@ public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.
                 }
                 else if(SecondDay.equals("Friday")){
                     if(TimeTableActivity.Friday[SecondDayStart].getText().toString().equals("") && TimeTableActivity.Friday[SecondDayFinsih].getText().toString().equals("")){
+                        GlobalSecondDay = "Friday";
                         if(SecondDayStart == SecondDayFinsih){ //시작시간과 끝나는시간이 1시간 차이일때
-                            TimeTableActivity.Friday[SecondDayStart].setText(data.getLectureName());
-                        }
+                            GlobalLectureName = data.getLectureName();
+                            GlobalSecondTime = SecondDayStart;                        }
+
                         else{
-                            int temp = SecondDayFinsih - SecondDayStart;
-                            TimeTableActivity.Friday[SecondDayStart].setText(data.getLectureName());
-                            TimeTableActivity.Friday[SecondDayFinsih].setText(data.getLectureName());
+                            Secondemp = SecondDayFinsih - SecondDayStart;
                         }
                     }
                     else{
