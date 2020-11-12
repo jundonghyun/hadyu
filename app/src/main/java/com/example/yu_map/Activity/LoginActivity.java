@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendData;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
@@ -59,9 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mEmail.getText().toString() == null || mPassword.getText().toString() == null){
+                    Toast.makeText(context, "이메일 혹은 비밀번호가 입력되지 않았습니다", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Login (mEmail.getText().toString(), mPassword.getText().toString());
                 ManageConnection();
-
             }
         });
 
@@ -90,6 +94,12 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "SignInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "이메일 혹은 비밀번호가 입력되지 않았습니다", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

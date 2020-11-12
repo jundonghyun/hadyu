@@ -37,15 +37,16 @@ public class ImportLecture extends AppCompatActivity {
         setContentView(R.layout.activity_import_lecture);
 
 
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "애런애덜즈먼", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "데보라마제룰레", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "질리안듀베이", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "그렉레이노", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "토마스듀버네이", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "에릭쉬나이더", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "제니퍼데니스", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "윌리암알지오", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
-        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "엘라도런", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "애런애덜즈먼", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "데보라마제룰레", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "질리안듀베이", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "그렉레이노", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "토마스듀버네이", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "에릭쉬나이더", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "제니퍼데니스", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "윌리암알지오", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+//        Academic_English.add(new Lecture("1","교양필수",  "Academic_English", "엘라도런", "Tuesday", "1700", "1750", "Thursday", "1700", "1750"));
+        Academic_English.add(new Lecture("1","전공필수",  "LearningJava", "홍정규", "Monday", "1300", "1500", "Thursday", "1400", "1500"));
 
 
 

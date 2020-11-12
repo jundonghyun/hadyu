@@ -1,5 +1,6 @@
 package com.example.yu_map.TimeTable.List.Major.CollegeOfNaturalSciences;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -70,6 +71,7 @@ public class ListCollegeofNaturalSciencesAdapter extends RecyclerView.Adapter<Li
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION){
                 ShowLectureActivity.FinalMajor = textView.getText().toString();
+                ((Activity)v.getContext()).finish();
                 v.getContext().startActivity(new Intent(ListCollegeofNaturalSciencesAdapter.context, GradeActivity.class));
             }
         }

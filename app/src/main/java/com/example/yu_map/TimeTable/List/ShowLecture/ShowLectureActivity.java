@@ -25,7 +25,6 @@ import java.util.Collection;
 
 
 public class ShowLectureActivity extends AppCompatActivity {
-
     private ShowLectureAdapter adapter;
     public static String FinalMajor;
     private String Grade = GradeAdapter.grade;
@@ -54,47 +53,51 @@ public class ShowLectureActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference GetLecture = db.getReference().child("Lecture")
-                .child("Major").child(FinalMajor).child("Grade").child(Grade);
-        GetLecture.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    Lecture = ds.getKey();
-                    int idx = Lecture.indexOf("+");
-                    final String lec = Lecture.substring(0, idx);
-                    ProfessorName = Lecture.substring(idx + 1, Lecture.length());
+        if(adapter.getItemCount() == 0){
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            DatabaseReference GetLecture = db.getReference().child("Lecture")
+                    .child("Major").child(FinalMajor).child("Grade").child(Grade);
+            GetLecture.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds : snapshot.getChildren()) {
+                        Lecture = ds.getKey();
+                        int idx = Lecture.indexOf("+");
+                        final String lec = Lecture.substring(0, idx);
+                        ProfessorName = Lecture.substring(idx + 1, Lecture.length());
 
-                    //GetLecture.child(Lecture)
+                        //GetLecture.child(Lecture)
+                        FirstDays = snapshot.child(Lecture).child("FirstDays").getValue().toString();
+                        FirstDaysStartTime = snapshot.child(Lecture).child("FirstDaysStartTime").getValue().toString();
+                        FirstDaysFinishTime = snapshot.child(Lecture).child("FirstDaysFinishTime").getValue().toString();
+                        SecondDays = snapshot.child(Lecture).child("SecondDays").getValue().toString();
+                        SecondDaysStartTime = snapshot.child(Lecture).child("SecondDaysStartTime").getValue().toString();
+                        SecondDaysFinishTime = snapshot.child(Lecture).child("SecondDaysFinishTime").getValue().toString();
+                        Require = snapshot.child(Lecture).child("이수구분").getValue().toString();
+                        TotalSchedule = FirstDays + "" + FirstDaysStartTime + "-" + FirstDaysFinishTime + "," + SecondDays + "" + SecondDaysStartTime + "-" + SecondDaysFinishTime;
+                        addItem(Grade, lec, ProfessorName, FirstDays, FirstDaysStartTime,
+                                FirstDaysFinishTime, SecondDays, SecondDaysStartTime, SecondDaysFinishTime, Require, TotalSchedule);
 
-
-                    FirstDays = snapshot.child(Lecture).child("FirstDays").getValue().toString();
-                    FirstDaysStartTime = snapshot.child(Lecture).child("FirstDaysStartTime").getValue().toString();
-                    FirstDaysFinishTime = snapshot.child(Lecture).child("FirstDaysFinishTime").getValue().toString();
-                    SecondDays = snapshot.child(Lecture).child("SecondDays").getValue().toString();
-                    SecondDaysStartTime = snapshot.child(Lecture).child("SecondDaysStartTime").getValue().toString();
-                    SecondDaysFinishTime = snapshot.child(Lecture).child("SecondDaysFinishTime").getValue().toString();
-                    Require = snapshot.child(Lecture).child("이수구분").getValue().toString();
-                    TotalSchedule = FirstDays + "" + FirstDaysStartTime + "-" + FirstDaysFinishTime + "," + SecondDays + "" + SecondDaysStartTime + "-" + SecondDaysFinishTime;
-                    addItem(Grade, lec, ProfessorName, FirstDays, FirstDaysStartTime,
-                            FirstDaysFinishTime, SecondDays, SecondDaysStartTime, SecondDaysFinishTime, Require, TotalSchedule);
-
-                    adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
+                }
+            });
+        }
+        else{
+            return;
+        }
     }
 
     private void addItem(String grade, String lecturename, String professor, String FirstDays, String FirstDaysStartTime
     , String FirstDaysFinishTime, String SecondDays, String SecondDaysStartTime, String SecondDaysFinishTime, String require, String TotalSchedule){
+
         ShowLectureViewItem data = new ShowLectureViewItem();
+
         data.setLectureGrade(grade+"학년");
         data.setLectureName(lecturename);
         data.setLectureProfessorName(professor);

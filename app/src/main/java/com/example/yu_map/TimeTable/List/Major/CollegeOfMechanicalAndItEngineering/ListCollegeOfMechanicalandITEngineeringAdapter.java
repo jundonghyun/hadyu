@@ -1,5 +1,6 @@
 package com.example.yu_map.TimeTable.List.Major.CollegeOfMechanicalAndItEngineering;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -73,6 +74,7 @@ public class ListCollegeOfMechanicalandITEngineeringAdapter extends RecyclerView
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION){
                 ShowLectureActivity.FinalMajor = textView.getText().toString();
+                ((Activity)v.getContext()).finish();
                 v.getContext().startActivity(new Intent(ListCollegeOfMechanicalandITEngineeringAdapter.context, GradeActivity.class));
             }
         }

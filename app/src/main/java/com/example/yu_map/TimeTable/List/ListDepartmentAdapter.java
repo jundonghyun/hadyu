@@ -1,5 +1,6 @@
 package com.example.yu_map.TimeTable.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -68,9 +69,11 @@ public class ListDepartmentAdapter extends RecyclerView.Adapter<ListDepartmentAd
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION){
                 if(textView.getText().equals("기계IT대학")){
+                    ((Activity)v.getContext()).finish();
                     v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeOfMechanicalandITEngineeringActivity.class));
                 }
                 else if(textView.getText().equals("자연과학대학")){
+                    ((Activity)v.getContext()).finish();
                     v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeofNaturalSciencesActivity.class));
                 }
             }
