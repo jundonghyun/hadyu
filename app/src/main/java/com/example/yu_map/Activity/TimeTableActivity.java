@@ -143,6 +143,8 @@ public class TimeTableActivity extends AppCompatActivity {
         String NickName = Email.substring(0, idx);
 
 
+
+
         dbs = FirebaseDatabase.getInstance();
         Dbr = dbs.getReference().child("TimeTable").child(NickName);
 
