@@ -47,7 +47,7 @@ public class ListDepartmentAdapter extends RecyclerView.Adapter<ListDepartmentAd
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
         private ListDepartmentViewItem data;
 
@@ -55,28 +55,28 @@ public class ListDepartmentAdapter extends RecyclerView.Adapter<ListDepartmentAd
             super(itemView);
 
             textView = itemView.findViewById(R.id.DepartmentName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        if(textView.getText().equals("기계IT대학")){
+                            ((Activity)v.getContext()).finish();
+                            v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeOfMechanicalandITEngineeringActivity.class));
+                        }
+                        else if(textView.getText().equals("자연과학대학")){
+                            ((Activity)v.getContext()).finish();
+                            v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeofNaturalSciencesActivity.class));
+                        }
+                    }
+                }
+            });
         }
 
         void onBind(ListDepartmentViewItem data){
             this.data = data;
             textView.setText(data.getDepartmentname());
-
-            textView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int pos = getAdapterPosition();
-            if(pos != RecyclerView.NO_POSITION){
-                if(textView.getText().equals("기계IT대학")){
-                    ((Activity)v.getContext()).finish();
-                    v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeOfMechanicalandITEngineeringActivity.class));
-                }
-                else if(textView.getText().equals("자연과학대학")){
-                    ((Activity)v.getContext()).finish();
-                    v.getContext().startActivity(new Intent(ListDepartmentAdapter.context, ListCollegeofNaturalSciencesActivity.class));
-                }
-            }
         }
     }
 }

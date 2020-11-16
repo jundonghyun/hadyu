@@ -51,7 +51,7 @@ public class ListCollegeOfMechanicalandITEngineeringAdapter extends RecyclerView
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         private ListCollegeOfMechanicalandITEngineeringViewItem data;
 
@@ -60,23 +60,24 @@ public class ListCollegeOfMechanicalandITEngineeringAdapter extends RecyclerView
             super(itemView);
 
             textView = itemView.findViewById(R.id.MajorName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        ShowLectureActivity.FinalMajor = textView.getText().toString();
+                        ((Activity)v.getContext()).finish();
+
+                        v.getContext().startActivity(new Intent(ListCollegeOfMechanicalandITEngineeringAdapter.context, GradeActivity.class));
+                    }
+                }
+            });
         }
 
         void onBind(ListCollegeOfMechanicalandITEngineeringViewItem data){
             this.data = data;
             textView.setText(data.getMajorName());
-
-            textView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int pos = getAdapterPosition();
-            if(pos != RecyclerView.NO_POSITION){
-                ShowLectureActivity.FinalMajor = textView.getText().toString();
-                ((Activity)v.getContext()).finish();
-                v.getContext().startActivity(new Intent(ListCollegeOfMechanicalandITEngineeringAdapter.context, GradeActivity.class));
-            }
         }
     }
 }

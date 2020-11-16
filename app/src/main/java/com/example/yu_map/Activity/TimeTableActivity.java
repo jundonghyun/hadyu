@@ -4,12 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,9 +26,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yu_map.Activity.FriendTimeTable.TimeTableFriendListActivity;
 import com.example.yu_map.Lecture.Lecture;
 import com.example.yu_map.Lecture.Lecture_ComputerEngineering;
 import com.example.yu_map.R;
+import com.example.yu_map.Recycler.Data;
 import com.example.yu_map.Recycler.TimeTableAdapter;
 import com.example.yu_map.TimeTable.List.ListDepartmentActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +39,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class TimeTableActivity extends AppCompatActivity {
 
@@ -149,6 +162,7 @@ public class TimeTableActivity extends AppCompatActivity {
         Dbr = dbs.getReference().child("TimeTable").child(NickName);
 
         Dbr.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds : snapshot.getChildren()){
@@ -738,8 +752,8 @@ public class TimeTableActivity extends AppCompatActivity {
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Dbr.removeValue();
                         if(RadioItems[selectedItem[0]].equals("과목삭제")){
+                            Dbr.removeValue();
                             for(int i = 1; i < Monday.length; i++){
                                 if(Monday[i].getText().equals(Lecture)){
                                     Monday[i].setText("");
@@ -768,6 +782,132 @@ public class TimeTableActivity extends AppCompatActivity {
                             Toast.makeText(TimeTableActivity.this, Lecture+"과목을 삭제했습니다", Toast.LENGTH_SHORT).show();
                         }
                         else{
+                            /*알람 매니저*/
+                            AlarmManager alarmManager = (AlarmManager) TimeTableActivity.this.getSystemService(Context.ALARM_SERVICE);
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(System.currentTimeMillis());
+
+
+
+                            /*노티피케이션 매니저*/
+                            NotificationManager notificationManager=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                            //Notification 객체를 생성해주는 건축가객체 생성(AlertDialog 와 비슷)
+                            NotificationCompat.Builder builder= null;
+
+                            //Oreo 버전(API26 버전)이상에서는 알림시에 NotificationChannel 이라는 개념이 필수 구성요소가 됨.
+                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+                                String channelID="channel_01"; //알림채널 식별자
+                                String channelName="MyChannel01"; //알림채널의 이름(별명)
+
+                                //알림채널 객체 만들기
+                                NotificationChannel channel= new NotificationChannel(channelID,channelName,NotificationManager.IMPORTANCE_DEFAULT);
+
+                                //알림매니저에게 채널 객체의 생성을 요청
+                                notificationManager.createNotificationChannel(channel);
+
+                                //알림건축가 객체 생성
+                                builder=new NotificationCompat.Builder(TimeTableActivity.this, channelID);
+
+
+                            }else{
+                                //알림 건축가 객체 생성
+                                builder= new NotificationCompat.Builder(TimeTableActivity.this, null);
+                            }
+
+                            for(int i = 1; i < Monday.length; i++){
+                                if(Monday[i].getText().equals(Lecture)){
+
+                                    builder.setSmallIcon(android.R.drawable.ic_menu_view);
+
+                                    //상태바를 드래그하여 아래로 내리면 보이는
+                                    //알림창(확장 상태바)의 설정
+                                    builder.setContentTitle("Title");//알림창 제목
+                                    builder.setContentText(Monday[i].getText().toString());//알림창 내용
+
+
+                                    Dbr = dbs.getReference().child("TimeTable").child(NickName);
+                                    Dbr.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for(DataSnapshot ds : snapshot.getChildren()){
+                                                String Lecture = ds.getKey();
+
+                                                String FirstDays = snapshot.child(Lecture).child("FirstDays").getValue().toString();
+                                                String FirstDaysStartTimeTemp = snapshot.child(Lecture).child("FirstDaysStartTime").getValue().toString();
+                                                int FirstDaysStartTime  = Integer.parseInt(FirstDaysStartTimeTemp);
+
+                                                String SecondDays = snapshot.child(Lecture).child("SecondDays").getValue().toString();
+                                                String SecondDaysStartTimeTemp = snapshot.child(Lecture).child("SecondDaysStartTime").getValue().toString();
+                                                int SecondDaysStartTime = Integer.parseInt(SecondDaysStartTimeTemp);
+
+                                                calendar.set(Calendar.MONDAY, FirstDaysStartTime - 10);
+
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                }
+                            }
+                            for(int i = 1; i < Tuesday.length; i++){
+                                if(Tuesday[i].getText().equals(Lecture)){
+                                    builder.setSmallIcon(android.R.drawable.ic_menu_view);
+
+                                    //상태바를 드래그하여 아래로 내리면 보이는
+                                    //알림창(확장 상태바)의 설정
+                                    builder.setContentTitle("Title");//알림창 제목
+                                    builder.setContentText(Tuesday[i].getText().toString());//알림창 내용
+                                }
+                            }
+                            for(int i = 1; i < Wednesday.length; i++){
+                                if(Wednesday[i].getText().equals(Lecture)){
+                                    builder.setSmallIcon(android.R.drawable.ic_menu_view);
+
+                                    //상태바를 드래그하여 아래로 내리면 보이는
+                                    //알림창(확장 상태바)의 설정
+                                    builder.setContentTitle("Title");//알림창 제목
+                                    builder.setContentText(Wednesday[i].getText().toString());//알림창 내용
+                                }
+                            }
+                            for(int i = 1; i < Thursday.length; i++){
+                                if(Thursday[i].getText().equals(Lecture)){
+                                    builder.setSmallIcon(android.R.drawable.ic_menu_view);
+
+                                    //상태바를 드래그하여 아래로 내리면 보이는
+                                    //알림창(확장 상태바)의 설정
+                                    builder.setContentTitle("Title");//알림창 제목
+                                    builder.setContentText(Thursday[i].getText().toString());//알림창 내용
+                                }
+                            }
+                            for(int i = 1; i < Friday.length; i++){
+                                if(Friday[i].getText().equals(Lecture)){
+                                    builder.setSmallIcon(android.R.drawable.ic_menu_view);
+
+                                    //상태바를 드래그하여 아래로 내리면 보이는
+                                    //알림창(확장 상태바)의 설정
+                                    builder.setContentTitle("Title");//알림창 제목
+                                    builder.setContentText(Friday[i].getText().toString());//알림창 내용
+                                }
+                            }
+
+                            //건축가에게 알림 객체 생성하도록
+                            Notification notification=builder.build();
+
+                            //알림매니저에게 알림(Notify) 요청
+                            long now = System.currentTimeMillis();
+                            Date date = new Date(now);
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E요일", Locale.ENGLISH);
+                            String gtetTime = simpleDateFormat.format(date);
+
+                            notificationManager.notify(1, notification);
+
                             Toast.makeText(TimeTableActivity.this, "출석알림 선택", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -818,6 +958,7 @@ public class TimeTableActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.MakeTimeTable:
+                startActivity(new Intent(TimeTableActivity.this, TimeTableFriendListActivity.class));
 
         }
 

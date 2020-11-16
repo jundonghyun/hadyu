@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/MakeTimeTable"
-        android:title="시간표 만들기"/>
+        android:title="친구 시간표 보기"/>
 
 
 </menu>

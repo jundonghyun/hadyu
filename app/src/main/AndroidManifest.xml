@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TimeTable.List.ShowLecture.ShowLectureActivity"></activity>
+        <activity android:name=".Activity.FriendTimeTable.FriendTimeTableActivity"></activity>
+        <activity android:name=".Activity.FriendTimeTable.TimeTableFriendListActivity" />
+        <activity android:name=".TimeTable.List.ShowLecture.ShowLectureActivity" />
         <activity android:name=".TimeTable.List.Grade.GradeActivity" />
         <activity android:name=".TimeTable.List.Major.CollegeOfMechanicalAndItEngineering.ListCollegeOfMechanicalandITEngineeringActivity" />
         <activity android:name=".TimeTable.List.Major.CollegeOfNaturalSciences.ListCollegeofNaturalSciencesActivity" />
