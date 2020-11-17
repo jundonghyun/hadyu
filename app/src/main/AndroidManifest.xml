@@ -15,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.FriendTimeTable.FriendTimeTableActivity"></activity>
+        <activity android:name=".TaxiCarPool.TaxiCarPoolUserWaitActivity"></activity>
+        <activity android:name=".TaxiCarPool.SelectedFinishPositionActivity" />
+        <activity android:name=".TaxiCarPool.SelectStartPositionActivity" />
+        <activity android:name=".TaxiCarPool.TaxiCarPoolMainActivity" />
+        <activity android:name=".Activity.FriendTimeTable.FriendTimeTableActivity" />
         <activity android:name=".Activity.FriendTimeTable.TimeTableFriendListActivity" />
         <activity android:name=".TimeTable.List.ShowLecture.ShowLectureActivity" />
         <activity android:name=".TimeTable.List.Grade.GradeActivity" />

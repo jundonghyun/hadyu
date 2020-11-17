@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,17 +16,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.yu_map.AddFriendActivity;
-import com.example.yu_map.Recycler.FriendActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendRequestQueueActivity;
 import com.example.yu_map.Recycler.FriendsListActivity;
+import com.example.yu_map.TaxiCarPool.TaxiCarPoolMainActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,28 +40,17 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.WriteAbortedException;
 import java.util.HashMap;
-import java.util.Map;
 //import com.example.yumap_tmap.R;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend, ImportLecture, TimeTable;
+    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend, ImportLecture, TimeTable, TaxiCarpool;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
@@ -82,6 +68,14 @@ public class HomeActivity extends AppCompatActivity {
         ListFriend = findViewById(R.id.listFirend);
         ImportLecture = findViewById(R.id.importLecture);
         TimeTable = findViewById(R.id.TimeTable);
+        TaxiCarpool = findViewById(R.id.taxicarpool);
+
+        TaxiCarpool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, TaxiCarPoolMainActivity.class));
+            }
+        });
 
         TimeTable.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,6 +62,13 @@
             android:text="시간표"
             android:layout_below="@+id/importLecture"/>
 
+        <Button
+            android:id="@+id/taxicarpool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TimeTable"
+            android:text="택시카풀"/>
+
     </RelativeLayout>
 
 </LinearLayout>

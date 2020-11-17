@@ -66,7 +66,6 @@ import java.util.Map;
 
 public class FriendLocationActivity extends AppCompatActivity {
 
-    private GoogleMap map;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String TAG = "FriendLocationActivity";
