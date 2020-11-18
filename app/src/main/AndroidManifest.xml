@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaxiCarPool.TaxiCarPoolUserWaitActivity"></activity>
+        <activity android:name=".Chat.ChatListActivity"></activity>
+        <activity android:name=".Chat.ChatActivity"
+            android:windowSoftInputMode="adjustUnspecified|adjustPan"/>
+        <activity android:name=".TaxiCarPool.TaxiCarPoolUserWaitActivity" />
         <activity android:name=".TaxiCarPool.SelectedFinishPositionActivity" />
         <activity android:name=".TaxiCarPool.SelectStartPositionActivity" />
         <activity android:name=".TaxiCarPool.TaxiCarPoolMainActivity" />

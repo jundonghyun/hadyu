@@ -69,6 +69,7 @@
             android:layout_below="@+id/TimeTable"
             android:text="택시카풀"/>
 
+
     </RelativeLayout>
 
 </LinearLayout>

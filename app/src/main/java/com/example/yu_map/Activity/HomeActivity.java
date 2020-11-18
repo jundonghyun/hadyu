@@ -22,10 +22,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.yu_map.AddFriendActivity;
+import com.example.yu_map.Chat.ChatActivity;
+import com.example.yu_map.Chat.ChatListActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendRequestQueueActivity;
 import com.example.yu_map.Recycler.FriendsListActivity;
 import com.example.yu_map.TaxiCarPool.TaxiCarPoolMainActivity;
+import com.example.yu_map.TimeTable.List.Major.CollegeOfMechanicalAndItEngineering.ListCollegeOfMechanicalandITEngineeringActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
