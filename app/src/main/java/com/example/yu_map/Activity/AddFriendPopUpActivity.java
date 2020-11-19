@@ -69,9 +69,6 @@ public class AddFriendPopUpActivity extends AppCompatActivity {
 
             }
         });
-
-        AddFriendAC = (AddFriendActivity) AddFriendAC;
-        AddFriendAC.finish();
     }
 
     private void AddFriend() {

@@ -71,14 +71,6 @@ public class HomeActivity extends AppCompatActivity {
         ListFriend = findViewById(R.id.listFirend);
         ImportLecture = findViewById(R.id.importLecture);
         TimeTable = findViewById(R.id.TimeTable);
-        TaxiCarpool = findViewById(R.id.taxicarpool);
-
-        TaxiCarpool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, TaxiCarPoolMainActivity.class));
-            }
-        });
 
         TimeTable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,91 +190,9 @@ public class HomeActivity extends AppCompatActivity {
                                     Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
                                     Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
 
-
-
-                                    /*db.collection("UserLocation")
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
-
-                                                        /* 새로운 UserLocation생성 */
-                                                        /*if(task.getResult().size() > 0){
-                                                            User.put("Latitude", geoPoint.getLatitude());
-                                                            User.put("Longitude", geoPoint.getLongitude());
-
-                                                            DocumentReference newUserRef = db
-                                                                    .collection("UserLocation")
-                                                                    .document(Email);
-
-                                                            newUserRef.set(User)
-                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            Log.d(TAG, "GeoPoint successfully Written");
-
-                                                                        }
-                                                                    })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Log.d(TAG, "GeoPoint Writing Failure");
-
-                                                                        }
-                                                                    });
-                                                        }
-                                                    }
-                                                    /* email로 시작하는 UserLocation이 있는경우 */
-
-                                                    /*else{
-                                                        DocumentReference newUserLocationRef = db
-                                                                .collection("UserLocation")
-                                                                .document(Email);
-
-                                                        newUserLocationRef
-                                                                .update("Longitude", geoPoint.getLongitude())
-                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void aVoid) {
-                                                                        Log.d(TAG, "DocumentSnapshot added");
-
-                                                                    }
-                                                                })
-                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-                                                                        Log.d(TAG, "Error adding document", e);
-
-                                                                    }
-                                                                });
-
-                                                        newUserLocationRef
-                                                                .update("Latitude", geoPoint.getLatitude())
-                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                    @Override
-                                                                    public void onSuccess(Void aVoid) {
-                                                                        Log.d(TAG, "DocumentSnapshot added");
-
-                                                                    }
-                                                                })
-                                                                .addOnFailureListener(new OnFailureListener() {
-                                                                    @Override
-                                                                    public void onFailure(@NonNull Exception e) {
-                                                                        Log.d(TAG, "Error adding document", e);
-                                                                    }
-                                                                });
-                                                    }
-                                                }
-                                            });*/
                                 }
                             }
                         });
-                break;
-
-            case R.id.FriendBtn:
-                startActivity(new Intent(HomeActivity.this, AddFriendActivity.class));
-
                 break;
         }
 

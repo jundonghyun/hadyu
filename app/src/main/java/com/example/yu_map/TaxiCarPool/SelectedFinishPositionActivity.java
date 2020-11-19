@@ -121,15 +121,19 @@ public class SelectedFinishPositionActivity extends AppCompatActivity implements
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(SelectedFinishPositionActivity.this, "도착지 설정되었습니다", Toast.LENGTH_SHORT).show();
-                DatabaseReference dbr = db.getReference().child("TaxiCarPool").child(NickName);
-                dbr.child("출발지").setValue(SelectStartPositionActivity.CarpoolStartAddress);
-                dbr.child("출발지 위도").setValue(SelectStartPositionActivity.CarpoolStartLatitude);
-                dbr.child("출발지 경도").setValue(SelectStartPositionActivity.CarpoolStartLongitude);
-                dbr.child("도착지").setValue(CarpoolFinishAddress);
-                dbr.child("도착지 위도").setValue(CarpoolFinishLatitude);
-                dbr.child("도착지 경도").setValue(CarpoolFinishLongitude);
+                DatabaseReference dbr = db.getReference().child("TaxiCarPool").push();
+                dbr.child("makerID").setValue(NickName);
+                dbr.child("start").setValue(SelectStartPositionActivity.CarpoolStartAddress);
+                dbr.child("startLatitude").setValue(SelectStartPositionActivity.CarpoolStartLatitude);
+                dbr.child("startLongitude").setValue(SelectStartPositionActivity.CarpoolStartLongitude);
+                dbr.child("end").setValue(CarpoolFinishAddress);
+                dbr.child("finishLatitude").setValue(CarpoolFinishLatitude);
+                dbr.child("finsiahLongitude").setValue(CarpoolFinishLongitude);
 
-                startActivity(new Intent(SelectedFinishPositionActivity.this, TaxiCarPoolUserWaitActivity.class));
+                Intent intent = new Intent(SelectedFinishPositionActivity.this, TaxiCarPoolUserWaitActivity.class);
+                intent.putExtra("makerid", NickName);
+                startActivity(intent);
+                //startActivity(new Intent(SelectedFinishPositionActivity.this, TaxiCarPoolUserWaitActivity.class));
 
             }
         }).setNegativeButton("취소", new DialogInterface.OnClickListener() {

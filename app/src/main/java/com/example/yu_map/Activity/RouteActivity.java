@@ -25,13 +25,16 @@ public class RouteActivity extends AppCompatActivity {
     double start_Latitude;
     double start_Longitude;
 
+    TextView Time, Distance;
+
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_route);
         TMapData tMapData = new TMapData();
         final TMapView tMapView = new TMapView(this);
-        final TextView textView = (TextView) findViewById(R.id.returntime);
+        Time = findViewById(R.id.Route_Activity_time);
+        Distance = findViewById(R.id.Route_Activity_distance);
         Intent intent = getIntent();
         this.start_Latitude = intent.getExtras().getDouble("start_Latitude");
         this.start_Longitude = intent.getExtras().getDouble("start_Longitude");
@@ -61,6 +64,8 @@ public class RouteActivity extends AppCompatActivity {
                 String dis = "";
                 String time = "";
                 int num = 0;
+                double temp;
+                double dtemp;
                 NodeList nodeListPlacemark = document.getDocumentElement().getElementsByTagName("Document");
                 for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
                     NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
@@ -76,7 +81,11 @@ public class RouteActivity extends AppCompatActivity {
                         }
                     }
                 }
-                textView.setText("총 거리는 " + dis + "m 입니다.\n소요시간은" + num + "분 예상됩니다");
+                Time.setText(num + "분");
+                temp = Integer.parseInt(dis);
+                dtemp = temp/1000;
+                dis = String.format("%.1f", dtemp);
+                Distance.setText(dis + "km");
             }
         });
     }

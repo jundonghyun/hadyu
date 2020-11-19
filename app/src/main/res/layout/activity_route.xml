@@ -11,14 +11,51 @@
         android:orientation="vertical"
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="bottom">
 
-        <TextView
-            android:textSize="20dp"
-            android:id="@+id/returntime"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text=""/>
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:textSize="30dp"
+                android:id="@+id/Route_Activity_time"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:textColor="@color/black"
+                android:hint="소요시간"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/Route_Activity_distance"
+                android:textSize="20dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="남은거리"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

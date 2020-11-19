@@ -2,6 +2,7 @@ package com.example.yu_map.Activity;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 //import com.example.yumap_tmap.R;
 import com.example.yu_map.MapPoint;
@@ -20,22 +24,25 @@ import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
+import com.skt.Tmap.TmapAuthentication;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
-    private static int mMarkerID;
-    TMapPoint finishPoint;
-    double finish_Latitude;
-    double finish_Longitude;
     private ArrayList<String> mArrayMakerID = new ArrayList<>();
-    Context mContext = null;
     private ArrayList<MapPoint> m_mapPoint = new ArrayList<>();
-    TMapPoint startPoint;
-    double start_Latitude;
-    double start_Longitude;
     private TMapView tMapView = null;
-    int item;
+
+    private String[] RadioItems = new String[]{"출발지", "도착지"};
+    private int[] selectedItem = {0};
+    private int mMarkerID;
+    private double finish_Latitude;
+    private double finish_Longitude;
+    private double start_Latitude;
+    private double start_Longitude;
+
+    Context mContext = null;
 
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
@@ -64,31 +71,46 @@ public class MainActivity extends AppCompatActivity {
         ((LinearLayout) findViewById(R.id.mapview)).addView(this.tMapView);
         this.tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {
-                startmsg.setText(String.valueOf(tMapMarkerItem.getName()));
-                TMapPoint startlocation = tMapMarkerItem.getTMapPoint();
-                MainActivity.this.start_Latitude = startlocation.getLatitude();
-                MainActivity.this.start_Longitude = startlocation.getLongitude();
-            }
-        });
-        this.tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
-            public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList2, TMapPoint tMapPoint, PointF pointF) {
-                return false;
-            }
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("기능을 선택하세요")
+                        .setSingleChoiceItems(RadioItems, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                selectedItem[0] = which;
+                            }
+                        })
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(RadioItems[selectedItem[0]].equals("출발지")){
+                                    String start = String.valueOf(tMapMarkerItem.getCalloutTitle());
+                                    TMapPoint startlocation = tMapMarkerItem.getTMapPoint();
+                                    startmsg.setText(start);
+                                    MainActivity.this.start_Latitude = startlocation.getLatitude();
+                                    MainActivity.this.start_Longitude = startlocation.getLongitude();
 
-            public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList2, TMapPoint tMapPoint, PointF pointF) {
-                Iterator<TMapMarkerItem> it = arrayList.iterator();
-                while (it.hasNext()) {
-                    TMapMarkerItem item = it.next();
-                    String finish = String.valueOf(item.getCalloutTitle());
-                    TMapPoint finishlocation = item.getTMapPoint();
-                    finishmsg.setText(finish);
-                    MainActivity.this.finish_Latitude = finishlocation.getLatitude();
-                    MainActivity.this.finish_Longitude = finishlocation.getLongitude();
-                }
-                Log.d("EndTest", " EndTest");
-                return false;
+                                }
+                                else{
+                                    String finish = String.valueOf(tMapMarkerItem.getCalloutTitle());
+                                    TMapPoint finishlocation = tMapMarkerItem.getTMapPoint();
+                                    finishmsg.setText(finish);
+                                    MainActivity.this.finish_Latitude = finishlocation.getLatitude();
+                                    MainActivity.this.finish_Longitude = finishlocation.getLongitude();
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(MainActivity.this, "취소하였습니다", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                builder.create();
+                builder.show();
             }
         });
+
     }
 
     public void addPoint() {
