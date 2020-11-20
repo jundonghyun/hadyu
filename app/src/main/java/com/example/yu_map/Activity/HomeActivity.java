@@ -13,13 +13,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.Chat.ChatActivity;
@@ -35,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,79 +57,74 @@ import java.util.HashMap;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private Button Login, Map, FriendLocation, FriendRequestCheck, ListFriend, ImportLecture, TimeTable, TaxiCarpool;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
+    private TextView drawer_username;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
     private String request;
+    NavigationView navigationView;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle barDrawerToggle;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_home);
 
-        Login = findViewById(R.id.loginbutton);
-        Map = findViewById(R.id.map);
-        FriendLocation = findViewById(R.id.FriendLocationButton);
-        FriendRequestCheck = findViewById(R.id.CheckFriendRequest);
-        ListFriend = findViewById(R.id.listFirend);
-        ImportLecture = findViewById(R.id.importLecture);
-        TimeTable = findViewById(R.id.TimeTable);
 
-        TimeTable.setOnClickListener(new View.OnClickListener() {
+        navigationView = findViewById(R.id.home_navigation_view);
+        drawerLayout = findViewById(R.id.home_drawer);
+        drawer_username = findViewById(R.id.home_navigation_drawer_username);
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, TimeTableActivity.class));
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()){
+                    case R.id.home_navigation_menu_map:
+                        startActivity(new Intent(HomeActivity.this.getApplicationContext(), MainActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_friendlocation:
+                        startActivity(new Intent(HomeActivity.this,FriendLocationActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_timetable:
+                        startActivity(new Intent(HomeActivity.this, TimeTableActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_friendrequestcheck:
+                        startActivity(new Intent(HomeActivity.this, FriendRequestQueueActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_friendlist:
+                        startActivity(new Intent(HomeActivity.this, FriendsListActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_logout:
+                        moveTaskToBack(true); //1단계 태스크 백그라운드로 이동
+                        finishAndRemoveTask(); // 2단계 액티비티종료 + 태스크 리스트에서 지우기
+                        android.os.Process.killProcess(android.os.Process.myPid()); // 3단계 앱 프로세스 종료
+                        break;
+                }
+
+                drawerLayout.closeDrawer(navigationView);
+
+                return false;
             }
         });
 
-        ImportLecture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, com.example.yu_map.Activity.ImportLecture.class));
-            }
-        });
+        //Drawer 조절용 토글 버튼 객체 생성
+        barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //실선아이콘 모양으로 보이도록
+        //토글버튼의 동기를 맞추기
+        barDrawerToggle.syncState();
+        // 실선 아이콘과 화살표아이콘이 자동으로 전환되도록
+        drawerLayout.addDrawerListener(barDrawerToggle);
 
-
-        ListFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, FriendsListActivity.class));
-
-            }
-        });
-
-        FriendRequestCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(HomeActivity.this, FriendRequestQueueActivity.class));
-
-            }
-        });
-
-        FriendLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,FriendLocationActivity.class));
-
-            }
-        });
-
-        Login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,LoginActivity.class));
-            }
-        });
-        Map.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                HomeActivity.this.startActivity(new Intent(HomeActivity.this.getApplicationContext(), MainActivity.class));
-            }
-        });
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        //ConfirmRequest();
+        ConfirmRequest();
 
     }
 
@@ -139,6 +138,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
+
+        barDrawerToggle.onOptionsItemSelected(item);
 
         switch (item.getItemId()){
             case R.id.Logout:

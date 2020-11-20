@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_map"
+                android:title="교내지도"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_friendlocation"
+                android:title="친구위치찾기"/>
+        </menu>
+    </item>
+
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_timetable"
+                android:title="시간표"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_friendrequestcheck"
+                android:title="친구요청확인"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_friendlist"
+                android:title="친구목록"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_logout"
+                android:title="로그아웃"/>
+        </menu>
+    </item>
+
+
+</menu>
