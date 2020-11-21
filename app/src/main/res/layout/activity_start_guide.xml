@@ -6,6 +6,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/White">
 
+    <LinearLayout
+        android:id="@+id/dis_guide"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/guideconer"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/coner_left_startguide_button_background"
+                android:src="@drawable/navigation_straight_black_18dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/distance"
+                android:background="@drawable/coner_right_startguide_button_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:paddingTop="35dp"
+                android:textAlignment="center"
+                android:hint="남은거리"
+                android:textColor="@color/White"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/StartGuide"
@@ -14,115 +54,26 @@
         android:orientation="horizontal"
         tools:context=".Activity.StartGuideActivity" />
 
-    <ImageView
-        android:id="@+id/Straight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_straight_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
 
-    <ImageView
-        android:id="@+id/TurnLeft"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_left_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/TurnRight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_right_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/U_Turn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_uturn_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/Eight_Left"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_eightleft_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/Ten_Left"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_tenleft_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/Two_Right"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_tworight_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-
-    <ImageView
-        android:id="@+id/Four_Right"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_fourright_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-
-    <ImageView
-        android:id="@+id/CrossWalk"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/navigation_crosswalk_black_18dp"
-        android:background="@color/Green"
-        android:layout_marginLeft="100dp"
-        android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/speed"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/CrossWalk"
-        android:background="@color/Gray"
-        android:textColor="@color/White"
-        android:hint="속도"/>
-
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:textSize="20dp"
-        android:background="@color/Gray"
-        android:textColor="@color/White"/>
 
     <Button
         android:id="@+id/PickMyLocation"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
         android:background="@drawable/ic_baseline_person_pin_circle_24"
         />
 
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/dis_guide"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:hint="속도"/>
 
 
 </RelativeLayout>

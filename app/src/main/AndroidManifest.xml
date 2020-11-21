@@ -15,7 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaxiCarPool.TaxiCarPoolShowWatiListActivity"></activity>
+        <activity android:name=".HyunSeol.WriteActivity"></activity>
+        <activity android:name=".HyunSeol.SurveyActivity" />
+        <activity android:name=".HyunSeol.SurContentActivity" />
+        <activity android:name=".HyunSeol.HyunseolActivity" />
+        <activity android:name=".HyunSeol.CommunityActivity" />
+        <activity android:name=".HyunSeol.ComContentActivity" />
+        <activity android:name=".HyunSeol.AnnounceActivity" />
+        <activity android:name=".HyunSeol.AnnContentActivity" />
+        <activity android:name=".TaxiCarPool.TaxiCarPoolShowWatiListActivity" />
         <activity android:name=".Chat.ChatListActivity" />
         <activity
             android:name=".Chat.ChatActivity"

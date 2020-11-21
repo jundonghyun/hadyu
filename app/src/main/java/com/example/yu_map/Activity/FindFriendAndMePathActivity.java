@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yu_map.MapPoint;
@@ -65,6 +66,8 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
 
     Button StartGuideButton;
 
+    TextView find_friend_and_me_time, find_friend_and_me_distance;
+
     public static ArrayList<MapPoint> RouteMapPoint = new ArrayList<>();
     public static ArrayList<String> RouteDescription = new ArrayList<>();
     public static ArrayList<String> RouteIndex = new ArrayList<>();
@@ -98,6 +101,9 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
         setContentView(R.layout.activity_find_friend_and_me_path);
 
         StartGuideButton = findViewById(R.id.StartGuideButton);
+        find_friend_and_me_time = findViewById(R.id.Find_Friend_and_me_Time);
+        find_friend_and_me_distance = findViewById(R.id.Find_Friend_and_me_Distance);
+
 
         final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -162,7 +168,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
         StartGuideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
                 startActivity(StartRoutintent);
 
             }
@@ -200,7 +206,6 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
                                 finalLongitude = Double.parseDouble(TempLongitude);
                                 coordinateTeamp += TempLatitude + "," + TempLongitude + "\n";
                                 count++;
-                                //WirteTextFile(context, Filename, GuideCoordinates);//텍스트파일로 위도,경도를 휴대폰에 저장
                                 RouteMapPoint.add(new MapPoint("Point" + " " + count, finalLatitude, finalLongitude));
                             }
                         }
@@ -248,6 +253,36 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             }
         });
 
+        tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataAllListenerCallback() {
+            public void onFindPathDataAll(Document document) {
+                String dis = "";
+                String time = "";
+                int num = 0;
+                double temp;
+                double dtemp;
+                NodeList nodeListPlacemark = document.getDocumentElement().getElementsByTagName("Document");
+                for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                    for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                        if (nodeListPlacemarkItem.item(j).getNodeName().equals("tmap:totalDistance")) {
+                            Log.d("Distance", nodeListPlacemarkItem.item(j).getTextContent().trim());
+                            dis = dis + nodeListPlacemarkItem.item(j).getTextContent().trim();
+                        }
+                        if (nodeListPlacemarkItem.item(j).getNodeName().equals("tmap:totalTime")) {
+                            Log.d("Time", nodeListPlacemarkItem.item(j).getTextContent().trim());
+                            time = time + nodeListPlacemarkItem.item(j).getTextContent().trim();
+                            num = Integer.parseInt(time) / 60;
+                        }
+                    }
+                }
+                find_friend_and_me_time.setText(num + "분");
+                temp = Integer.parseInt(dis);
+                dtemp = temp/1000;
+                dis = String.format("%.1f", dtemp);
+                find_friend_and_me_distance.setText(dis + "km");
+            }
+        });
+
         ((LinearLayout) findViewById(R.id.FriendAndMePath)).addView(tMapView);
 
     }
@@ -272,6 +307,7 @@ public class FindFriendAndMePathActivity extends AppCompatActivity{
             item1.setIcon(bitmap);
             item1.setCalloutTitle(this.m_mapPoint.get(i).getName());
             item1.setCanShowCallout(true);
+            item1.setAutoCalloutVisible(true);
             int i2 = mMarkerID;
             mMarkerID = i2 + 1;
             String stdID = String.format("pMaker%d", new Object[]{Integer.valueOf(i2)});

@@ -116,6 +116,7 @@ public class StartGuideActivity extends AppCompatActivity {
         PointMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tMapView.setCenterPoint(MyLongitude, MyLatitude, true);
                 tMapView.setTrackingMode(true);
                 tMapView.setCompassMode(true);
                 tMapView.setZoomLevel(18);
@@ -136,7 +137,7 @@ public class StartGuideActivity extends AppCompatActivity {
                     MyLongitude = location.getLongitude();
                 }
                 double getSpeed = Double.parseDouble(String.format("%.1f", location.getSpeed()));
-                speed.setText("속도: "+getSpeed);
+                speed.setText("속도 "+getSpeed);
 
                 if(MyLatitude == RouteMapPoint.get(MapPointcount).getLatitude() && MyLongitude == RouteMapPoint.get(MapPointcount).getLongitude()){
 
@@ -147,7 +148,7 @@ public class StartGuideActivity extends AppCompatActivity {
                 double PointDis_temp = location.distanceTo(endPoint);
                 double Point_distance = Double.parseDouble(String.format("%.1f", PointDis_temp));
                 RemainDistance = Point_distance;
-                distance.setText(Point_distance +"m" +"앞에서");
+                distance.setText(Point_distance +"m");
 
                 tp = new TMapPoint(MyLatitude, MyLongitude);
                 markerItem1.setIcon(bitmap); // 마커 아이콘 지정
@@ -222,55 +223,55 @@ public class StartGuideActivity extends AppCompatActivity {
 
     public void MatchTurnImage(String temp){
         if(temp.equals("11")){//직진
-            GuideConer = findViewById(R.id.Straight);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_straight_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("12")){//좌회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_left_black_18dp);
-            GuideConer = findViewById(R.id.TurnLeft);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_left_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("13")){//우회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_right_black_18dp);
-            GuideConer = findViewById(R.id.TurnRight);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_right_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("14")){//유턴
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_uturn_black_18dp);
-            GuideConer = findViewById(R.id.U_Turn);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_uturn_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("16")){//8시방향 좌회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_eightleft_black_18dp);
-            GuideConer = findViewById(R.id.Eight_Left);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_eightleft_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("17")){//10시 방향 좌회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_tenleft_black_18dp);
-            GuideConer = findViewById(R.id.Ten_Left);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_tenleft_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("18")){//2시 방향 우회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_baseline_wifi_24);
-            GuideConer = findViewById(R.id.Two_Right);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_tworight_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("19")){//4시 방향 우회전
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_fourright_black_18dp);
-            GuideConer = findViewById(R.id.Four_Right);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_fourright_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }
         else if(temp.equals("211")){//횡단보도
             //bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.navigation_crosswalk_black_18dp);
-            GuideConer = findViewById(R.id.CrossWalk);
+            GuideConer = findViewById(R.id.guideconer);
             GuideConer.setImageResource(R.drawable.navigation_crosswalk_black_18dp);
             GuideConer.setVisibility(View.VISIBLE);
         }

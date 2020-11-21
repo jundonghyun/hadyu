@@ -1,6 +1,7 @@
 package com.example.yu_map.Recycler;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import com.example.yu_map.Activity.AddFriendPopUpActivity;
 import com.example.yu_map.Activity.LoginActivity;
 import com.example.yu_map.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -72,10 +74,12 @@ public class FriendsListActivity extends AppCompatActivity{
         final DatabaseReference connectRegerence = db.getReference().child("connection");
 
 
+
         addFriend.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()){
+                for(DataSnapshot ds : snapshot.
+                getChildren()){
                     String id = ds.getValue().toString();
 
                     connectRegerence.addListenerForSingleValueEvent(new ValueEventListener() {

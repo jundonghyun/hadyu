@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -27,6 +32,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.yu_map.AddFriendActivity;
 import com.example.yu_map.Chat.ChatActivity;
 import com.example.yu_map.Chat.ChatListActivity;
+import com.example.yu_map.HyunSeol.HyunseolActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendRequestQueueActivity;
 import com.example.yu_map.Recycler.FriendsListActivity;
@@ -59,9 +65,11 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivitiy";
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
-    private TextView drawer_username;
+    private TextView drawer_header_username, drawer_header_welcome;
+    private Button test;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
+    private Location location;
     private String request;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
@@ -71,23 +79,36 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_home);
 
+        int idx = Email.indexOf("@");
+        final String NickName = Email.substring(0, idx);
+
 
         navigationView = findViewById(R.id.home_navigation_view);
         drawerLayout = findViewById(R.id.home_drawer);
-        drawer_username = findViewById(R.id.home_navigation_drawer_username);
+        test = findViewById(R.id.test);
 
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, HyunseolActivity.class));
+            }
+        });
+
+
+        View heaer = navigationView.getHeaderView(0);
+        drawer_header_username = heaer.findViewById(R.id.home_navigation_drawer_header_username);
+        drawer_header_welcome = heaer.findViewById(R.id.home_navigation_drawer_header_welcome);
+        drawer_header_welcome.setText("환영합니다");
+        drawer_header_username.setText(NickName+"님");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                
 
                 switch (menuItem.getItemId()){
                     case R.id.home_navigation_menu_map:
                         startActivity(new Intent(HomeActivity.this.getApplicationContext(), MainActivity.class));
-                        break;
-
-                    case R.id.home_navigation_menu_friendlocation:
-                        startActivity(new Intent(HomeActivity.this,FriendLocationActivity.class));
                         break;
 
                     case R.id.home_navigation_menu_timetable:
@@ -126,9 +147,34 @@ public class HomeActivity extends AppCompatActivity {
 
         ConfirmRequest();
 
+        //UpdeateLocation();
+
     }
 
+    private void UpdeateLocation() {
+        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+        final DatabaseReference Location = fdb.getReference().child("Location");
+        int idx = Email.indexOf("@");
+        final String NickName = Email.substring(0, idx);
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        Location.child(NickName).child("Longitude").setValue(location.getLatitude());
+        Location.child(NickName).child("Latitude").setValue(location.getLongitude());
+
+
+    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -162,38 +208,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
                 /*위치 권환 확인*/
-                int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-                    } else {
-                        ActivityCompat.requestPermissions(this,
-                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                MY_PERMISSION_REQUEST_LOCATION);
-                    }
-                }
-
-                fusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(android.location.Location location) {
-                                if (location != null) {
-                                    final GeoPoint geoPoint = new GeoPoint(
-                                            location.getLatitude(), location.getLongitude()
-                                    );
-                                    FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-                                    final DatabaseReference Location = fdb.getReference().child("Location");
-
-                                    int idx = Email.indexOf("@");
-                                    final String NickName = Email.substring(0, idx);
-
-                                    Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
-                                    Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
-
-                                }
-                            }
-                        });
                 break;
         }
 

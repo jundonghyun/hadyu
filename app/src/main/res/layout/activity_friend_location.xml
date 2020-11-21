@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/White">
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/FriendLocationMapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context = ".Activity.FriendLocationActivity"
-        android:orientation="horizontal" />
+        android:layout_weight="1"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9">
+
+        <Button
+            android:id="@+id/friend_Location_start_route"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:background="@drawable/coner_button_background"
+            android:textSize="20dp"
+            android:text="친구와 나의 거리 확인"/>
+
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

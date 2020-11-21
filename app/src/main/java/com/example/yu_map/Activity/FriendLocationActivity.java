@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,6 +68,7 @@ import java.util.Map;
 
 public class FriendLocationActivity extends AppCompatActivity {
 
+    private Button Friend_Location_Start_Route;
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private String TAG = "FriendLocationActivity";
@@ -87,6 +90,7 @@ public class FriendLocationActivity extends AppCompatActivity {
 
         Context context;
 
+        Friend_Location_Start_Route = findViewById(R.id.friend_Location_start_route);
 
         TMapData tMapData = new TMapData();
         tMapView = new TMapView(this);
@@ -132,72 +136,51 @@ public class FriendLocationActivity extends AppCompatActivity {
             }
         });
 
+        Friend_Location_Start_Route.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                if (ActivityCompat.checkSelfPermission(FriendLocationActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(FriendLocationActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                }
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                Location endPoint = new Location("end");
+                endPoint.setLatitude(Lang);
+                endPoint.setLongitude(Long);
+
+                if (location == null) {
+                    Toast.makeText(FriendLocationActivity.this, "현재위치를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    double PointDis = location.distanceTo(endPoint);
+                    Dis = Double.parseDouble(String.format("%.1f", PointDis));
+                }
+
+                Intent intent = new Intent(FriendLocationActivity.this, FindFriendAndMePathActivity.class);
+                intent.putExtra("FriendId", id);
+                intent.putExtra("FriendLatitude", Lang);
+                intent.putExtra("FriendLongitude", Long);
+                if (Dis > 1000) {
+                    Toast.makeText(FriendLocationActivity.this, "직선거리가 1Km가 넘습니다", Toast.LENGTH_LONG).show();
+                } else if (location == null) {
+                    Toast.makeText(FriendLocationActivity.this, "현재위치를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(intent);
+                }
+            }
+        });
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        GetLastLocation();
+        //GetLastLocation();
     }
-
-    public boolean onCreateOptionsMenu(Menu menu1) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu1, menu1);
-
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return true;
-        }
-        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        Location endPoint = new Location("end");
-        endPoint.setLatitude(Lang);
-        endPoint.setLongitude(Long);
-
-        if(location == null){
-            Toast.makeText(this, "현재위치를 찾을 수 없습니다",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            double PointDis = location.distanceTo(endPoint);
-            Dis = Double.parseDouble(String.format("%.1f", PointDis));
-        }
-
-
-
-            switch(item.getItemId()){
-                case R.id.SearchFriendPath:
-
-                    Intent intent = new Intent(this, FindFriendAndMePathActivity.class);
-                    intent.putExtra("FriendId", id);
-                    intent.putExtra("FriendLatitude", Lang);
-                    intent.putExtra("FriendLongitude", Long);
-                    if(Dis > 1000){
-                        Toast.makeText(this, "직선거리가 1Km가 넘습니다",Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    else if(location == null){
-                        Toast.makeText(this, "현재위치를 찾을 수 없습니다",Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    else{
-                        startActivity(intent);
-
-                    }
-                    break;
-            }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void addPoint(){
         TMapPoint point = new TMapPoint(Lang, Long);
@@ -209,48 +192,49 @@ public class FriendLocationActivity extends AppCompatActivity {
         item1.setName(id);
         item1.setVisible(2);
         item1.setIcon(bitmap);
-        item1.setCalloutTitle(id);
+        item1.setCalloutTitle("친구: "+id);
+        item1.setAutoCalloutVisible(true);
         item1.setCanShowCallout(true);
 
         this.tMapView.addMarkerItem(id, item1);
     }
 
-    public void GetLastLocation() {
-
-        /*위치 권환 확인*/
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSION_REQUEST_LOCATION);
-            }
-        }
-
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(android.location.Location location) {
-                        if (location != null) {
-                            final GeoPoint geoPoint = new GeoPoint(
-                                    location.getLatitude(), location.getLongitude()
-                            );
-
-                            FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-                            final DatabaseReference Location = fdb.getReference().child("Location");
-
-                            int idx = Email.indexOf("@");
-                            final String NickName = Email.substring(0, idx);
-
-                            Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
-                            Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
-                        }
-                    }
-                });
-    }
+//    public void GetLastLocation() {
+//
+//        /*위치 권환 확인*/
+//        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+//        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+//
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        MY_PERMISSION_REQUEST_LOCATION);
+//            }
+//        }
+//
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                    @Override
+//                    public void onSuccess(android.location.Location location) {
+//                        if (location != null) {
+//                            final GeoPoint geoPoint = new GeoPoint(
+//                                    location.getLatitude(), location.getLongitude()
+//                            );
+//
+//                            FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+//                            final DatabaseReference Location = fdb.getReference().child("Location");
+//
+//                            int idx = Email.indexOf("@");
+//                            final String NickName = Email.substring(0, idx);
+//
+//                            Location.child(NickName).child("Longitude").setValue(geoPoint.getLongitude());
+//                            Location.child(NickName).child("Latitude").setValue(geoPoint.getLatitude());
+//                        }
+//                    }
+//                });
+//    }
 
 
 }

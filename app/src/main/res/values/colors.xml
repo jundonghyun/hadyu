@@ -10,6 +10,8 @@
     <color name="Red">#FF0000</color>
     <color name="Green">#549C00</color>
     <color name="black">#FF000000</color>
+    <color name="BlueGray">#2C2E3A</color>
+    <color name="BlueWhite"> #cff7ff</color>
 
 
 </resources>

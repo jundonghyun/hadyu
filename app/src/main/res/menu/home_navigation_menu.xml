@@ -6,19 +6,9 @@
         <menu>
             <item
                 android:id="@+id/home_navigation_menu_map"
-                android:title="교내지도"/>
+                android:title="교내지도" />
         </menu>
     </item>
-
-    <item
-        android:title="">
-        <menu>
-            <item
-                android:id="@+id/home_navigation_menu_friendlocation"
-                android:title="친구위치찾기"/>
-        </menu>
-    </item>
-
 
     <item
         android:title="">

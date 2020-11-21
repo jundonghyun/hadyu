@@ -6,6 +6,12 @@ public class FriendData {
     private String content;
     private int resId;
 
+    public FriendData(String title, String content, int resId) {
+        this.title = title;
+        this.content = content;
+        this.resId = resId;
+    }
+
     public FriendData() {
 
     }
