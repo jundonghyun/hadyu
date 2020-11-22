@@ -2,6 +2,7 @@ package com.example.yu_map.HyunSeol;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,8 +60,9 @@ public class WriteActivity extends AppCompatActivity {
                         //for(DataSnapshot ds : snapshot.getChildren()){
                         //content = snapshot.getValue().toString();
                         //textView_content.setText(content);
-
-                        onBackPressed();
+                        Intent intent = new Intent(v.getContext(), CommunityActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -74,8 +76,11 @@ public class WriteActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CommunityActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
+
     }
 }
