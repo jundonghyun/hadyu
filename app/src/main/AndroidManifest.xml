@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".HyunSeol.SurContentActivity"></activity>
-        <activity android:name=".TaxiCarPool.SelectTimeActivity" />
         <activity android:name=".HyunSeol.WriteActivity" />
         <activity android:name=".HyunSeol.SurveyActivity" />
         <activity android:name=".HyunSeol.HyunseolActivity" />
