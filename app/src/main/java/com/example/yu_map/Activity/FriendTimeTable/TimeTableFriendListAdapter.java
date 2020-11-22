@@ -42,7 +42,7 @@ public class TimeTableFriendListAdapter extends RecyclerView.Adapter<TimeTableFr
         return mdata.size();
     }
 
-    void addItem(TimeTableFriendListViewItem data){
+    public void addItem(TimeTableFriendListViewItem data){
         mdata.add(data);
     }
 

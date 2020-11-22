@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.example.yu_map.Activity.LoginActivity;
@@ -22,6 +23,7 @@ import java.util.List;
 public class TimeTableFriendListActivity extends AppCompatActivity {
 
     private TimeTableFriendListAdapter adapter;
+    public static Context context;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
 
     @Override

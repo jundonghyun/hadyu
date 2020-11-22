@@ -10,22 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.widget.TextViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yu_map.Activity.HomeActivity;
 import com.example.yu_map.Activity.LoginActivity;
-import com.example.yu_map.Activity.TimeTableActivity;
+import com.example.yu_map.Activity.TimeTable.TimeTableActivity;
 import com.example.yu_map.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class ShowLectureAdapter extends RecyclerView.Adapter<ShowLectureAdapter.ViewHolder> {

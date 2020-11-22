@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HyunSeol.WriteActivity"></activity>
+        <activity android:name=".HyunSeol.SurContentActivity"></activity>
+        <activity android:name=".TaxiCarPool.SelectTimeActivity" />
+        <activity android:name=".HyunSeol.WriteActivity" />
         <activity android:name=".HyunSeol.SurveyActivity" />
-        <activity android:name=".HyunSeol.SurContentActivity" />
         <activity android:name=".HyunSeol.HyunseolActivity" />
         <activity android:name=".HyunSeol.CommunityActivity" />
         <activity android:name=".HyunSeol.ComContentActivity" />
@@ -40,7 +41,7 @@
         <activity android:name=".TimeTable.List.Major.CollegeOfNaturalSciences.ListCollegeofNaturalSciencesActivity" />
         <activity android:name=".TimeTable.List.ListDepartmentActivity" />
         <activity android:name=".Activity.ImportLecture" />
-        <activity android:name=".Activity.TimeTableActivity" />
+        <activity android:name=".Activity.TimeTable.TimeTableActivity" />
         <activity android:name=".Activity.StartGuideActivity" />
         <activity android:name=".Activity.FindFriendAndMePathActivity" />
         <activity android:name=".Recycler.FriendRequestQueueActivity" />

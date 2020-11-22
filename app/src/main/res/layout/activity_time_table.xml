@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.ImportLecture"
-    android:gravity="bottom"
+    android:orientation="vertical"
+    android:gravity="top"
     app:umanoDragView="@id/dragView"
     app:umanoScrollableView="@id/listView"
-    app:umanoPanelHeight="70dp">
+    app:umanoPanelHeight="70dp"
+    tools:context=".Activity.TimeTable.TimeTableActivity">
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
          umanoDragView 드래그 해서 보여줄 view를 선택
          umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
@@ -18,7 +19,8 @@
          umanoOverlay 를 false로 해주면 슬라이딩 패널이 위로 보이고 뒷 부분은 반투명하게 보인다. -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp">
+        android:layout_height="600dp"
+        android:layout_weight="1">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -1090,51 +1092,31 @@
 
     </FrameLayout>
 
-
-    <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
     <LinearLayout
-        android:id="@+id/dragView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="false"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="10">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="친구시간표 보기"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingLeft="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16sp"
-                android:text="시간표 추가"
-                android:textSize="24sp" />
-
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/FriendListTimeTable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/SelectedDepartment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:hint="선택된 전공"/>
-
-        <Button
-            android:id="@+id/SelectMajor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전공선택: "/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/AddTimeTable"
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
     </LinearLayout>
 
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</LinearLayout>

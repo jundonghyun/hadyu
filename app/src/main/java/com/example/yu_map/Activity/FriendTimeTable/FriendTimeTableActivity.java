@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.yu_map.Activity.LoginActivity;
+import com.example.yu_map.Activity.TimeTable.TimeTableAdapter;
 import com.example.yu_map.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +21,7 @@ import org.w3c.dom.Text;
 
 public class FriendTimeTableActivity extends AppCompatActivity {
 
-    private String FriendName = TimeTableFriendListAdapter.Friendname;
+    private String FriendName = TimeTableAdapter.Friendname;
 
     private static TextView Monday[] = new TextView[13];
     private static  TextView Tuesday[] = new TextView[13];

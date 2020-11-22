@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.ImportLecture"
-    android:gravity="bottom"
+    android:orientation="vertical"
+    android:gravity="top"
     app:umanoDragView="@id/dragView"
     app:umanoScrollableView="@id/listView"
     app:umanoPanelHeight="70dp">
-    <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
-         umanoDragView 드래그 해서 보여줄 view를 선택
-         umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
-         umanoParallaxOffset 에 값을 주면 해당 높이만큼 뒤에 화면을 올려준다.
-         umanoShadowHeight 는 슬라이딩 패널 윗부분에 그림자 효과
-         umanoOverlay 를 false로 해주면 슬라이딩 패널이 위로 보이고 뒷 부분은 반투명하게 보인다. -->
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp">
+        android:layout_height="600dp"
+        android:layout_weight="1">
 
         <TableLayout
             android:layout_width="match_parent"
@@ -105,8 +103,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -117,8 +117,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -128,8 +130,10 @@
                     android:id="@+id/tuesday1"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -139,8 +143,10 @@
                     android:id="@+id/wednesday1"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -150,8 +156,10 @@
                     android:id="@+id/thursday1"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -178,8 +186,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -190,8 +200,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -201,8 +213,10 @@
                     android:id="@+id/tuesday2"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -212,8 +226,10 @@
                     android:id="@+id/wednesday2"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -223,8 +239,10 @@
                     android:id="@+id/thursday2"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -251,8 +269,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -263,8 +283,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -274,8 +296,10 @@
                     android:id="@+id/tuesday3"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -285,8 +309,10 @@
                     android:id="@+id/wednesday3"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -296,8 +322,10 @@
                     android:id="@+id/thursday3"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -325,8 +353,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -337,8 +367,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -348,8 +380,10 @@
                     android:id="@+id/tuesday4"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -359,8 +393,10 @@
                     android:id="@+id/wednesday4"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -370,8 +406,10 @@
                     android:id="@+id/thursday4"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -398,8 +436,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -410,8 +450,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -421,8 +463,10 @@
                     android:id="@+id/tuesday5"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -432,8 +476,10 @@
                     android:id="@+id/wednesday5"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -443,8 +489,10 @@
                     android:id="@+id/thursday5"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -471,8 +519,11 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
+                    android:singleLine="false"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -483,8 +534,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -494,8 +547,10 @@
                     android:id="@+id/tuesday6"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -505,8 +560,10 @@
                     android:id="@+id/wednesday6"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -516,8 +573,10 @@
                     android:id="@+id/thursday6"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -545,8 +604,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -557,8 +618,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -568,8 +631,10 @@
                     android:id="@+id/tuesday7"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -579,8 +644,10 @@
                     android:id="@+id/wednesday7"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -590,8 +657,10 @@
                     android:id="@+id/thursday7"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -619,8 +688,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -631,8 +702,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -642,8 +715,10 @@
                     android:id="@+id/tuesday8"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -653,8 +728,10 @@
                     android:id="@+id/wednesday8"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -663,9 +740,11 @@
                     android:background="@drawable/border"
                     android:id="@+id/thursday8"/>
 
-                <com.example.yu_map.Activity.AutoResizeTextView
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -692,8 +771,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -704,11 +785,9 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizePresetSizes="@array/autosize_text_sizes"
-                    android:singleLine="false"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -718,8 +797,10 @@
                     android:id="@+id/tuesday9"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -729,8 +810,10 @@
                     android:id="@+id/wednesday9"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -740,8 +823,10 @@
                     android:id="@+id/thursday9"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -768,8 +853,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -780,8 +867,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -791,8 +880,10 @@
                     android:id="@+id/tuesday10"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -802,7 +893,7 @@
                     android:id="@+id/wednesday10"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:gravity="center"
@@ -813,8 +904,10 @@
                     android:id="@+id/thursday10"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -841,8 +934,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -853,8 +948,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -864,8 +961,10 @@
                     android:id="@+id/tuesday11"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -875,8 +974,10 @@
                     android:id="@+id/wednesday11"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -886,8 +987,10 @@
                     android:id="@+id/thursday11"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -914,8 +1017,10 @@
                     android:background="@drawable/border"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -926,8 +1031,10 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -937,8 +1044,10 @@
                     android:id="@+id/tuesday12"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -948,8 +1057,10 @@
                     android:id="@+id/wednesday12"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -959,8 +1070,10 @@
                     android:id="@+id/thursday12"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autoSizeTextType="uniform"
+                    android:textSize="1sp"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:text=""
@@ -974,51 +1087,57 @@
 
     </FrameLayout>
 
-
-    <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
     <LinearLayout
-        android:id="@+id/dragView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="false"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="8">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="vertical">
-
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16sp"
-                android:text="시간표 추가"
-                android:textSize="24sp" />
+                android:text="친구시간표 보기"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"/>
 
+
+
+            <Button
+                android:id="@+id/SelectMajor"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/coner_button_background"
+                android:layout_marginRight="5dp"
+                android:text="과목추가"
+                android:textSize="19sp"
+                android:paddingLeft="3sp"
+                android:textColor="@color/White"
+                android:drawableEnd="@drawable/ic_baseline_add_24"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/SelectedDepartment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:hint="선택된 전공"/>
 
-        <Button
-            android:id="@+id/SelectMajor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전공선택: "/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/AddTimeTable"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/FriendListTimeTable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
     </LinearLayout>
 
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</LinearLayout>

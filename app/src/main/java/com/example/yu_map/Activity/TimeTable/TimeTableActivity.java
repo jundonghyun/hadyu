@@ -1,4 +1,4 @@
-package com.example.yu_map.Activity;
+package com.example.yu_map.Activity.TimeTable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -18,20 +18,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.yu_map.Activity.FriendTimeTable.TimeTableFriendListActivity;
-import com.example.yu_map.Lecture.Lecture;
+import com.example.yu_map.Activity.FriendTimeTable.TimeTableFriendListAdapter;
+import com.example.yu_map.Activity.FriendTimeTable.TimeTableFriendListViewItem;
+import com.example.yu_map.Activity.HomeActivity;
+import com.example.yu_map.Activity.LoginActivity;
 import com.example.yu_map.Lecture.Lecture_ComputerEngineering;
 import com.example.yu_map.R;
-import com.example.yu_map.Recycler.Data;
-import com.example.yu_map.Recycler.TimeTableAdapter;
 import com.example.yu_map.TimeTable.List.ListDepartmentActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,7 +37,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -56,6 +52,7 @@ public class TimeTableActivity extends AppCompatActivity {
     public static  TextView Friday[] = new TextView[13];
     private FirebaseDatabase dbs;
     private DatabaseReference Dbr;
+    private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
 
 
     private Lecture_ComputerEngineering Computer = new Lecture_ComputerEngineering();
@@ -923,7 +920,7 @@ public class TimeTableActivity extends AppCompatActivity {
     }
 
     public void init(){
-        RecyclerView recyclerView = findViewById(R.id.AddTimeTable);
+        RecyclerView recyclerView = findViewById(R.id.FriendListTimeTable);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -933,36 +930,54 @@ public class TimeTableActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        final String Grade;
-        final String LectureName;
-        final String FirstDays;
-        final String SecondDays;
-        final String Professor;
-        final String FirstDaysStartTime;
-        final String FirstDaysFinishTime;
-        final String SecondDaysStartTime;
-        final String SecondDaysFinishTime;
-        final String Required;
-        FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+        int idx = Email.indexOf("@");
+
+        final String NickName = Email.substring(0, idx);
+
+        final FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference addFriend = db.getReference().child("FriendList").child(NickName);
+
+        addFriend.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    String id = ds.getValue().toString();
+                    addItem(id);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu2) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu2, menu2);
+//    public boolean onCreateOptionsMenu(Menu menu2) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu2, menu2);
+//
+//        return true;
+//    }
+//
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()){
+//            case R.id.MakeTimeTable:
+//                startActivity(new Intent(TimeTableActivity.this, TimeTableFriendListActivity.class));
+//
+//        }
+//
+//        return false;
+//    }
 
-        return true;
-    }
+    private void addItem(String s){
+        TimeTableViewItem data = new TimeTableViewItem();
+        data.setName(s);
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.MakeTimeTable:
-                startActivity(new Intent(TimeTableActivity.this, TimeTableFriendListActivity.class));
-
-        }
-
-        return false;
+        adapter.addItem(data);
     }
 
 }

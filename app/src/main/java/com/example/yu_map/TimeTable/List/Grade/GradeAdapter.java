@@ -69,7 +69,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.ViewHolder> 
 
         void onBind(GradeViewItem data){
             this.data = data;
-            textView.setText(data.getGrade());
+            textView.setText(data.getGrade()+"학년");
         }
     }
 }

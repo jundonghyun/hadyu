@@ -6,20 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.ImportLecture"
-    android:gravity="bottom">
-    <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
-         umanoDragView 드래그 해서 보여줄 view를 선택
-         umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
-         umanoParallaxOffset 에 값을 주면 해당 높이만큼 뒤에 화면을 올려준다.
-         umanoShadowHeight 는 슬라이딩 패널 윗부분에 그림자 효과
-         umanoOverlay 를 false로 해주면 슬라이딩 패널이 위로 보이고 뒷 부분은 반투명하게 보인다. -->
+    android:orientation="vertical">
+
     <FrameLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="680dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
@@ -1084,17 +1080,23 @@
             </TableRow>
 
         </TableLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20">
+
 
         <TextView
-            android:background="@color/White"
             android:id="@+id/ShowFriendName"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:textStyle="bold"
+            android:paddingLeft="5dp"
             android:textSize="20dp"
             android:textColor="@color/black"/>
-
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

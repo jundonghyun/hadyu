@@ -60,12 +60,15 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mEmail.getText().toString() == null || mPassword.getText().toString() == null){
-                    Toast.makeText(context, "이메일 혹은 비밀번호가 입력되지 않았습니다", Toast.LENGTH_SHORT).show();
+                if(mEmail.getText().equals("") || mPassword.getText().toString().equals("")){
+                    Toast.makeText(LoginActivity.this, "이메일 혹은 비밀번호가 입력되지 않았습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Login (mEmail.getText().toString(), mPassword.getText().toString());
-                ManageConnection();
+                else{
+                    Login (mEmail.getText().toString(), mPassword.getText().toString());
+                    ManageConnection();
+                }
+
             }
         });
 
@@ -88,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "SignWithEmail:onComplete" + task.isSuccessful());
                         if(task.isSuccessful()){
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                            Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "로그인 되었습니다", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Log.d(TAG, "SignInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })

@@ -21,7 +21,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
-class SurCotentActivity extends AppCompatActivity {
+
+public class SurContentActivity extends AppCompatActivity {
     private android.webkit.WebView WebView; // 웹뷰 선언
     private android.webkit.WebSettings WebSettings; //웹뷰세팅
     private TextView textView_title;
@@ -43,10 +44,9 @@ class SurCotentActivity extends AppCompatActivity {
         number = intent.getStringExtra("pos");
         title = intent.getStringExtra("title");
         textView_title.setText(title);
+        //매니페스트 인터넷 연결 + android:usesCleartextTraffic="true"
 
-//매니페스트 인터넷 연결 + android:usesCleartextTraffic="true"
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference mref = firebaseDatabase.getReference("survey").child(number).child("link");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {

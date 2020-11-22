@@ -11,13 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.yu_map.Activity.TimeTableActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.TimeTable.List.Grade.GradeActivity;
-import com.example.yu_map.TimeTable.List.Grade.GradeAdapter;
-import com.example.yu_map.TimeTable.List.Major.CollegeOfNaturalSciences.ListCollegeofNaturalSciencesActivity;
 import com.example.yu_map.TimeTable.List.ShowLecture.ShowLectureActivity;
-import com.example.yu_map.TimeTable.List.ShowLecture.ShowLectureAdapter;
 
 import java.util.ArrayList;
 
