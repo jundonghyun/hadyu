@@ -40,4 +40,6 @@ public class MapPoint implements Serializable {
     public void setLongitude(double longitude2) {
         this.longitude = longitude2;
     }
+
+
 }
