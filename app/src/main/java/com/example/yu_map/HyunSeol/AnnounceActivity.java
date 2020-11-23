@@ -54,7 +54,7 @@ public class AnnounceActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference mref = firebaseDatabase.getReference("announce");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {

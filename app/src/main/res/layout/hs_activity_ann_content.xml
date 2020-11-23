@@ -5,29 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#dcdcdc"
     tools:context="com.example.yu_map.HyunSeol.AnnContentActivity">
-    <Button
+    <TextView
+        android:background="#ffffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_back"
-        android:text="뒤로"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:id="@+id/textview_announce_title"
         android:textSize="25sp"
         android:text=""
         android:textColor="#ff000000"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp">
         <TextView
+            android:background="#ffffffff"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:text=""
             android:textColor="#ff000000"
             android:id="@+id/textview_announce_content"/>
-
     </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_back"
+        android:background="@drawable/button_style"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:layout_marginVertical="5dp"
+        android:text="뒤로"/>
 </LinearLayout>

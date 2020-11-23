@@ -5,19 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HyunSeol.AnnounceActivity">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_main"
-        android:text="메인 화면으로"/>
+    tools:context=".HyunSeol.AnnounceActivity"
+    android:background="#dcdcdc">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerView_announce"/>
     </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_main"
+        android:background="@drawable/button_style"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:layout_marginVertical="5dp"
+        android:text="메인 화면으로"/>
 </LinearLayout>

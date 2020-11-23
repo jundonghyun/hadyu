@@ -1,6 +1,7 @@
 package com.example.yu_map.HyunSeol;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
@@ -20,7 +21,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.Bundle;
 
+import com.example.yu_map.R;
 
 public class SurContentActivity extends AppCompatActivity {
     private android.webkit.WebView WebView; // 웹뷰 선언

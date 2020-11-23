@@ -32,7 +32,7 @@ public class WriteActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    int pos;
+    private int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,7 @@ public class WriteActivity extends AppCompatActivity {
                         // databaseReference.child("10").child("title").push().setValue(string_title.toString());
                         mref.child(String.valueOf(pos+1)).child("title").setValue(editText_title.getText().toString());
                         mref.child(String.valueOf(pos+1)).child("content").setValue(editText_content.getText().toString());
-                        Toast.makeText(WriteActivity.this, "데이터 저장 완료", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(WriteActivity.this, "데이터 저장 완료", Toast.LENGTH_SHORT).show();
                         //for(DataSnapshot ds : snapshot.getChildren()){
                         //content = snapshot.getValue().toString();
                         //textView_content.setText(content);

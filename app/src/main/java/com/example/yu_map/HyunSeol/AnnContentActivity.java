@@ -42,7 +42,7 @@ public class AnnContentActivity extends AppCompatActivity {
         title = intent.getStringExtra("title");
         textView_title.setText(title);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference mref = firebaseDatabase.getReference("announce").child(number).child("content");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
