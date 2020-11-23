@@ -9,14 +9,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 //import com.example.yumap_tmap.R;
 import com.example.yu_map.MapPoint;
 import com.example.yu_map.R;
@@ -25,6 +32,8 @@ import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 import com.skt.Tmap.TmapAuthentication;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
     private double start_Longitude;
 
     Context mContext = null;
+    ActionBar actionBar;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView((int) R.layout.activity_main);
         final TextView startmsg = (TextView) findViewById(R.id.start);
         final TextView finishmsg = (TextView) findViewById(R.id.finish);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.include_map_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
         ((Button) findViewById(R.id.find_route)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent start = new Intent(MainActivity.this.getApplicationContext(), RouteActivity.class);
@@ -112,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     public void addPoint() {
         this.m_mapPoint.add(new MapPoint("IT학과", 35.830612d, 128.754461d));

@@ -52,6 +52,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:23.2.1'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:23.2.1'
 
 
     testImplementation 'junit:junit:4.12'

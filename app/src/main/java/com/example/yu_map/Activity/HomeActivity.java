@@ -1,6 +1,7 @@
 package com.example.yu_map.Activity;
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.yu_map.Activity.TimeTable.TimeTableActivity;
@@ -61,13 +65,15 @@ public class HomeActivity extends AppCompatActivity {
     private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
     private FusedLocationProviderClient fusedLocationClient;
     private TextView drawer_header_username, drawer_header_welcome;
-    private Button test;
+    private Button test, Home_drawr_button;
+    private DrawerLayout drawerLayoutl;
     private ImageView Qr;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
     private Location location;
     private String request;
     private String schoolnum_temp;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     NavigationView navigationView;
     DrawerLayout drawerLayout;
@@ -93,19 +99,23 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        ShowQRcode(Email);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.Home_toolbar);
+        setSupportActionBar(toolbar);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
 
-        View heaer = navigationView.getHeaderView(0);
-        drawer_header_username = heaer.findViewById(R.id.home_navigation_drawer_header_username);
-        drawer_header_welcome = heaer.findViewById(R.id.home_navigation_drawer_header_welcome);
-        drawer_header_welcome.setText("환영합니다");
-        drawer_header_username.setText(NickName+"님");
+        drawerLayout = findViewById(R.id.home_drawer);
+
+        NavigationView navigationView = findViewById(R.id.home_navigation_view);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
 
                 switch (menuItem.getItemId()){
                     case R.id.home_navigation_menu_map:
@@ -130,20 +140,26 @@ public class HomeActivity extends AppCompatActivity {
                         android.os.Process.killProcess(android.os.Process.myPid()); // 3단계 앱 프로세스 종료
                         break;
                 }
-
-                drawerLayout.closeDrawer(navigationView);
-
-                return false;
+                return true;
             }
         });
+
+        ShowQRcode(Email);
+
+
+        View heaer = navigationView.getHeaderView(0);
+        drawer_header_username = heaer.findViewById(R.id.home_navigation_drawer_header_username);
+        drawer_header_welcome = heaer.findViewById(R.id.home_navigation_drawer_header_welcome);
+        drawer_header_welcome.setText("환영합니다");
+        drawer_header_username.setText(NickName+"님");
 
         //Drawer 조절용 토글 버튼 객체 생성
         barDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.app_name, R.string.app_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //실선아이콘 모양으로 보이도록
-        //토글버튼의 동기를 맞추기
+//        //실선아이콘 모양으로 보이도록
+//        //토글버튼의 동기를 맞추기
         barDrawerToggle.syncState();
-        // 실선 아이콘과 화살표아이콘이 자동으로 전환되도록
+//        // 실선 아이콘과 화살표아이콘이 자동으로 전환되도록
         drawerLayout.addDrawerListener(barDrawerToggle);
 
         ConfirmRequest();
@@ -217,6 +233,10 @@ public class HomeActivity extends AppCompatActivity {
         barDrawerToggle.onOptionsItemSelected(item);
 
         switch (item.getItemId()){
+            case R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
+
             case R.id.Logout:
                 Toast.makeText(HomeActivity.this, "YuApp이 종료되었습니다", Toast.LENGTH_LONG).show();
 
