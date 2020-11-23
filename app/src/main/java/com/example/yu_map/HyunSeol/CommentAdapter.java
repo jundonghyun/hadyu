@@ -15,7 +15,7 @@ import com.example.yu_map.R;
 
 import java.util.ArrayList;
 
-public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
     private static Context context;
     private ArrayList<Announce> items = new ArrayList<Announce>();
 
@@ -28,8 +28,14 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        /*Context context = parent.getContext() ;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
+        View view = inflater.inflate(R.layout.announce_item, parent, false) ;
+        CommunityAdapter.ViewHolder vh = new CommunityAdapter.ViewHolder(view) ;
+        return vh ;*/
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.hs_announce_item, parent, false);
+        View itemView = inflater.inflate(R.layout.hs_comment_item, parent, false);
         // ㄴ인플레이션을 통해 뷰 객체 만들기
         return new ViewHolder(itemView);
         // ㄴ뷰홀더 객체를 생성하면서 뷰 객체를 전달하고 그 뷰홀더 객체를 반환하기
@@ -64,11 +70,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION) {
-                        Intent intent = new Intent(v.getContext(), SurContentActivity.class);
-                        intent.putExtra("title", items.get(pos).getTitle());
-                        intent.putExtra("pos", items.get(pos).number);
+                        //Intent intent = new Intent(v.getContext(), ComContentActivity.class);
+                        //intent.putExtra("title", items.get(pos).getTitle());
+                        //intent.putExtra("pos", items.get(pos).number);
                         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        v.getContext().startActivity(intent);
+                        //v.getContext().startActivity(intent);
                     }
                 }
             });

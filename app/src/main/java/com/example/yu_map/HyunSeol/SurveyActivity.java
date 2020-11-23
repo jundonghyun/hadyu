@@ -46,7 +46,7 @@ public class SurveyActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference mref = firebaseDatabase.getReference("survey");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {

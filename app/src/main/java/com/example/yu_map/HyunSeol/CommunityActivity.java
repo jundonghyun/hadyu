@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.yu_map.HyunSeol.Announce;
+import com.example.yu_map.HyunSeol.CommunityAdapter;
 import com.example.yu_map.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
@@ -39,6 +42,7 @@ public class CommunityActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FloatingActionButton fa_btn;
 
     private String st;
     private String st2;
@@ -51,10 +55,11 @@ public class CommunityActivity extends AppCompatActivity {
         adapter = new CommunityAdapter();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        fa_btn = (FloatingActionButton)findViewById(R.id.fa_btn);
 
         //num = new ArrayList<>(); //추가
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //firebaseDatabase = FirebaseDatabase.getInstance();
 
         DatabaseReference mref = firebaseDatabase.getReference("community");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,7 +73,6 @@ public class CommunityActivity extends AppCompatActivity {
                     st2 = ds.child("title").getValue().toString();
                     adapter.addItem(new Announce(st, st2));
                     recyclerView.setAdapter(adapter);
-                    Toast.makeText(CommunityActivity.this, st+st2, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -80,12 +84,12 @@ public class CommunityActivity extends AppCompatActivity {
             }
         });
 
-        Button btn_write = (Button)findViewById(R.id.btn_write);
-        btn_write.setOnClickListener(new View.OnClickListener() {
+        fa_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), WriteActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
