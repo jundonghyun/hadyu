@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.HashMap;
 //import com.example.yumap_tmap.R;
@@ -56,10 +62,13 @@ public class HomeActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private TextView drawer_header_username, drawer_header_welcome;
     private Button test;
+    private ImageView Qr;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
     private Location location;
     private String request;
+    private String schoolnum_temp;
+
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle barDrawerToggle;
@@ -75,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.home_navigation_view);
         drawerLayout = findViewById(R.id.home_drawer);
         test = findViewById(R.id.test);
+        Qr = findViewById(R.id.SchoolnumQRcode);
 
         test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +92,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, HyunseolActivity.class));
             }
         });
+
+        ShowQRcode(Email);
 
 
         View heaer = navigationView.getHeaderView(0);
@@ -138,6 +150,34 @@ public class HomeActivity extends AppCompatActivity {
 
         //UpdeateLocation();
 
+    }
+
+    private void ShowQRcode(String email){
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newUserRef = db
+                .collection("User")
+                .document(email);
+        newUserRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                if(documentSnapshot.getString("학번") != null){
+                    schoolnum_temp = documentSnapshot.getString("학번");
+
+                    try{
+                        BitMatrix bitMatrix = multiFormatWriter.encode(schoolnum_temp, BarcodeFormat.QR_CODE, 100, 100);
+                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                        Qr.setImageBitmap(bitmap);
+                    }catch (Exception e){}
+                }
+                else{
+                    Toast.makeText(HomeActivity.this, "학번이 등록되지않았습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void UpdeateLocation() {
@@ -231,7 +271,7 @@ public class HomeActivity extends AppCompatActivity {
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
-                            builder.setTitle("친구요청이 있습니다");
+                            builder.setTitle(request+"님의"+"친구요청이 있습니다");
                             builder.setPositiveButton("수락하기", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

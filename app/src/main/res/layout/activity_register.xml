@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
     <ScrollView
@@ -16,16 +15,17 @@
             android:layout_height="wrap_content">
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:id="@+id/relLayout1"
                 android:padding="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email_Registration"
+                    android:text="회원가입"
                     android:textSize="25sp"
                     android:textColor="@color/Black"
                     android:layout_centerHorizontal="true"
@@ -39,8 +39,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:inputType="textEmailAddress"
-                    android:hint="Email"
+                    android:hint="이메일"
                     android:layout_below="@+id/textEmailReg"/>
+
+                <EditText
+                    android:id="@+id/shcoolnum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:inputType="text|number"
+                    android:hint="학번"
+                    android:layout_below="@+id/input_email"/>
 
 
                 <EditText
@@ -49,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:inputType="textPassword"
-                    android:hint="Password"
+                    android:hint="비밀번호"
                     android:layout_below="@+id/input_email"/>
 
                 <EditText
@@ -58,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:inputType="textPassword"
-                    android:hint="Confirm Password"
+                    android:hint="비밀번호 확인"
                     android:layout_below="@+id/input_password"/>
 
 
@@ -68,10 +77,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
                     android:layout_below="@+id/input_confirm_password"
+                    android:textColor="@color/White"
+                    android:textStyle="bold"
                     android:text="Register"
-                    android:background="@drawable/theme_button"/>
+                    android:background="@drawable/button_background"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
 
@@ -86,4 +97,4 @@
         android:layout_marginTop="120dp"
         android:visibility="invisible"/>
 
-</RelativeLayout>
+</LinearLayout>

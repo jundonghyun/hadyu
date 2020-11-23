@@ -152,6 +152,9 @@
             android:id="@+id/find_route"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:textColor="@color/White"
+            android:textStyle="bold"
             android:text="길찾기"/>
 
     </LinearLayout>

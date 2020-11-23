@@ -72,7 +72,7 @@ public class FriendRequestQueueAdapter extends RecyclerView.Adapter<FriendReques
     }
 }
 
-class FriendRequestQueueViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+class FriendRequestQueueViewHolder extends RecyclerView.ViewHolder{
 
     private TextView textView1;
     private TextView textView2;
@@ -91,31 +91,10 @@ class FriendRequestQueueViewHolder extends RecyclerView.ViewHolder implements Vi
         textView1 = itemView.findViewById(R.id.textView1);
         textView2 = itemView.findViewById(R.id.textView2);
         imageView = itemView.findViewById(R.id.imageView);
-    }
 
-    void onBind(FriendData data) {
-        this.data = data;
-
-        textView1.setText(data.getTitle());
-        textView2.setText(data.getContent());
-        imageView.setImageResource(data.getResId());
-
-        itemView.setOnClickListener(this);
-        textView1.setOnClickListener(this);
-        textView2.setOnClickListener(this);
-        imageView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.linearItem:
-                Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, "TITLE : " + data.getTitle() + "\nContent : " + data.getContent(), Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.textView1:
-
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 final FirebaseDatabase Fdb = FirebaseDatabase.getInstance();
 
                 int idx = MyEmail.indexOf("@");
@@ -128,7 +107,7 @@ class FriendRequestQueueViewHolder extends RecyclerView.ViewHolder implements Vi
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(FriendRequestQueueAdapter.FriendQueuecontext);
-                builder.setTitle("친구요청이 있습니다");
+                builder.setTitle("친구요청을 수락하시겠습니까?");
                 builder.setPositiveButton("수락하기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -155,50 +134,43 @@ class FriendRequestQueueViewHolder extends RecyclerView.ViewHolder implements Vi
 
                             }
                         });
-
+                        Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, "친구추가를 수락했습니다!", Toast.LENGTH_SHORT).show();
                         v.getContext().startActivity(new Intent(FriendRequestQueueAdapter.FriendQueuecontext, HomeActivity.class));
-
                     }
                 });
                 builder.setNegativeButton("거부하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final DatabaseReference DeleteFriend = Fdb.getReference().child("Waiting Friend Request").child(NickName).child(Friendemail);
+                        Query query = DeleteFriend.equalTo(Friendemail);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final DatabaseReference DeleteFriend = Fdb.getReference().child("Waiting Friend Request").child(NickName).child(Friendemail);
-                                Query query = DeleteFriend.equalTo(Friendemail);
-                                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        snapshot.getRef().removeValue();
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
 
-                                    }
+                            }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, "친구추가를 거부했습니다!", Toast.LENGTH_SHORT).show();
-
-                                v.getContext().startActivity(new Intent(FriendRequestQueueAdapter.FriendQueuecontext, HomeActivity.class));
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
+                        Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, "친구추가를 거부했습니다!", Toast.LENGTH_SHORT).show();
+                        v.getContext().startActivity(new Intent(FriendRequestQueueAdapter.FriendQueuecontext, HomeActivity.class));
+                    }
+                });
 
                 AlertDialog alert = builder.create();
                 alert.show();
+            }
+        });
+    }
 
-                break;
-            case R.id.textView2:
-                Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, data.getContent(), Toast.LENGTH_SHORT).show();
-                v.getContext().startActivity(new Intent(FriendRequestQueueAdapter.FriendQueuecontext, AddFriendActivity.class));
+    void onBind(FriendData data) {
+        this.data = data;
 
-                break;
-            case R.id.imageView:
-                Toast.makeText(FriendRequestQueueAdapter.FriendQueuecontext, data.getTitle() + " 이미지 입니다.", Toast.LENGTH_SHORT).show();
-                v.getContext().startActivity(new Intent(FriendRequestQueueAdapter.FriendQueuecontext, AddFriendActivity.class));
-
-
-                break;
-        }
+        textView1.setText(data.getTitle());
+        textView2.setText(data.getContent());
+        imageView.setImageResource(data.getResId());
     }
 }

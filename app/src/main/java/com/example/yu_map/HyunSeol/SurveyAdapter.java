@@ -64,7 +64,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION) {
-                        Intent intent = new Intent(v.getContext(), SurCotentActivity.class);
+                        Intent intent = new Intent(v.getContext(), SurveyActivity.class);
                         intent.putExtra("title", items.get(pos).getTitle());
                         intent.putExtra("pos", items.get(pos).number);
                         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

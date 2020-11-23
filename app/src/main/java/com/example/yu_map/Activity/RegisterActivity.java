@@ -35,7 +35,7 @@ public class RegisterActivity extends Activity {
     private static final String TAG = "RegisterActivity";
 
     //widgets
-    private EditText mEmail, mPassword, mConfirmPassword;
+    private EditText mEmail, mPassword, mSchoolnum, mConfirmPassword;
     private Button mRegisterBtn;
     private ProgressBar mProgressBar;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -51,6 +51,7 @@ public class RegisterActivity extends Activity {
         mEmail = findViewById(R.id.input_email);
         mPassword = findViewById(R.id.input_password);
         mConfirmPassword = findViewById(R.id.input_confirm_password);
+        mSchoolnum = findViewById(R.id.shcoolnum);
         mRegisterBtn = findViewById(R.id.btn_register);
         mProgressBar = findViewById(R.id.progressBar);
 
@@ -60,20 +61,21 @@ public class RegisterActivity extends Activity {
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(mEmail.getText().toString(), mPassword.getText().toString());
+                createAccount(mEmail.getText().toString(), mPassword.getText().toString(), mSchoolnum.getText().toString());
             }
         });
 
     }
 
     /* 계정 생성하는 메소드 */
-    private void createAccount(String email, String password){
+    private void createAccount(String email, String password, String schoolnum){
 
         Map<String, String> User = new HashMap<>();
 
         User.put("Email", email);
         User.put("Password", password);
         User.put("FriendRequest", "false");
+        User.put("학번", schoolnum);
 
 
         DocumentReference newUserRef = db
@@ -84,26 +86,22 @@ public class RegisterActivity extends Activity {
         newUserRef.set(User).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Log.d(TAG, "Document successfully Written");
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Document Writing Failure");
                     }
                 });
 
         if(!isValidEmail(email)){
-            Log.d(TAG, "CreateAccount: email is not vaild");
-            Toast.makeText(RegisterActivity.this, "Email is not valid",
+            Toast.makeText(RegisterActivity.this, "올바른 이메일 형식이 아닙니다",
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(!isValidPasswd(password)){
-            Log.d(TAG, "CreateAccount: password is not valid");
-            Toast.makeText(RegisterActivity.this, "Password is not valid",
+            Toast.makeText(RegisterActivity.this, "비밀번호는 영문자와 숫자만 사용가능합니다",
                     Toast.LENGTH_SHORT).show();
 
             return;
@@ -115,10 +113,9 @@ public class RegisterActivity extends Activity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete"+task.isSuccessful());
 
                         if(!task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "Authentication failed",
+                            Toast.makeText(RegisterActivity.this, "서버와 인증 오류",
                                     Toast.LENGTH_SHORT).show();
                         }
                         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
@@ -127,7 +124,7 @@ public class RegisterActivity extends Activity {
                 });
 
 
-
+        Toast.makeText(RegisterActivity.this, "계정을 생성했습니다", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
     }
 
