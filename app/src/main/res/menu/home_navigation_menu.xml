@@ -41,6 +41,42 @@
         android:title="">
         <menu>
             <item
+                android:id="@+id/home_navigation_menu_foodlist"
+                android:title="학식표 보기"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_announce"
+                android:title="공지사항"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_survey"
+                android:title="설문조사"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
+                android:id="@+id/home_navigation_menu_community"
+                android:title="자유게시판"/>
+        </menu>
+    </item>
+
+    <item
+        android:title="">
+        <menu>
+            <item
                 android:id="@+id/home_navigation_menu_logout"
                 android:title="로그아웃"/>
         </menu>

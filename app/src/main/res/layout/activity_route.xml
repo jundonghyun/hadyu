@@ -21,7 +21,7 @@
             layout="@layout/route_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/route_toolbar"/>
+            android:id="@+id/include_route_toolbar"/>
 
     </LinearLayout>
 

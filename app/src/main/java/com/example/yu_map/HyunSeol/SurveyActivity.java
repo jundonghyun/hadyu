@@ -48,7 +48,7 @@ public class SurveyActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("survey");
+        DatabaseReference mref = firebaseDatabase.getReference("Survey");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

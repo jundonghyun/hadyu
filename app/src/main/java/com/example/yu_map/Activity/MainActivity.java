@@ -87,14 +87,23 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(start);
             }
         });
+
         this.mContext = this;
+
         TMapView tMapView2 = new TMapView(this);
         this.tMapView = tMapView2;
+
         tMapView2.setCenterPoint(128.75444d, 35.830629d);
+
         this.tMapView.setSKTMapApiKey("l7xxe7ffbe0e991b4d41881ad8b70d4e1cc6");
+
         Bitmap decodeResource = BitmapFactory.decodeResource(this.mContext.getResources(), R.mipmap.i_go);
+
         addPoint();
+
         showMarkerPoint();
+
+
         ((LinearLayout) findViewById(R.id.mapview)).addView(this.tMapView);
         this.tMapView.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
             public void onCalloutRightButton(TMapMarkerItem tMapMarkerItem) {

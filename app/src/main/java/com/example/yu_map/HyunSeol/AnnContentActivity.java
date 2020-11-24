@@ -44,7 +44,7 @@ public class AnnContentActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("announce").child(number).child("content");
+        DatabaseReference mref = firebaseDatabase.getReference("community").child(number).child("content");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

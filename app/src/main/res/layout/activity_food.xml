@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.JiSu.FoodActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="학식표"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:paddingLeft="150sp"
+        android:textColor="@color/BlueWhite"
+        android:background="#26397d"
+        android:backgroundTint="@color/BlueGray">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_marginTop="10sp"
+            android:id="@+id/txtview_day"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="40sp"
+            android:gravity="center_horizontal"
+            android:paddingTop="10sp"
+            android:textColor="@color/BlueWhite"
+            android:background="@drawable/foodlist_btn_design">
+        </Button>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="500sp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="10sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:text="자연계"
+                    android:textAlignment="center"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="10sp"
+                    android:textSize="20sp"
+                    android:textColor="@color/BlueWhite"
+                    android:background="@drawable/foodlist_btn_design"
+                    android:id="@+id/txtview_natural"
+                    android:visibility="invisible"/>
+
+                <ImageView
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/imgview_stfnatural"
+                    android:layout_width="match_parent"
+                    android:layout_height="240sp"
+                    android:scaleType="fitCenter"/>
+                <ImageView
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/imgview_snatural"
+                    android:layout_width="match_parent"
+                    android:layout_height="240sp"
+                    android:scaleType="fitCenter"/>
+
+                <TextView
+                    android:layout_marginTop="10sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:text="인문계"
+                    android:textAlignment="center"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="10sp"
+                    android:textSize="20sp"
+                    android:textColor="@color/BlueWhite"
+                    android:background="@drawable/foodlist_btn_design"
+                    android:id="@+id/txtview_liberal"
+                    android:visibility="invisible"
+                    android:layout_marginBottom="10sp"/>
+
+
+                <ImageView
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/imgview_stfliberal"
+                    android:layout_width="match_parent"
+                    android:layout_height="240sp"
+                    android:scaleType="fitCenter"/>
+                <ImageView
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/imgview_sliberal"
+                    android:layout_width="match_parent"
+                    android:layout_height="240sp"
+                    android:scaleType="fitCenter"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

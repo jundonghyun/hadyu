@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.yu_map.Activity.HomeActivity;
 import com.example.yu_map.HyunSeol.Announce;
 import com.example.yu_map.HyunSeol.CommunityAdapter;
 import com.example.yu_map.R;
@@ -61,7 +62,7 @@ public class CommunityActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("community");
+        DatabaseReference mref = firebaseDatabase.getReference("Community");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -88,8 +89,9 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), WriteActivity.class);
-                startActivity(intent);
                 finish();
+                startActivity(intent);
+
             }
         });
 
@@ -98,6 +100,7 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                startActivity(new Intent(CommunityActivity.this, HomeActivity.class));
             }
         });
     }

@@ -30,8 +30,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.yu_map.Activity.JiSu.FoodActivity;
 import com.example.yu_map.Activity.TimeTable.TimeTableActivity;
+import com.example.yu_map.HyunSeol.AnnounceActivity;
+import com.example.yu_map.HyunSeol.CommunityActivity;
 import com.example.yu_map.HyunSeol.HyunseolActivity;
+import com.example.yu_map.HyunSeol.SurveyActivity;
 import com.example.yu_map.R;
 import com.example.yu_map.Recycler.FriendRequestQueueActivity;
 import com.example.yu_map.Recycler.FriendsListActivity;
@@ -62,11 +66,11 @@ import java.util.HashMap;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivitiy";
-    private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
-    private FusedLocationProviderClient fusedLocationClient;
+    //private final int MY_PERMISSION_REQUEST_LOCATION = 1001;
+    //private FusedLocationProviderClient fusedLocationClient;
     private TextView drawer_header_username, drawer_header_welcome;
-    private Button test, Home_drawr_button;
-    private DrawerLayout drawerLayoutl;
+    //private Button test, Home_drawr_button;
+    //private DrawerLayout drawerLayoutl;
     private ImageView Qr;
     private String Email = ((LoginActivity) LoginActivity.context).GlobalEmail;
     static private Context context;
@@ -89,15 +93,8 @@ public class HomeActivity extends AppCompatActivity {
 
         navigationView = findViewById(R.id.home_navigation_view);
         drawerLayout = findViewById(R.id.home_drawer);
-        test = findViewById(R.id.test);
         Qr = findViewById(R.id.SchoolnumQRcode);
 
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, HyunseolActivity.class));
-            }
-        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.Home_toolbar);
         setSupportActionBar(toolbar);
@@ -134,6 +131,22 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, FriendsListActivity.class));
                         break;
 
+                    case R.id.home_navigation_menu_foodlist:
+                        startActivity(new Intent(HomeActivity.this, FoodActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_announce:
+                        startActivity(new Intent(HomeActivity.this, AnnounceActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_survey:
+                        startActivity(new Intent(HomeActivity.this, SurveyActivity.class));
+                        break;
+
+                    case R.id.home_navigation_menu_community:
+                        startActivity(new Intent(HomeActivity.this, CommunityActivity.class));
+                        break;
+
                     case R.id.home_navigation_menu_logout:
                         moveTaskToBack(true); //1단계 태스크 백그라운드로 이동
                         finishAndRemoveTask(); // 2단계 액티비티종료 + 태스크 리스트에서 지우기
@@ -164,7 +177,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ConfirmRequest();
 
-        //UpdeateLocation();
+        UpdeateLocation();
 
     }
 

@@ -1,8 +1,10 @@
 package com.example.yu_map.Activity.TimeTable;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.widget.TextViewCompat;
@@ -18,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -61,6 +64,13 @@ public class TimeTableActivity extends AppCompatActivity {
     private int[] selectedItem = {0};
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
@@ -74,6 +84,12 @@ public class TimeTableActivity extends AppCompatActivity {
                 startActivity(new Intent(TimeTableActivity.this, ListDepartmentActivity.class));
             }
         });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.include_timetable_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         init();
 
@@ -954,24 +970,6 @@ public class TimeTableActivity extends AppCompatActivity {
         });
 
     }
-
-//    public boolean onCreateOptionsMenu(Menu menu2) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu2, menu2);
-//
-//        return true;
-//    }
-//
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.MakeTimeTable:
-//                startActivity(new Intent(TimeTableActivity.this, TimeTableFriendListActivity.class));
-//
-//        }
-//
-//        return false;
-//    }
 
     private void addItem(String s){
         TimeTableViewItem data = new TimeTableViewItem();

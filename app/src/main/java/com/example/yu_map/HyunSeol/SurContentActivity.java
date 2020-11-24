@@ -51,7 +51,7 @@ public class SurContentActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("survey").child(number).child("link");
+        DatabaseReference mref = firebaseDatabase.getReference("Survey").child(number).child("link");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

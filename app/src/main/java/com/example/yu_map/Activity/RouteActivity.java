@@ -4,9 +4,14 @@ package com.example.yu_map.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 //import com.example.yumap_tmap.R;
 import com.example.yu_map.R;
 import com.skt.Tmap.TMapData;
@@ -27,14 +32,32 @@ public class RouteActivity extends AppCompatActivity {
 
     TextView Time, Distance;
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
+
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_route);
+
+
         TMapData tMapData = new TMapData();
         final TMapView tMapView = new TMapView(this);
         Time = findViewById(R.id.Route_Activity_time);
         Distance = findViewById(R.id.Route_Activity_distance);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.include_route_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         this.start_Latitude = intent.getExtras().getDouble("start_Latitude");
         this.start_Longitude = intent.getExtras().getDouble("start_Longitude");

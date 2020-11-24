@@ -56,7 +56,7 @@ public class AnnounceActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("announce");
+        DatabaseReference mref = firebaseDatabase.getReference("community");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

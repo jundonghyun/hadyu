@@ -1,7 +1,9 @@
 package com.example.yu_map.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -82,6 +84,13 @@ public class FriendLocationActivity extends AppCompatActivity {
     public String id;
     private TMapView tMapView = null;
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +100,13 @@ public class FriendLocationActivity extends AppCompatActivity {
         Context context;
 
         Friend_Location_Start_Route = findViewById(R.id.friend_Location_start_route);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.include_findfriend_toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         TMapData tMapData = new TMapData();
         tMapView = new TMapView(this);

@@ -46,22 +46,17 @@ public class WriteActivity extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference mref = firebaseDatabase.getReference("community");
+                DatabaseReference mref = firebaseDatabase.getReference("Community");
                 mref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         for(DataSnapshot ds : snapshot.getChildren()){
                             pos = Integer.parseInt(ds.getKey());
                         }
-                        // databaseReference.child("10").child("title").push().setValue(string_title.toString());
                         mref.child(String.valueOf(pos+1)).child("title").setValue(editText_title.getText().toString());
                         mref.child(String.valueOf(pos+1)).child("content").setValue(editText_content.getText().toString());
-                        //Toast.makeText(WriteActivity.this, "데이터 저장 완료", Toast.LENGTH_SHORT).show();
-                        //for(DataSnapshot ds : snapshot.getChildren()){
-                        //content = snapshot.getValue().toString();
-                        //textView_content.setText(content);
-                        Intent intent = new Intent(v.getContext(), CommunityActivity.class);
-                        startActivity(intent);
+
+                        startActivity(new Intent(v.getContext(), CommunityActivity.class));
                         finish();
                     }
 

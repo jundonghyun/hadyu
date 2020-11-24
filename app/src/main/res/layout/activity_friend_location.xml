@@ -6,6 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/findfriend_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/include_findfriend_toolbar"/>
+
     <LinearLayout
         android:id="@+id/FriendLocationMapView"
         android:layout_width="match_parent"
@@ -18,7 +24,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9">
+        android:layout_weight="6">
 
         <Button
             android:id="@+id/friend_Location_start_route"

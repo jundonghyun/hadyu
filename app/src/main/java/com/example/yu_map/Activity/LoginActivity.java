@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.yu_map.R;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public String GlobalEmail;
     private EditText mEmail, mPassword;
     private Button mLoginButton, mRegisterButton;
+    private ImageView loginlogo;
     FirebaseAuth mAuth;
 
     private static final String TAG = "LoginActivity";
@@ -54,8 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.Login_password);
         mLoginButton = findViewById(R.id.Login_email_sign_in_button);
         mRegisterButton = findViewById(R.id.Login_link_register);
+        loginlogo = findViewById(R.id.Login_IconImage);
 
         mAuth = FirebaseAuth.getInstance();
+
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override

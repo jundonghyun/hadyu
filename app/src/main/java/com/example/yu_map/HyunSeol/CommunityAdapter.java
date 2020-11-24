@@ -1,5 +1,6 @@
 package com.example.yu_map.HyunSeol;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -74,6 +75,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
                         intent.putExtra("title", items.get(pos).getTitle());
                         intent.putExtra("pos", items.get(pos).number);
                         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ((Activity)v.getContext()).finish();
                         v.getContext().startActivity(intent);
                     }
                 }

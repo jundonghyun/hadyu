@@ -74,7 +74,7 @@ public class ComContentActivity extends AppCompatActivity {
 
         //firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference mref = firebaseDatabase.getReference("community").child(number);
+        DatabaseReference mref = firebaseDatabase.getReference("Community").child(number);
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -92,6 +92,8 @@ public class ComContentActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         mref.child("comment").child(String.valueOf(pos+1)).setValue(editText_comment.getText().toString());
+                        startActivity(new Intent(ComContentActivity.this, CommunityActivity.class));
+                        finish();
                         Toast.makeText(ComContentActivity.this, "작성되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -106,7 +108,7 @@ public class ComContentActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                startActivity(new Intent(ComContentActivity.this, CommunityActivity.class));
             }
         });
     }
